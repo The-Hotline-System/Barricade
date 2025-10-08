@@ -47,12 +47,12 @@
 		var/mob/living/carbon/human/human_owner = owner
 		var/uniform_compatible = FALSE
 		var/suit_compatible = FALSE
-		if(!(human_owner.w_uniform) || (human_owner.w_uniform.supports_variations_flags & CLOTHING_VOX_VARIATION)) //Checks uniform compatibility
+		if(!(human_owner.w_shirt) || (human_owner.w_shirt.supports_variations_flags & CLOTHING_VOX_VARIATION)) //Checks uniform compatibility
 			uniform_compatible = TRUE
 		if((!human_owner.wear_suit) || (human_owner.wear_suit.supports_variations_flags & CLOTHING_VOX_VARIATION) || !(human_owner.wear_suit.body_parts_covered & LEGS)) //Checks suit compatability
 			suit_compatible = TRUE
 
-		if((uniform_compatible && suit_compatible) || (suit_compatible && (human_owner.obscured_slots & HIDEJUMPSUIT))) //If the uniform is hidden, it doesnt matter if its compatible
+		if((uniform_compatible && suit_compatible) || (suit_compatible && (human_owner.obscured_slots & HIDESHIRT))) //If the uniform is hidden, it doesnt matter if its compatible
 			limb_id = "vox_digitigrade"
 
 		else
@@ -72,12 +72,12 @@
 		var/mob/living/carbon/human/human_owner = owner
 		var/uniform_compatible = FALSE
 		var/suit_compatible = FALSE
-		if(!(human_owner.w_uniform) || (human_owner.w_uniform.supports_variations_flags & CLOTHING_VOX_VARIATION)) //Checks uniform compatibility
+		if(!(human_owner.w_shirt) || (human_owner.w_shirt.supports_variations_flags & CLOTHING_VOX_VARIATION)) //Checks uniform compatibility
 			uniform_compatible = TRUE
 		if((!human_owner.wear_suit) || (human_owner.wear_suit.supports_variations_flags & CLOTHING_VOX_VARIATION) || !(human_owner.wear_suit.body_parts_covered & LEGS)) //Checks suit compatability
 			suit_compatible = TRUE
 
-		if((uniform_compatible && suit_compatible) || (suit_compatible && (human_owner.obscured_slots & HIDEJUMPSUIT))) //If the uniform is hidden, it doesnt matter if its compatible
+		if((uniform_compatible && suit_compatible) || (suit_compatible && (human_owner.obscured_slots & HIDESHIRT))) //If the uniform is hidden, it doesnt matter if its compatible
 			limb_id = "vox_digitigrade"
 
 		else

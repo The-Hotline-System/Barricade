@@ -315,7 +315,7 @@
 
 	user?.visible_message(span_alert("[user] cocks the hammer of [src]."), vision_distance = COMBAT_MESSAGE_RANGE)
 	hammer_cocked = TRUE
-	update_chamber(!chambered, TRUE, TRUE)
+	update_chamber(!chambered, TRUE, TRUE, shooter = user)
 	bolt.post_rack()
 	update_appearance()
 

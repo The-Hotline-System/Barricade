@@ -47,3 +47,4 @@
 
 /obj/effect/projectile/impact/sniper
 	icon_state = "sniper"
+

@@ -27,47 +27,53 @@
 //ITEM INVENTORY SLOT BITMASKS
 /// Suit slot (armors, costumes, space suits, etc.)
 #define ITEM_SLOT_OCLOTHING (1<<0)
-/// Jumpsuit slot
-#define ITEM_SLOT_ICLOTHING (1<<1)
+/// Shirt slot
+#define ITEM_SLOT_SHIRT (1<<1)
+/// Pants slot
+#define ITEM_SLOT_PANTS (1<<2)
 /// Glove slot
-#define ITEM_SLOT_GLOVES (1<<2)
+#define ITEM_SLOT_GLOVES (1<<3)
 /// Glasses slot
-#define ITEM_SLOT_EYES (1<<3)
+#define ITEM_SLOT_EYES (1<<4)
 /// Ear slot (radios, earmuffs)
-#define ITEM_SLOT_EARS (1<<4)
+#define ITEM_SLOT_EARS (1<<5)
 /// Mask slot
-#define ITEM_SLOT_MASK (1<<5)
+#define ITEM_SLOT_MASK (1<<6)
 /// Head slot (helmets, hats, etc.)
-#define ITEM_SLOT_HEAD (1<<6)
+#define ITEM_SLOT_HEAD (1<<7)
 /// Shoe slot
-#define ITEM_SLOT_FEET (1<<7)
+#define ITEM_SLOT_FEET (1<<8)
 /// ID slot
-#define ITEM_SLOT_ID (1<<8)
+#define ITEM_SLOT_ID (1<<9)
 /// Belt slot
-#define ITEM_SLOT_BELT (1<<9)
+#define ITEM_SLOT_BELT (1<<10)
 /// Back slot
-#define ITEM_SLOT_BACK (1<<10)
+#define ITEM_SLOT_BACK (1<<11)
 /// Dextrous simplemob "hands" (used for Drones and Dextrous Guardians)
-#define ITEM_SLOT_DEX_STORAGE (1<<11)
+#define ITEM_SLOT_DEX_STORAGE (1<<12)
 /// Neck slot (ties, bedsheets, scarves)
-#define ITEM_SLOT_NECK (1<<12)
+#define ITEM_SLOT_NECK (1<<13)
 /// A character's hand slots
-#define ITEM_SLOT_HANDS (1<<13)
+#define ITEM_SLOT_HANDS (1<<14)
 /// Inside of a character's backpack
-#define ITEM_SLOT_BACKPACK (1<<14)
+#define ITEM_SLOT_BACKPACK (1<<15)
 /// Suit Storage slot
-#define ITEM_SLOT_SUITSTORE (1<<15)
+#define ITEM_SLOT_SUITSTORE (1<<16)
 /// Left Pocket slot
-#define ITEM_SLOT_LPOCKET (1<<16)
+#define ITEM_SLOT_LPOCKET (1<<17)
 /// Right Pocket slot
-#define ITEM_SLOT_RPOCKET (1<<17)
+#define ITEM_SLOT_RPOCKET (1<<18)
 /// Handcuff slot
-#define ITEM_SLOT_HANDCUFFED (1<<18)
+#define ITEM_SLOT_HANDCUFFED (1<<19)
 /// Legcuff slot (bolas, beartraps)
-#define ITEM_SLOT_LEGCUFFED (1<<19)
+#define ITEM_SLOT_LEGCUFFED (1<<20)
+
+#define PANTS_LEFT_POCKET (1<<0)
+#define PANTS_RIGHT_POCKET (1<<1)
+#define PANTS_BOTH_POCKETS (1<<2)
 
 /// Total amount of slots
-#define SLOTS_AMT 20 // Keep this up to date!
+#define SLOTS_AMT 21 // Keep this up to date!
 
 //SLOT GROUP HELPERS
 #define ITEM_SLOT_POCKETS (ITEM_SLOT_LPOCKET|ITEM_SLOT_RPOCKET)
@@ -76,24 +82,25 @@
 //Make sure to update check_obscured_slots() if you add more.
 #define HIDEGLOVES (1<<0)
 #define HIDESUITSTORAGE (1<<1)
-#define HIDEJUMPSUIT (1<<2) //these first four are only used in exterior suits
-#define HIDESHOES (1<<3)
-#define HIDEMASK (1<<4) //these next seven are only used in masks and headgear.
-#define HIDEEARS (1<<5) // (ears means headsets and such)
-#define HIDEEYES (1<<6) // Whether eyes and glasses are hidden
-#define HIDEFACE (1<<7) // Whether we appear as unknown.
-#define HIDEHAIR (1<<8)
-#define HIDEFACIALHAIR (1<<9)
-#define HIDENECK (1<<10)
+#define HIDESHIRT (1<<2)
+#define HIDEPANTS (1<<3) //these first four are only used in exterior suits
+#define HIDESHOES (1<<4)
+#define HIDEMASK (1<<5) //these next seven are only used in masks and headgear.
+#define HIDEEARS (1<<6) // (ears means headsets and such)
+#define HIDEEYES (1<<7) // Whether eyes and glasses are hidden
+#define HIDEFACE (1<<8) // Whether we appear as unknown.
+#define HIDEHAIR (1<<9)
+#define HIDEFACIALHAIR (1<<10)
+#define HIDENECK (1<<11)
 /// for wigs, only obscures the headgear
-#define HIDEHEADGEAR (1<<11)
+#define HIDEHEADGEAR (1<<12)
 ///for lizard snouts, because some HIDEFACE clothes don't actually conceal that portion of the head.
-#define HIDESNOUT (1<<12)
+#define HIDESNOUT (1<<13)
 ///hides mutant/moth wings, does not apply to functional wings
-#define HIDEMUTWINGS (1<<13)
+#define HIDEMUTWINGS (1<<14)
 
 /// Every flag that hides a bodypart or organ.
-#define BODYPART_HIDE_FLAGS (HIDESNOUT | HIDEMUTWINGS | HIDEHAIR | HIDEFACIALHAIR | HIDEEYES | HIDEJUMPSUIT)
+#define BODYPART_HIDE_FLAGS (HIDESNOUT | HIDEMUTWINGS | HIDEHAIR | HIDEFACIALHAIR | HIDEEYES | HIDESHIRT)
 
 //bitflags for clothing coverage - also used for limbs
 #define CHEST (1<<0)

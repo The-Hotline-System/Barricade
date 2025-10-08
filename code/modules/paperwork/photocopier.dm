@@ -301,7 +301,7 @@
 /obj/machinery/photocopier/proc/make_ass_copy()
 	if(!check_ass())
 		return
-	if(ishuman(ass) && (ass.get_item_by_slot(ITEM_SLOT_ICLOTHING) || ass.get_item_by_slot(ITEM_SLOT_OCLOTHING)))
+	if(ishuman(ass) && (ass.get_item_by_slot(ITEM_SLOT_SHIRT) || ass.get_item_by_slot(ITEM_SLOT_OCLOTHING)))
 		to_chat(usr, span_notice("You feel kind of silly, copying [ass == usr ? "your" : ass][ass == usr ? "" : "\'s"] ass with [ass == usr ? "your" : "[ass.p_their()]"] clothes on.") )
 		return
 

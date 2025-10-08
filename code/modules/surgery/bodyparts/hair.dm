@@ -32,8 +32,8 @@
 		if(hat.flags_inv & HIDEHAIR)
 			hair_hidden = TRUE
 
-	if(human_head_owner.w_uniform)
-		var/obj/item/item_uniform = human_head_owner.w_uniform
+	if(human_head_owner.w_shirt)
+		var/obj/item/item_uniform = human_head_owner.w_shirt
 		if(item_uniform.flags_inv & HIDEHAIR)
 			hair_hidden = TRUE
 

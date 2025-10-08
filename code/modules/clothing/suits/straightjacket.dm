@@ -4,7 +4,7 @@
 	icon_state = "straight_jacket"
 	inhand_icon_state = "straight_jacket"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS|HANDS
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDESHIRT
 	clothing_flags = DANGEROUS_OBJECT
 	breakouttime = 5 MINUTES
 	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION | CLOTHING_TESHARI_VARIATION | CLOTHING_VOX_VARIATION

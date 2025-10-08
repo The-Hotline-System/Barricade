@@ -20,8 +20,10 @@
 			return shoes
 		if(ITEM_SLOT_OCLOTHING)
 			return wear_suit
-		if(ITEM_SLOT_ICLOTHING)
-			return w_uniform
+		if(ITEM_SLOT_SHIRT)
+			return w_shirt
+		if(ITEM_SLOT_PANTS)
+			return w_pants
 		if(ITEM_SLOT_LPOCKET)
 			return l_store
 		if(ITEM_SLOT_RPOCKET)
@@ -56,8 +58,11 @@
 	if(looking_for == wear_suit)
 		return ITEM_SLOT_OCLOTHING
 
-	if(looking_for == w_uniform)
-		return ITEM_SLOT_ICLOTHING
+	if(looking_for == w_shirt)
+		return ITEM_SLOT_SHIRT
+
+	if(looking_for == w_pants)
+		return ITEM_SLOT_PANTS
 
 	if(looking_for == r_store)
 		return ITEM_SLOT_RPOCKET
@@ -82,7 +87,8 @@
 		wear_suit,
 		gloves,
 		shoes,
-		w_uniform,
+		w_shirt,
+		w_pants,
 		head,
 		glasses,
 		wear_mask,
@@ -175,12 +181,18 @@
 				release_all_grabs() //can't pull if restrained
 				update_mob_action_buttons() //certain action buttons will no longer be usable
 
-		if(ITEM_SLOT_ICLOTHING)
-			if(w_uniform)
+		if(ITEM_SLOT_SHIRT)
+			if(w_shirt)
 				return
 
-			w_uniform = I
+			w_shirt = I
 			update_suit_sensors()
+
+		if(ITEM_SLOT_PANTS)
+			if(w_pants)
+				return
+
+			w_pants = I
 
 		if(ITEM_SLOT_LPOCKET)
 			l_store = I
@@ -237,7 +249,11 @@
 
 		wear_suit = null
 
-	else if(I == w_uniform)
+	else if(I == w_shirt)
+		w_shirt = null
+		update_suit_sensors()
+
+	else if (I == w_pants)
 		if(invdrop)
 			if(r_store)
 				dropItemToGround(r_store, TRUE) //Again, makes sense for pockets to drop.
@@ -248,8 +264,7 @@
 			if(belt)
 				dropItemToGround(belt)
 
-		w_uniform = null
-		update_suit_sensors()
+		w_pants = null
 
 	else if(I == gloves)
 		gloves = null

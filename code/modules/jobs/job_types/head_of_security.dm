@@ -68,7 +68,7 @@
 
 	id = /obj/item/card/id/advanced/silver
 	id_template = /datum/access_template/job/head_of_security
-	uniform = /obj/item/clothing/under/rank/security/marshal
+	shirt = /obj/item/clothing/under/rank/security/marshal
 	suit = /obj/item/clothing/suit/armor/vest/ballistic
 	suit_store = /obj/item/gun/energy/e_gun
 	backpack_contents = list(

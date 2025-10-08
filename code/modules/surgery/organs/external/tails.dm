@@ -20,7 +20,7 @@
 	return ..()
 
 /obj/item/organ/tail/can_draw_on_bodypart(mob/living/carbon/human/human)
-	if(human.obscured_slots & HIDEJUMPSUIT)
+	if(human.obscured_slots & HIDESHIRT)
 		return FALSE
 	return TRUE
 

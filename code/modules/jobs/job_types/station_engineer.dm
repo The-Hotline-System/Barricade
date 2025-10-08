@@ -63,7 +63,7 @@
 	jobtype = /datum/job/station_engineer
 
 	id_template = /datum/access_template/job/station_engineer
-	uniform = /obj/item/clothing/under/rank/engineering/engineer
+	shirt = /obj/item/clothing/under/rank/engineering/engineer
 	belt = /obj/item/storage/belt/utility/full/engi
 	ears = /obj/item/radio/headset/headset_eng
 	head = /obj/item/clothing/head/hardhat
@@ -91,12 +91,12 @@
 
 /datum/outfit/job/engineer/enginetech
 	name = "Engine Technician"
-	uniform = /obj/item/clothing/under/rank/engineering/engineer/enginetech
+	shirt = /obj/item/clothing/under/rank/engineering/engineer/enginetech
 
 /datum/outfit/job/engineer/electrician
 	name = "Electrician"
-	uniform = /obj/item/clothing/under/rank/engineering/engineer/electrician
+	shirt = /obj/item/clothing/under/rank/engineering/engineer/electrician
 
 /datum/outfit/job/engineer/mainttech
 	name = "Maintenance Technician"
-	uniform = /obj/item/clothing/under/rank/engineering/engineer/hazard
+	shirt = /obj/item/clothing/under/rank/engineering/engineer/hazard

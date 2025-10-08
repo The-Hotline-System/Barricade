@@ -1,21 +1,22 @@
 /datum/outfit/prisoner
 	name = "Prison Escapee"
-	uniform = /obj/item/clothing/under/rank/prisoner
+	shirt = /obj/item/clothing/under/rank/prisoner
 	shoes = /obj/item/clothing/shoes/sneakers/orange
 	r_pocket = /obj/item/knife/shiv
 
 /datum/outfit/prisoner/post_equip(mob/living/carbon/human/prisoner, visualsOnly=FALSE)
 	// This outfit is used by the assets SS, which is ran before the atoms SS
 	if(SSatoms.initialized == INITIALIZATION_INSSATOMS)
-		prisoner.w_uniform?.update_greyscale()
-		prisoner.update_worn_undersuit()
+		prisoner.w_shirt?.update_greyscale()
+		prisoner.update_worn_shirt()
+		prisoner.update_worn_pants()
 	if(visualsOnly)
 		return
 	prisoner.fully_replace_character_name(null,"NTP #CC-0[rand(111,999)]") //same as the lavaland prisoner transport, but this time they are from CC, or CentCom
 
 /datum/outfit/yalp_cultist
 	name = "Cultist of Yalp Elor"
-	uniform = /obj/item/clothing/under/rank/civilian/chaplain
+	shirt = /obj/item/clothing/under/rank/civilian/chaplain
 	suit = /obj/item/clothing/suit/chaplainsuit/holidaypriest
 	gloves = /obj/item/clothing/gloves/color/red
 	shoes = /obj/item/clothing/shoes/sneakers/black
@@ -23,7 +24,6 @@
 
 /datum/outfit/waldo
 	name = "Waldo"
-	uniform = /obj/item/clothing/under/pants/jeans
 	suit = /obj/item/clothing/suit/striped_sweater
 	head = /obj/item/clothing/head/beanie/waldo
 	shoes = /obj/item/clothing/shoes/sneakers/brown
@@ -31,8 +31,9 @@
 	glasses = /obj/item/clothing/glasses/regular/circle
 
 /datum/outfit/waldo/post_equip(mob/living/carbon/human/equipped_on, visualsOnly=FALSE)
-	equipped_on.w_uniform?.update_greyscale()
-	equipped_on.update_worn_undersuit()
+	equipped_on.w_shirt?.update_greyscale()
+	equipped_on.update_worn_shirt()
+	equipped_on.update_worn_pants()
 	if(visualsOnly)
 		return
 	equipped_on.fully_replace_character_name(null,"Waldo")
@@ -47,7 +48,7 @@
 	equipped_on.update_body()
 	var/list/no_drops = list()
 	no_drops += equipped_on.get_item_by_slot(ITEM_SLOT_FEET)
-	no_drops += equipped_on.get_item_by_slot(ITEM_SLOT_ICLOTHING)
+	no_drops += equipped_on.get_item_by_slot(ITEM_SLOT_SHIRT)
 	no_drops += equipped_on.get_item_by_slot(ITEM_SLOT_OCLOTHING)
 	no_drops += equipped_on.get_item_by_slot(ITEM_SLOT_HEAD)
 	no_drops += equipped_on.get_item_by_slot(ITEM_SLOT_EYES)
@@ -59,7 +60,7 @@
 
 /datum/outfit/synthetic
 	name = "Factory Error Synth"
-	uniform = /obj/item/clothing/under/color/white
+	shirt = /obj/item/clothing/under/color/white
 	ears = /obj/item/radio/headset
 
 /datum/outfit/synthetic/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
@@ -70,7 +71,7 @@
 
 /datum/outfit/spacepol
 	name = "Spacepol Officer"
-	uniform = /obj/item/clothing/under/rank/security/officer/spacepol
+	shirt = /obj/item/clothing/under/rank/security/officer/spacepol
 	suit = /obj/item/clothing/suit/armor/vest/blueshirt
 	belt = /obj/item/gun/ballistic/automatic/pistol/m1911
 	head = /obj/item/clothing/head/helmet/police
@@ -95,7 +96,7 @@
 /datum/outfit/russian_hunter
 	name = "Russian Hunter"
 	id = /obj/item/card/id/advanced
-	uniform = /obj/item/clothing/under/costume/soviet
+	shirt = /obj/item/clothing/under/costume/soviet
 	suit = /obj/item/clothing/suit/armor/bulletproof
 	suit_store = /obj/item/gun/ballistic/rifle/boltaction/brand_new
 	back = /obj/item/storage/backpack
@@ -127,7 +128,7 @@
 	)
 
 	if(prob(80))
-		uniform = pick(alt_uniforms)
+		shirt = pick(alt_uniforms)
 	if(prob(50))
 		suit = pick(alt_suits)
 	if(prob(50))
@@ -144,8 +145,8 @@
 		equipped_card.update_label()
 		equipped_card.update_icon()
 
-	if(istype(equip_to.w_uniform, /obj/item/clothing/under))
-		var/obj/item/clothing/under/uniform = equip_to.w_uniform
+	if(istype(equip_to.w_shirt, /obj/item/clothing/under))
+		var/obj/item/clothing/under/uniform = equip_to.w_shirt
 		uniform.sensor_mode = NO_SENSORS
 		uniform.has_sensor = NO_SENSORS
 
@@ -159,7 +160,7 @@
 
 /datum/outfit/bountyarmor
 	name = "Bounty Hunter - Armored"
-	uniform = /obj/item/clothing/under/rank/prisoner
+	shirt = /obj/item/clothing/under/rank/prisoner
 	back = /obj/item/storage/backpack
 	head = /obj/item/clothing/head/hunter
 	suit = /obj/item/clothing/suit/space/hunter
@@ -183,7 +184,7 @@
 
 /datum/outfit/bountyhook
 	name = "Bounty Hunter - Hook"
-	uniform = /obj/item/clothing/under/rank/prisoner
+	shirt = /obj/item/clothing/under/rank/prisoner
 	back = /obj/item/storage/backpack
 	head = /obj/item/clothing/head/scarecrow_hat
 	gloves = /obj/item/clothing/gloves/botanic_leather
@@ -208,7 +209,7 @@
 
 /datum/outfit/bountysynth
 	name = "Bounty Hunter - Synth"
-	uniform = /obj/item/clothing/under/rank/prisoner
+	shirt = /obj/item/clothing/under/rank/prisoner
 	back = /obj/item/storage/backpack
 	suit = /obj/item/clothing/suit/armor/riot
 	shoes = /obj/item/clothing/shoes/jackboots

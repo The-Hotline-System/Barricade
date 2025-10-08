@@ -41,7 +41,7 @@
 	jobtype = /datum/job/janitor
 
 	id_template = /datum/access_template/job/janitor
-	uniform = /obj/item/clothing/under/rank/civilian/janitor
+	shirt = /obj/item/clothing/under/rank/civilian/janitor
 	belt = /obj/item/modular_computer/tablet/pda/janitor
 	ears = /obj/item/radio/headset/headset_srv
 	gloves = /obj/item/clothing/gloves/cleaning

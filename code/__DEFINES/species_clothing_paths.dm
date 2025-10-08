@@ -1,6 +1,8 @@
 //HUMAN PATHS
-///The dmi for humanoid uniforms
+///The dmi for humanoid shirts
 #define DEFAULT_UNIFORM_FILE 'icons/mob/clothing/under/default.dmi'
+///The dmi for humanoid pants
+#define DEFAULT_PANTS_FILE 'icons/mob/clothing/pants/default.dmi'
 ///The dmi for humanoid shoes
 #define DEFAULT_SHOES_FILE 'icons/mob/clothing/feet.dmi'
 ///The dmi for humanoid oversuits

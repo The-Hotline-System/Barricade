@@ -51,7 +51,7 @@
 	var/bonus_spread = 0
 	if(istype(user))
 		for(var/obj/item/gun/gun in user.held_items)
-			if(gun == src || (gun.gun_flags & NO_AKIMBO))
+			if(gun == src || (CHECK_BITFIELD(gun.gun_flags, NO_AKIMBO)))
 				continue
 
 			if(gun.can_trigger_gun(user, akimbo_usage = TRUE))
@@ -72,7 +72,7 @@
 
 	var/mob/living/carbon/human/H = user
 	for(var/obj/item/gun/gun in H.held_items)
-		if(gun == src || (gun.gun_flags & NO_AKIMBO))
+		if(gun == src || (CHECK_BITFIELD(gun.gun_flags, NO_AKIMBO)))
 			continue
 
 		if(gun.can_trigger_gun(user, akimbo_usage = TRUE))
@@ -105,7 +105,11 @@
 		if(!wielded)
 			real_recoil = unwielded_recoil
 
-		shake_camera(user, real_recoil + 1, real_recoil)
+		var/angle = get_angle(user, pbtarget)+rand(-recoil_deviation, recoil_deviation) + 180
+		angle = SIMPLIFY_DEGREES(angle)
+
+		//shake_camera(user, real_recoil + 1, real_recoil)
+		recoil_camera(user, real_recoil, (real_recoil*recoil_backtime_multiplier) + 1, real_recoil, angle)
 
 	//BANG BANG BANG
 	play_fire_sound()
@@ -147,7 +151,7 @@
 					ignored_mobs = user
 			)
 
-	if(smoking_gun)
+	if(CHECK_BITFIELD(gun_flags, GUN_SMOKE_PARTICLES))
 		var/x_component = sin(get_angle(user, pbtarget)) * 40
 		var/y_component = cos(get_angle(user, pbtarget)) * 40
 		var/obj/effect/abstract/particle_holder/gun_smoke = new(get_turf(src), /particles/firing_smoke)
@@ -220,7 +224,7 @@
 	if (iteration >= burst_size)
 		firing_burst = FALSE
 
-	update_chamber()
+	update_chamber(shooter= user)
 	return TRUE
 
 /**
@@ -286,7 +290,7 @@
 
 		// Post-fire things
 		after_firing(user, get_dist(user, target) <= 1, target, message)
-		update_chamber()
+		update_chamber(shooter = user)
 
 		// Make it so we can't fire as fast as the mob can click
 		fire_lockout = TRUE
@@ -328,10 +332,10 @@
  * * from_firing - If this was called as apart of the gun firing.
  * * chamber_next_round - Whether or not the next round should be chambered.
  */
-/obj/item/gun/proc/update_chamber(empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE)
+/obj/item/gun/proc/update_chamber(empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE, atom/shooter = null)
 	SHOULD_NOT_OVERRIDE(TRUE) // You probably want do_chamber_update()!
 
-	do_chamber_update(empty_chamber, from_firing, chamber_next_round)
+	do_chamber_update(empty_chamber, from_firing, chamber_next_round, shooter)
 	after_chambering(from_firing)
 	update_appearance()
 	SEND_SIGNAL(src, COMSIG_GUN_CHAMBER_PROCESSED)
@@ -344,7 +348,7 @@
  * * from_firing - If this was called as apart of the gun firing.
  * * chamber_next_round - Whether or not the next round should be chambered.
  */
-/obj/item/gun/proc/do_chamber_update(empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE)
+/obj/item/gun/proc/do_chamber_update(empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE, atom/shooter = null)
 	PROTECTED_PROC(TRUE)
 	return
 

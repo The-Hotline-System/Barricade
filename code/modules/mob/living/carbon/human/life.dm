@@ -178,9 +178,9 @@
 	if(wear_suit)
 		if(wear_suit.max_heat_protection_temperature && wear_suit.max_heat_protection_temperature >= temperature)
 			thermal_protection_flags |= wear_suit.heat_protection
-	if(w_uniform)
-		if(w_uniform.max_heat_protection_temperature && w_uniform.max_heat_protection_temperature >= temperature)
-			thermal_protection_flags |= w_uniform.heat_protection
+	if(w_shirt)
+		if(w_shirt.max_heat_protection_temperature && w_shirt.max_heat_protection_temperature >= temperature)
+			thermal_protection_flags |= w_shirt.heat_protection
 	if(shoes)
 		if(shoes.max_heat_protection_temperature && shoes.max_heat_protection_temperature >= temperature)
 			thermal_protection_flags |= shoes.heat_protection
@@ -235,9 +235,9 @@
 	if(wear_suit)
 		if(wear_suit.min_cold_protection_temperature && wear_suit.min_cold_protection_temperature <= temperature)
 			thermal_protection_flags |= wear_suit.cold_protection
-	if(w_uniform)
-		if(w_uniform.min_cold_protection_temperature && w_uniform.min_cold_protection_temperature <= temperature)
-			thermal_protection_flags |= w_uniform.cold_protection
+	if(w_shirt)
+		if(w_shirt.min_cold_protection_temperature && w_shirt.min_cold_protection_temperature <= temperature)
+			thermal_protection_flags |= w_shirt.cold_protection
 	if(shoes)
 		if(shoes.min_cold_protection_temperature && shoes.min_cold_protection_temperature <= temperature)
 			thermal_protection_flags |= shoes.cold_protection

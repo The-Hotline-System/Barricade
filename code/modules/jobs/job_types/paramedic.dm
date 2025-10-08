@@ -49,7 +49,7 @@
 
 	id = /obj/item/card/id/advanced
 	id_template = /datum/access_template/job/paramedic
-	uniform = /obj/item/clothing/under/rank/medical/paramedic
+	shirt = /obj/item/clothing/under/rank/medical/paramedic
 	suit = /obj/item/clothing/suit/toggle/labcoat/paramedic
 	backpack_contents = list(
 		/obj/item/roller = 1,

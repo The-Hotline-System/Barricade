@@ -673,8 +673,12 @@
 	// Check and wash stuff that can be covered
 	var/obscured = check_obscured_slots()
 
-	if(w_uniform && !(obscured & ITEM_SLOT_ICLOTHING) && w_uniform.wash(clean_types))
-		update_worn_undersuit()
+	if(w_shirt && !(obscured & ITEM_SLOT_SHIRT) && w_shirt.wash(clean_types))
+		update_worn_shirt()
+		. = TRUE
+
+	if(w_pants && !(obscured & ITEM_SLOT_PANTS) && w_pants.wash(clean_types))
+		update_worn_pants()
 		. = TRUE
 
 	if(!is_mouth_covered() && clean_lips())

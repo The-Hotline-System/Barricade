@@ -14,7 +14,7 @@
 /datum/outfit/stacks_in_hands
 	name = "Mr. Runtime"
 
-	uniform = /obj/item/clothing/under/suit/tuxedo
+	shirt = /obj/item/clothing/under/suit/tuxedo
 	glasses = /obj/item/clothing/glasses/sunglasses
 	mask = /obj/item/clothing/mask/cigarette/cigar/havana
 	shoes = /obj/item/clothing/shoes/laceup
@@ -32,7 +32,8 @@
 		var/datum/outfit/outfit = new outfit_type
 		outfit.pre_equip(H, TRUE)
 
-		CHECK_OUTFIT_SLOT(uniform, ITEM_SLOT_ICLOTHING)
+		CHECK_OUTFIT_SLOT(shirt, ITEM_SLOT_SHIRT)
+		CHECK_OUTFIT_SLOT(pants, ITEM_SLOT_PANTS)
 		CHECK_OUTFIT_SLOT(suit, ITEM_SLOT_OCLOTHING)
 		CHECK_OUTFIT_SLOT(belt, ITEM_SLOT_BELT)
 		CHECK_OUTFIT_SLOT(gloves, ITEM_SLOT_GLOVES)

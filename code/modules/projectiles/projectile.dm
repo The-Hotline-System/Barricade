@@ -120,7 +120,7 @@
 	var/force_hit = FALSE
 
 	//Hitscan
-	var/hitscan = FALSE //Whether this is hitscan. If it is, speed is basically ignored.
+	var/hitscan = TRUE //Whether this is hitscan. If it is, speed is basically ignored.
 	var/list/beam_segments //assoc list of datum/point or datum/point/vector, start = end. Used for hitscan effect generation.
 	/// Last turf an angle was changed in for hitscan projectiles.
 	var/turf/last_angle_set_hitscan_store
@@ -322,7 +322,7 @@
 				new /obj/effect/temp_visual/dir_setting/bloodsplatter(target_loca, splatter_dir, splatter_color)
 			if(prob(33))
 				L.add_splatter_floor(target_loca)
-		else if(impact_effect_type && !hitscan)
+		else if(impact_effect_type)
 			new impact_effect_type(target_loca, hitx, hity)
 
 		var/organ_hit_text = ""
@@ -1105,7 +1105,7 @@
 		beam_segments[beam_index] = point_cache
 	generate_hitscan_tracers(null, null, impacting)
 
-/obj/projectile/proc/generate_hitscan_tracers(cleanup = TRUE, duration = 3, impacting = TRUE)
+/obj/projectile/proc/generate_hitscan_tracers(cleanup = TRUE, duration = 1.5, impacting = TRUE)
 	if(!length(beam_segments))
 		return
 

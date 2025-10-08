@@ -11,6 +11,8 @@
 	minimal_player_age = 10
 	exp_granted_type = EXP_TYPE_CREW
 
+	required_flags = list(HETMAN_BYPASS)
+
 	employers = list(
 		/datum/employer/government
 	)
@@ -52,7 +54,7 @@
 
 	id = /obj/item/card/id/advanced/silver
 	id_template = /datum/access_template/job/head_of_personnel
-	uniform = /obj/item/clothing/under/suit/navy
+	shirt = /obj/item/clothing/under/suit/navy
 	suit = /obj/item/clothing/suit/toggle/lawyer
 	gloves = /obj/item/clothing/gloves/color/black
 	belt = /obj/item/modular_computer/tablet/pda/heads/hop

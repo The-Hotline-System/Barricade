@@ -5,6 +5,7 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	layer = ABOVE_ALL_MOB_LAYER
 	vis_flags = VIS_INHERIT_PLANE
+	appearance_flags = RESET_COLOR
 	/// Holds info about how this particle emitter works
 	/// See \code\__DEFINES\particles.dm
 	var/particle_flags = NONE

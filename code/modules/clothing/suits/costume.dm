@@ -48,7 +48,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/pirate/captain/armored)
 	inhand_icon_state = "death"
 	flags_1 = CONDUCT_1
 	fire_resist = T0C+5200
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDESHIRT
 
 TYPEINFO_DEF(/obj/item/clothing/suit/justice)
 	default_armor = list(BLUNT = 35, PUNCTURE = 30, SLASH = 0, LASER = 30, ENERGY = 40, BOMB = 25, BIO = 0, FIRE = 50, ACID = 50)
@@ -58,7 +58,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/justice)
 	desc = "this pretty much looks ridiculous" //Needs no fixing
 	icon_state = "justice"
 	inhand_icon_state = "justice"
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDESHIRT
 
 /obj/item/clothing/suit/judgerobe
 	name = "judge's robe"
@@ -67,7 +67,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/justice)
 	inhand_icon_state = "judge"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	allowed = list(/obj/item/storage/fancy/cigarettes, /obj/item/stack/spacecash)
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 
 /obj/item/clothing/suit/apron/overalls
 	name = "coveralls"
@@ -93,7 +93,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/justice)
 	desc = "A plastic replica of the Syndicate space suit. You'll look just like a real murderous Syndicate agent in this! This is a toy, it is not made for use in space!"
 	w_class = WEIGHT_CLASS_NORMAL
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals/emergency_oxygen, /obj/item/toy)
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDESHIRT
 	resistance_flags = NONE
 
 /obj/item/clothing/suit/hastur
@@ -102,7 +102,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/justice)
 	icon_state = "hastur"
 	inhand_icon_state = "hastur"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDESHIRT
 
 /obj/item/clothing/suit/imperium_monk
 	name = "\improper Imperium monk suit"
@@ -110,7 +110,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/justice)
 	icon_state = "imperium_monk"
 	inhand_icon_state = "imperium_monk"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	flags_inv = HIDESHOES|HIDEJUMPSUIT
+	flags_inv = HIDESHOES|HIDESHIRT
 	allowed = list(/obj/item/storage/book/bible, /obj/item/nullrod, /obj/item/reagent_containers/cup/glass/bottle/holywater, /obj/item/storage/fancy/candle_box, /obj/item/candle, /obj/item/tank/internals/emergency_oxygen)
 
 /obj/item/clothing/suit/chickensuit
@@ -119,7 +119,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/justice)
 	icon_state = "chickensuit"
 	inhand_icon_state = "chickensuit"
 	body_parts_covered = CHEST|ARMS|GROIN|LEGS|FEET
-	flags_inv = HIDESHOES|HIDEJUMPSUIT
+	flags_inv = HIDESHOES|HIDESHIRT
 
 /obj/item/clothing/suit/monkeysuit
 	name = "monkey suit"
@@ -127,7 +127,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/justice)
 	icon_state = "monkeysuit"
 	inhand_icon_state = "monkeysuit"
 	body_parts_covered = CHEST|ARMS|GROIN|LEGS|FEET|HANDS
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDESHIRT
 
 /obj/item/clothing/suit/toggle/owlwings
 	name = "owl cloak"
@@ -153,7 +153,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/justice)
 	icon_state = "cardborg"
 	inhand_icon_state = "cardborg"
 	body_parts_covered = CHEST|GROIN
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 	dog_fashion = /datum/dog_fashion/back
 
 /obj/item/clothing/suit/cardborg/equipped(mob/living/user, slot)
@@ -181,7 +181,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/justice)
 	icon_state = "snowman"
 	inhand_icon_state = "snowman"
 	body_parts_covered = CHEST|GROIN
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 
 /obj/item/clothing/suit/poncho
 	name = "poncho"
@@ -220,7 +220,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/justice)
 	icon_state = "white_dress"
 	inhand_icon_state = "w_suit"
 	body_parts_covered = CHEST|GROIN|LEGS|FEET
-	flags_inv = HIDEJUMPSUIT|HIDESHOES
+	flags_inv = HIDESHIRT|HIDESHOES
 
 /obj/item/clothing/suit/hooded/carp_costume
 	name = "carp costume"
@@ -262,7 +262,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/hooded/carp_costume/spaceproof)
 	icon_state = "carp_suit"
 	inhand_icon_state = "space_suit_syndicate"
 	allowed = list(/obj/item/tank/internals, /obj/item/gun/ballistic/rifle/boltaction/harpoon) //I'm giving you a hint here
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDESHIRT
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
@@ -371,7 +371,7 @@ TYPEINFO_DEF(/obj/item/clothing/head/hooded/carp_hood/spaceproof)
 	icon_state = "shrine_maiden"
 	inhand_icon_state = "shrine_maiden"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 
 /obj/item/clothing/suit/striped_sweater
 	name = "striped sweater"
@@ -403,7 +403,7 @@ TYPEINFO_DEF(/obj/item/clothing/head/hooded/carp_hood/spaceproof)
 	icon_state = "xenos"
 	inhand_icon_state = "xenos_helm"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS|HANDS
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDESHIRT
 	allowed = list(/obj/item/clothing/mask/facehugger/toy)
 
 /obj/item/clothing/suit/nemes
@@ -457,7 +457,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/bronze)
 	inhand_icon_state = "mysticrobe"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	allowed = list(/obj/item/spellbook, /obj/item/storage/book/bible)
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 	hoodtype = /obj/item/clothing/head/hooded/mysticrobe
 
 /obj/item/clothing/head/hooded/mysticrobe

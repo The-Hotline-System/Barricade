@@ -87,6 +87,8 @@
 #define COLOR_DARK_BROWN "#997C4F"
 #define COLOR_ORANGE_BROWN "#a9734f"
 
+#define COLOR_MUZZLE_FLASH     "#ebddaf"
+
 //Color defines used by the soapstone (based on readability against grey tiles)
 #define COLOR_SOAPSTONE_PLASTIC "#a19d94"
 #define COLOR_SOAPSTONE_IRON "#b2b2b2"

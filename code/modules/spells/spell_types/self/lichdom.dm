@@ -69,12 +69,12 @@
 
 	if(ishuman(cast_on))
 		var/mob/living/carbon/human/human_cast_on = cast_on
-		human_cast_on.dropItemToGround(human_cast_on.w_uniform)
+		human_cast_on.dropItemToGround(human_cast_on.w_shirt)
 		human_cast_on.dropItemToGround(human_cast_on.wear_suit)
 		human_cast_on.dropItemToGround(human_cast_on.head)
 		human_cast_on.equip_to_slot_or_del(new /obj/item/clothing/suit/wizrobe/black(human_cast_on), ITEM_SLOT_OCLOTHING)
 		human_cast_on.equip_to_slot_or_del(new /obj/item/clothing/head/wizard/black(human_cast_on), ITEM_SLOT_HEAD)
-		human_cast_on.equip_to_slot_or_del(new /obj/item/clothing/under/color/black(human_cast_on), ITEM_SLOT_ICLOTHING)
+		human_cast_on.equip_to_slot_or_del(new /obj/item/clothing/under/color/black(human_cast_on), ITEM_SLOT_SHIRT)
 
 
 	// No soul. You just sold it

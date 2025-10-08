@@ -385,7 +385,7 @@
 	return
 
 /// Place blood onto us if the toucher has blood on their hands or clothing. messy_slots deteremines what slots to bloody.
-/mob/living/carbon/human/share_blood_on_touch(mob/living/carbon/human/who_touched_us, messy_slots = ITEM_SLOT_ICLOTHING|ITEM_SLOT_OCLOTHING)
+/mob/living/carbon/human/share_blood_on_touch(mob/living/carbon/human/who_touched_us, messy_slots = ITEM_SLOT_SHIRT|ITEM_SLOT_OCLOTHING)
 	if(!istype(who_touched_us) || !messy_slots)
 		return
 
@@ -429,7 +429,7 @@
 						null, span_hear("You hear the rustling of clothes."), DEFAULT_MESSAGE_RANGE, list(helper, src))
 		to_chat(helper, span_notice("You shake [src] trying to pick [p_them()] up!"))
 		to_chat(src, span_notice("[helper] shakes you to get you up!"))
-		share_blood_on_touch(helper, ITEM_SLOT_OCLOTHING | ITEM_SLOT_ICLOTHING)
+		share_blood_on_touch(helper, ITEM_SLOT_OCLOTHING | ITEM_SLOT_SHIRT)
 
 	else if(deprecise_zone(helper.zone_selected) == BODY_ZONE_HEAD && get_bodypart(BODY_ZONE_HEAD)) //Headpats!
 		helper.visible_message(span_notice("[helper] gives [src] a pat on the head to make [p_them()] feel better!"), \

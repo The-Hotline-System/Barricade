@@ -249,7 +249,7 @@
 /datum/outfit/traitor
 	name = "Traitor (Preview only)"
 
-	uniform = /obj/item/clothing/under/color/grey/ancient
+	shirt = /obj/item/clothing/under/color/grey/ancient
 	gloves = /obj/item/clothing/gloves/color/yellow
 	mask = /obj/item/clothing/mask/gas
 	shoes = /obj/item/clothing/shoes/jackboots

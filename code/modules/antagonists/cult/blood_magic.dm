@@ -663,7 +663,7 @@
 		uses--
 		var/mob/living/carbon/C = target
 		C.visible_message(span_warning("Otherworldly armor suddenly appears on [C]!"))
-		C.equip_to_slot_or_del(new /obj/item/clothing/under/color/black,ITEM_SLOT_ICLOTHING)
+		C.equip_to_slot_or_del(new /obj/item/clothing/under/color/black,ITEM_SLOT_SHIRT)
 		C.equip_to_slot_or_del(new /obj/item/clothing/suit/hooded/cultrobes/alt(user), ITEM_SLOT_OCLOTHING)
 		C.equip_to_slot_or_del(new /obj/item/clothing/shoes/cult/alt(user), ITEM_SLOT_FEET)
 		C.equip_to_slot_or_del(new /obj/item/storage/backpack/cultpack(user), ITEM_SLOT_BACK)

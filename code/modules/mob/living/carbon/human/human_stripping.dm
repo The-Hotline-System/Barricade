@@ -8,7 +8,8 @@ GLOBAL_LIST_INIT(strippable_human_items, create_strippable_list(list(
 	/datum/strippable_item/mob_item_slot/neck,
 	/datum/strippable_item/mob_item_slot/eyes,
 	/datum/strippable_item/mob_item_slot/ears,
-	/datum/strippable_item/mob_item_slot/jumpsuit,
+	/datum/strippable_item/mob_item_slot/shirt,
+	/datum/strippable_item/mob_item_slot/pants,
 	/datum/strippable_item/mob_item_slot/suit,
 	/datum/strippable_item/mob_item_slot/gloves,
 	/datum/strippable_item/mob_item_slot/feet,
@@ -43,17 +44,21 @@ GLOBAL_LIST_INIT(strippable_human_items, create_strippable_list(list(
 	key = STRIPPABLE_ITEM_EARS
 	item_slot = ITEM_SLOT_EARS
 
-/datum/strippable_item/mob_item_slot/jumpsuit
-	key = STRIPPABLE_ITEM_JUMPSUIT
-	item_slot = ITEM_SLOT_ICLOTHING
+/datum/strippable_item/mob_item_slot/shirt
+	key = STRIPPABLE_ITEM_SHIRT
+	item_slot = ITEM_SLOT_SHIRT
 
-/datum/strippable_item/mob_item_slot/jumpsuit/get_alternate_action(atom/source, mob/user, action)
+/datum/strippable_item/mob_item_slot/pants
+	key = STRIPPABLE_ITEM_PANTS
+	item_slot = ITEM_SLOT_PANTS
+
+/datum/strippable_item/mob_item_slot/shirt/get_alternate_action(atom/source, mob/user, action)
 	var/obj/item/clothing/under/jumpsuit = get_item(source)
 	if (!istype(jumpsuit))
 		return null
 	return jumpsuit?.can_adjust ? "adjust_jumpsuit" : null
 
-/datum/strippable_item/mob_item_slot/jumpsuit/alternate_action(atom/source, mob/user, action)
+/datum/strippable_item/mob_item_slot/shirt/alternate_action(atom/source, mob/user, action)
 	if (!..())
 		return
 	var/obj/item/clothing/under/jumpsuit = get_item(source)

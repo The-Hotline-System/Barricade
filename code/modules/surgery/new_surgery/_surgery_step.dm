@@ -146,7 +146,7 @@ GLOBAL_LIST_INIT(surgery_tool_exceptions, typecacheof(list(
 
 			if(prob(60) && (affected.bodypart_flags & BP_HAS_BLOOD))
 				if(surgery_flags & SURGERY_BLOODY_BODY)
-					human_user.add_blood_DNA_to_items(target.get_blood_dna_list(), ITEM_SLOT_GLOVES|ITEM_SLOT_OCLOTHING|ITEM_SLOT_ICLOTHING)
+					human_user.add_blood_DNA_to_items(target.get_blood_dna_list(), ITEM_SLOT_GLOVES|ITEM_SLOT_OCLOTHING|ITEM_SLOT_SHIRT)
 
 				else if(surgery_flags & SURGERY_BLOODY_GLOVES)
 					human_user.add_blood_DNA_to_items(target.get_blood_dna_list(), ITEM_SLOT_GLOVES)
@@ -444,7 +444,7 @@ GLOBAL_LIST_INIT(surgery_tool_exceptions, typecacheof(list(
 			eyesmouth_covered |= clothes.flags_cover
 		if(ishuman(clothed_carbon))
 			var/mob/living/carbon/human/clothed_human = clothed_carbon
-			for(var/obj/item/clothes in list(clothed_human.wear_suit, clothed_human.w_uniform, clothed_human.shoes, clothed_human.belt, clothed_human.gloves, clothed_human.glasses, clothed_human.ears))
+			for(var/obj/item/clothes in list(clothed_human.wear_suit, clothed_human.w_shirt, clothed_human.shoes, clothed_human.belt, clothed_human.gloves, clothed_human.glasses, clothed_human.ears))
 				covered_locations |= clothes.body_parts_covered
 				face_covered |= clothes.flags_inv
 				eyesmouth_covered |= clothes.flags_cover

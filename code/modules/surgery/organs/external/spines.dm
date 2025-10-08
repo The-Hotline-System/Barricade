@@ -20,7 +20,7 @@
 
 /obj/item/organ/spines/can_draw_on_bodypart(mob/living/carbon/human/human)
 	. = ..()
-	if(human.obscured_slots & HIDEJUMPSUIT)
+	if(human.obscured_slots & HIDESHIRT)
 		return FALSE
 
 /obj/item/organ/spines/Insert(mob/living/carbon/reciever, special, drop_if_replaced)

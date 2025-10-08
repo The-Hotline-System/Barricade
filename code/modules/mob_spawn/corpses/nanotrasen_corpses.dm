@@ -8,7 +8,7 @@
 /datum/outfit/nanotrasenbridgeofficer
 	name = "Bridge Officer"
 	ears = /obj/item/radio/headset/heads/hop
-	uniform = /obj/item/clothing/under/rank/centcom/officer
+	shirt = /obj/item/clothing/under/rank/centcom/officer
 	suit = /obj/item/clothing/suit/armor/bulletproof
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	glasses = /obj/item/clothing/glasses/sunglasses
@@ -21,7 +21,7 @@
 
 /datum/outfit/nanotrasencommander
 	name = "\improper Nanotrasen Private Security Commander"
-	uniform = /obj/item/clothing/under/rank/centcom/commander
+	shirt = /obj/item/clothing/under/rank/centcom/commander
 	suit = /obj/item/clothing/suit/armor/bulletproof
 	ears = /obj/item/radio/headset/heads/captain
 	glasses = /obj/item/clothing/glasses/eyepatch
@@ -39,7 +39,7 @@
 
 /datum/outfit/nanotrasensoldier
 	name = "NT Private Security Officer"
-	uniform = /obj/item/clothing/under/rank/security/officer
+	shirt = /obj/item/clothing/under/rank/security/officer
 	suit = /obj/item/clothing/suit/armor/vest
 	shoes = /obj/item/clothing/shoes/combat
 	gloves = /obj/item/clothing/gloves/tackler/combat

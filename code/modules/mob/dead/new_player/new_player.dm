@@ -104,12 +104,16 @@
 			return "[jobtitle] is already filled to capacity."
 		if(JOB_UNAVAILABLE_ANTAG_INCOMPAT)
 			return "[jobtitle] is not compatible with some antagonist role assigned to you."
+		if(JOB_UNAVAILABLE_WHITELIST)
+			return "You lack the required whitelist for [jobtitle]."
 	return "Error: Unknown job availability."
 
 /mob/dead/new_player/proc/IsJobUnavailable(rank, latejoin = FALSE)
 	var/datum/job/job = SSjob.GetJob(rank)
 	if(!(job.job_flags & JOB_NEW_PLAYER_JOINABLE))
 		return JOB_UNAVAILABLE_GENERIC
+	if(job.required_flags && !has_flag(client, job.required_flags))
+		return JOB_UNAVAILABLE_WHITELIST
 	if((job.current_positions >= job.total_positions) && job.total_positions != -1)
 		if(is_assistant_job(job))
 			if(isnum(client.player_age) && client.player_age <= 14) //Newbies can always be assistants

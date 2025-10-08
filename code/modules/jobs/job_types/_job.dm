@@ -177,6 +177,10 @@ GLOBAL_LIST_INIT(job_display_order, list(
 	/// Pinpad key for their doors, if any.
 	var/pinpad_key = null
 
+	var/list/time_bypass_flags = list()
+
+	var/list/required_flags = list()
+
 /datum/job/New()
 	. = ..()
 
@@ -337,7 +341,7 @@ GLOBAL_LIST_INIT(job_display_order, list(
 	var/jobtype = null
 	/// If this job uses the Jumpskirt/Jumpsuit pref
 	var/allow_jumpskirt = TRUE
-	uniform = /obj/item/clothing/under/color/grey
+	shirt = /obj/item/clothing/under/color/grey
 	id = /obj/item/card/id/advanced
 	ears = /obj/item/radio/headset
 	back = /obj/item/storage/backpack
@@ -352,14 +356,15 @@ GLOBAL_LIST_INIT(job_display_order, list(
 
 /datum/outfit/job/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	/// Handles jumpskirt pref
+	/*
 	if(allow_jumpskirt && H.jumpsuit_style == PREF_SKIRT)
-		uniform = text2path("[uniform]/skirt") || uniform
+		pants = text2path("[pants]/skirt") || pants
 
 	var/client/client = GLOB.directory[ckey(H.mind?.key)]
 
 	if(client?.is_veteran() && client?.prefs.read_preference(/datum/preference/toggle/playtime_reward_cloak))
 		neck = /obj/item/clothing/neck/cloak/skill_reward/playing
-
+	*/
 /datum/outfit/job/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
 		return
@@ -406,8 +411,9 @@ GLOBAL_LIST_INIT(job_display_order, list(
 /datum/outfit/job/get_types_to_preload()
 	var/list/preload = ..()
 	preload += /obj/item/storage/backpack/satchel/leather
-	var/skirtpath = "[uniform]/skirt"
-	preload += text2path(skirtpath)
+	/*
+	var/skirtpath = "[pants]/skirt"
+	preload += text2path(skirtpath)*/
 	return preload
 
 /// An overridable getter for more dynamic goodies.

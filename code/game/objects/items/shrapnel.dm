@@ -35,6 +35,11 @@ TYPEINFO_DEF(/obj/item/shrapnel)
 	ricochet_incidence_leeway = 60
 	hit_prone_targets = TRUE
 	sharpness = SHARP_EDGED
+
+	muzzle_type = null
+	muzzle_flash_intensity = 0
+	muzzle_flash_color_override = COLOR_BLACK
+
 	embedding = list(embed_chance=70, ignore_throwspeed_threshold=TRUE, fall_chance=1)
 
 /obj/projectile/bullet/shrapnel/mega

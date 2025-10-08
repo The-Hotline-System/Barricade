@@ -11,7 +11,7 @@
 /datum/outfit/families_police/beatcop
 	name = "Families: Beat Cop"
 
-	uniform = /obj/item/clothing/under/rank/security/officer/beatcop
+	shirt = /obj/item/clothing/under/rank/security/officer/beatcop
 	back = /obj/item/storage/backpack/duffelbag/cops
 	suit = null
 	shoes = /obj/item/clothing/shoes/combat/swat
@@ -78,7 +78,7 @@
 
 /datum/outfit/families_police/beatcop/military
 	name = "Families: Space Military"
-	uniform = /obj/item/clothing/under/syndicate/camo
+	shirt = /obj/item/clothing/under/syndicate/camo
 	suit = /obj/item/clothing/suit/armor/laserproof
 	head = /obj/item/clothing/head/beret/durathread
 	belt = /obj/item/gun/energy/laser/scatter

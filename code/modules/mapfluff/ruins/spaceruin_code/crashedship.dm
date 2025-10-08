@@ -30,7 +30,7 @@
 
 /datum/outfit/survey_laborer
 	name = "Crashed Survey Ship Laborer"
-	uniform = /obj/item/clothing/under/misc/overalls
+	shirt = /obj/item/clothing/under/misc/overalls
 	shoes = /obj/item/clothing/shoes/workboots
 	gloves = /obj/item/clothing/gloves/color/fyellow
 	head = /obj/item/clothing/head/hardhat

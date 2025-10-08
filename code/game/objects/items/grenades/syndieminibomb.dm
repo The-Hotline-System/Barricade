@@ -33,8 +33,8 @@
 	shrapnel_type = /obj/projectile/bullet/shrapnel
 	shrapnel_radius = 4
 	ex_heavy = 1
-	ex_light = 3
-	ex_flame = 4
+	ex_light = 2
+	ex_flame = 0
 
 /obj/item/grenade/frag/mega
 	name = "FRAG grenade"

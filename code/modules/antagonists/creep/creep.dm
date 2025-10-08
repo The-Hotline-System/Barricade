@@ -61,7 +61,7 @@
 /datum/outfit/obsessed
 	name = "Obsessed (Preview only)"
 
-	uniform = /obj/item/clothing/under/rank/medical/doctor
+	shirt = /obj/item/clothing/under/rank/medical/doctor
 	gloves = /obj/item/clothing/gloves/color/latex
 	mask = /obj/item/clothing/mask/surgical
 	l_hand = /obj/item/camera

@@ -26,7 +26,6 @@
 					/obj/item/clothing/head/soft/sec = 3,
 					/obj/item/clothing/mask/bandana/striped/security = 3,
 					/obj/item/clothing/gloves/color/black = 3,
-					/obj/item/clothing/under/pants/khaki = 3,
 					/obj/item/clothing/under/rank/security/officer/blueshirt = 3)
 	refill_canister = /obj/item/vending_refill/wardrobe/sec_wardrobe
 	payment_department = ACCOUNT_SEC

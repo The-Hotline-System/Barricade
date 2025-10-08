@@ -23,7 +23,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/fire)
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	allowed = list(/obj/item/flashlight, /obj/item/tank/internals, /obj/item/extinguisher, /obj/item/crowbar)
 	slowdown = 1
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDESHIRT
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = FIRE_SUIT_MAX_TEMP_PROTECT
@@ -90,7 +90,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/bomb_suit)
 	clothing_flags = THICKMATERIAL
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	slowdown = 2
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = ARMOR_MAX_TEMP_PROTECT
 	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
@@ -158,7 +158,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/radiation)
 	slowdown = 1.5
 	strip_delay = 60
 	equip_delay_other = 60
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 	resistance_flags = NONE
 	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION | CLOTHING_TESHARI_VARIATION | CLOTHING_VOX_VARIATION
 

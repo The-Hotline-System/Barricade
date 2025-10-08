@@ -548,7 +548,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/armor/changeling)
 	icon_state = "lingarmor"
 	item_flags = DROPDEL
 	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 	cold_protection = 0
 	heat_protection = 0
 	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION | CLOTHING_TESHARI_VARIATION | CLOTHING_VOX_VARIATION

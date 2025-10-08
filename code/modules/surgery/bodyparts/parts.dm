@@ -87,6 +87,8 @@
 
 	minimum_break_damage = 30
 
+	is_dimorphic = TRUE
+
 	/// Used for inventory procs
 	var/hand_side
 	var/fingerprints = ""
@@ -327,6 +329,8 @@
 	tendon_name = "cruciate ligament"
 
 	minimum_break_damage = 30
+
+	is_dimorphic = TRUE
 
 	/// Used by the bloodysoles component to make blood tracks
 	var/blood_print = BLOOD_PRINT_HUMAN

@@ -108,7 +108,10 @@ GLOBAL_LIST_INIT(limb_overlays_cache, list())
 	else
 		chosen_icon_state = "[limb_id]_[body_zone]"
 
-	chosen_aux_state = "[limb_id]_[aux_zone]"
+	if(is_dimorphic)
+		chosen_aux_state = "[limb_id]_[aux_zone]_[limb_gender]"
+	else
+		chosen_aux_state = "[limb_id]_[aux_zone]"
 
 	//The icon's information has been settled. Time to create it's icon for manipulation.
 	icon_exists(chosen_icon, chosen_icon_state, TRUE) //Prints a stack trace on the first failure of a given iconstate.

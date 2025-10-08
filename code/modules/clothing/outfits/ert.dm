@@ -8,7 +8,7 @@
 /datum/outfit/centcom/ert
 	name = "ERT Common"
 
-	uniform = /obj/item/clothing/under/rank/centcom/officer
+	shirt = /obj/item/clothing/under/rank/centcom/officer
 	ears = /obj/item/radio/headset/headset_cent/alt
 	gloves = /obj/item/clothing/gloves/combat
 	mask = /obj/item/clothing/mask/gas/sechailer
@@ -185,7 +185,7 @@
 
 	id = /obj/item/card/id/advanced/centcom
 	id_template = /datum/access_template/centcom/official
-	uniform = /obj/item/clothing/under/rank/centcom/officer
+	shirt = /obj/item/clothing/under/rank/centcom/officer
 	back = /obj/item/storage/backpack/satchel
 	backpack_contents = list(
 		/obj/item/stamp/centcom = 1,
@@ -359,7 +359,7 @@
 
 	id = /obj/item/card/id/advanced/centcom
 	id_template = /datum/access_template/centcom/intern
-	uniform = /obj/item/clothing/under/rank/centcom/intern
+	shirt = /obj/item/clothing/under/rank/centcom/intern
 	back = /obj/item/storage/backpack/satchel
 	backpack_contents = list(
 		/obj/item/storage/box/survival = 1,
@@ -410,7 +410,7 @@
 /datum/outfit/centcom/ert/janitor/party
 	name = "ERP Cleaning Service"
 
-	uniform = /obj/item/clothing/under/misc/overalls
+	shirt = /obj/item/clothing/under/misc/overalls
 	suit = /obj/item/clothing/suit/apron
 	suit_store = null
 	back = /obj/item/storage/backpack/ert/janitor
@@ -430,7 +430,7 @@
 /datum/outfit/centcom/ert/security/party
 	name = "ERP Bouncer"
 
-	uniform = /obj/item/clothing/under/misc/bouncer
+	shirt = /obj/item/clothing/under/misc/bouncer
 	suit = /obj/item/clothing/suit/armor/vest
 	suit_store = null
 	back = /obj/item/storage/backpack/ert/security
@@ -446,7 +446,7 @@
 /datum/outfit/centcom/ert/engineer/party
 	name = "ERP Constructor"
 
-	uniform = /obj/item/clothing/under/rank/engineering/engineer/hazard
+	shirt = /obj/item/clothing/under/rank/engineering/engineer/hazard
 	suit = /obj/item/clothing/suit/hazardvest
 	suit_store = null
 	back = /obj/item/storage/backpack/ert/engineer
@@ -466,7 +466,7 @@
 /datum/outfit/centcom/ert/clown/party
 	name = "ERP Comedian"
 
-	uniform = /obj/item/clothing/under/rank/civilian/clown
+	shirt = /obj/item/clothing/under/rank/civilian/clown
 	suit = /obj/item/clothing/suit/chameleon
 	suit_store = null
 	back = /obj/item/storage/backpack/ert/clown
@@ -481,7 +481,7 @@
 /datum/outfit/centcom/ert/commander/party
 	name = "ERP Coordinator"
 
-	uniform = /obj/item/clothing/under/misc/coordinator
+	shirt = /obj/item/clothing/under/misc/coordinator
 	suit = /obj/item/clothing/suit/coordinator
 	suit_store = null
 	back = /obj/item/storage/backpack/ert
@@ -500,7 +500,7 @@
 
 	id = /obj/item/card/id/advanced/black/deathsquad
 	id_template = /datum/access_template/centcom/deathsquad
-	uniform = /obj/item/clothing/under/rank/centcom/commander
+	shirt = /obj/item/clothing/under/rank/centcom/commander
 	suit_store = /obj/item/tank/internals/oxygen
 	back = /obj/item/mod/control/pre_equipped/apocryphal
 	backpack_contents = list(
@@ -554,7 +554,7 @@
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses/eyepatch
 	l_pocket = /obj/item/knife/combat
 	r_pocket = /obj/item/tank/internals/emergency_oxygen/double
-	uniform = /obj/item/clothing/under/rank/centcom/military
+	shirt = /obj/item/clothing/under/rank/centcom/military
 	mask = /obj/item/clothing/mask/gas/sechailer
 	head = /obj/item/clothing/head/helmet/marine
 
@@ -620,7 +620,7 @@
 	suit_store = /obj/item/gun/ballistic/shotgun/lethal
 	head = /obj/item/clothing/head/helmet/marine/engineer
 	back = /obj/item/deployable_turret_folded
-	uniform = /obj/item/clothing/under/rank/centcom/military/eng
+	shirt = /obj/item/clothing/under/rank/centcom/military/eng
 	belt = /obj/item/storage/belt/utility/full/powertools/rcd
 	glasses = /obj/item/clothing/glasses/hud/diagnostic/sunglasses
 

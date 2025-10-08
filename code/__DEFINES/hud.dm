@@ -102,7 +102,8 @@
 
 //Pop-up inventory
 #define ui_shoes "WEST+1:8,SOUTH:5"
-#define ui_iclothing "WEST:6,SOUTH+1:7"
+#define ui_ishirt "WEST:6,SOUTH+1:7"
+#define ui_ipants "WEST+3:10,SOUTH+1:7"
 #define ui_oclothing "WEST+1:8,SOUTH+1:7"
 #define ui_gloves "WEST+2:10,SOUTH+1:7"
 #define ui_glasses "WEST:6,SOUTH+3:11"

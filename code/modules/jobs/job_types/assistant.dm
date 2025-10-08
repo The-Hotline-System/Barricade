@@ -21,7 +21,7 @@ Assistant
 
 	outfits = list(
 		"Default" = list(
-			SPECIES_HUMAN = /datum/outfit/job/assistant,
+			SPECIES_HUMAN = /datum/outfit/job/assistantv2,
 		),
 	)
 
@@ -50,12 +50,14 @@ Assistant
 	jobtype = /datum/job/assistant
 	id_template = /datum/access_template/job/assistant
 
+	pants = /obj/item/clothing/under/pants
+
 /datum/outfit/job/assistant/pre_equip(mob/living/carbon/human/target)
 	..()
 	give_jumpsuit(target)
 
 /datum/outfit/job/assistant/proc/give_jumpsuit(mob/living/carbon/human/target)
-	if(uniform != initial(uniform)) //Loadout editted, let them have what the new uniform is.
+	if(pants != initial(pants)) //Loadout editted, let them have what the new uniform is.
 		return
 
 	var/static/jumpsuit_number = 0
@@ -70,23 +72,24 @@ Assistant
 	//We don't cache these, because they can delete on init
 	//Too fragile, better to just eat the cost
 	if (target.jumpsuit_style == PREF_SUIT)
-		uniform = GLOB.colored_assistant.jumpsuits[index]
+		pants = GLOB.colored_assistant.jumpsuits[index]
 	else
-		uniform = GLOB.colored_assistant.jumpskirts[index]
+		pants = GLOB.colored_assistant.jumpskirts[index]
 
 /datum/outfit/job/assistant/consistent
 	name = "Assistant - Consistent"
 
 /datum/outfit/job/assistant/consistent/give_jumpsuit(mob/living/carbon/human/target)
-	uniform = /obj/item/clothing/under/color/grey
+	shirt = /obj/item/clothing/under/color/grey
 
 /datum/outfit/job/assistant/consistent/post_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
 
 	// This outfit is used by the assets SS, which is ran before the atoms SS
 	if (SSatoms.initialized == INITIALIZATION_INSSATOMS)
-		H.w_uniform?.update_greyscale()
-		H.update_worn_undersuit()
+		H.w_shirt?.update_greyscale()
+		H.update_worn_shirt()
+		H.update_worn_pants()
 
 /proc/get_configured_colored_assistant_type()
 	return CONFIG_GET(flag/grey_assistants) ? /datum/colored_assistant/grey : /datum/colored_assistant/random
@@ -208,3 +211,8 @@ Assistant
 
 	// Couldn't find a matching jumpskirt, oh well
 	jumpskirts = list(get_random_jumpskirt())
+
+
+/datum/outfit/job/assistantv2
+	shirt = /obj/item/clothing/under/gendarme
+	pants = /obj/item/clothing/under/pants/gendarme

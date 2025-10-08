@@ -42,7 +42,7 @@
 	jobtype = /datum/job/bartender
 
 	id_template = /datum/access_template/job/bartender
-	uniform = /obj/item/clothing/under/rank/civilian/bartender
+	shirt = /obj/item/clothing/under/rank/civilian/bartender
 	suit = /obj/item/clothing/suit/armor/vest
 	backpack_contents = list(
 		/obj/item/storage/box/beanbag = 1,

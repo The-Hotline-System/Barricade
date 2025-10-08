@@ -61,6 +61,9 @@
 	/// How many zones (body parts, not precise) we have disabled so far, for naming purposes
 	var/zones_disabled
 
+	/// A pants thing. Controls what pockets it has.
+	var/pockets = PANTS_BOTH_POCKETS
+
 	/// A lazily initiated "food" version of the clothing for moths
 	var/obj/item/food/clothing/moth_snack
 
@@ -414,11 +417,14 @@ SEE_PIXELS// if an object is located on an unlit area, but some of its pixels ar
 BLIND     // can't see anything
 */
 
-/proc/generate_female_clothing(index, t_color, icon, type)
-	var/icon/female_clothing_icon = icon("icon"=icon, "icon_state"=t_color)
-	var/female_icon_state = "female[type == FEMALE_UNIFORM_FULL ? "_full" : ((!type || type & FEMALE_UNIFORM_TOP_ONLY) ? "_top" : "")][type & FEMALE_UNIFORM_NO_BREASTS ? "_no_breasts" : ""]"
-	var/icon/female_cropping_mask = icon("icon" = 'icons/mob/clothing/under/masking_helpers.dmi', "icon_state" = female_icon_state)
-	female_clothing_icon.Blend(female_cropping_mask, ICON_MULTIPLY)
+/proc/generate_female_clothing(index, t_color, icon)
+	var/female_state = "[t_color]_f"
+	var/icon/female_clothing_icon = icon(icon, female_state)
+
+	// If the _f state doesn't exist, fall back to the original
+	if(!icon_exists(female_clothing_icon))
+		female_clothing_icon = icon(icon, t_color)
+
 	female_clothing_icon = fcopy_rsc(female_clothing_icon)
 	GLOB.female_clothing_icons[index] = female_clothing_icon
 

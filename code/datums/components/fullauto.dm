@@ -330,8 +330,8 @@
 /obj/item/gun/proc/do_autofire_shot(datum/source, atom/target, mob/living/shooter, params)
 	var/obj/item/gun/akimbo_gun = shooter.get_inactive_held_item()
 	var/bonus_spread = 0
-	if(istype(akimbo_gun) && !(gun_flags & NO_AKIMBO))
-		if(!(akimbo_gun.gun_flags & NO_AKIMBO) && akimbo_gun.can_trigger_gun(shooter))
+	if(istype(akimbo_gun) && !(CHECK_BITFIELD(gun_flags, NO_AKIMBO)))
+		if(!(CHECK_BITFIELD(akimbo_gun.gun_flags, NO_AKIMBO)) && akimbo_gun.can_trigger_gun(shooter))
 			bonus_spread = dual_wield_spread
 			addtimer(CALLBACK(akimbo_gun, TYPE_PROC_REF(/obj/item/gun, do_fire_gun), target, shooter, TRUE, params, null, bonus_spread), 1)
 

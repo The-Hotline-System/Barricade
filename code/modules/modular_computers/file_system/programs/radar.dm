@@ -242,8 +242,8 @@
 	if(!humanoid || !istype(humanoid))
 		return FALSE
 	if(..())
-		if (istype(humanoid.w_uniform, /obj/item/clothing/under))
-			var/obj/item/clothing/under/uniform = humanoid.w_uniform
+		if (istype(humanoid.w_shirt, /obj/item/clothing/under))
+			var/obj/item/clothing/under/uniform = humanoid.w_shirt
 			if(uniform.has_sensor && uniform.sensor_mode >= SENSOR_COORDS) // Suit sensors must be on maximum
 				return TRUE
 	return FALSE

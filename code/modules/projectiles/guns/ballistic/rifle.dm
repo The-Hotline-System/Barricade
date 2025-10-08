@@ -26,7 +26,7 @@
 		to_chat(user, span_notice("You open the bolt of \the [src]."))
 		playsound(src, rack_sound, rack_sound_volume, rack_sound_vary)
 
-		update_chamber(FALSE, FALSE, FALSE)
+		update_chamber(FALSE, FALSE, FALSE, shooter = user)
 
 		bolt.is_locked = TRUE
 		update_appearance()

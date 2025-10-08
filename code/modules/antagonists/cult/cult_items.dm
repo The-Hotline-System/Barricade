@@ -349,7 +349,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/hooded/cultrobes)
 	inhand_icon_state = "cultrobes"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	allowed = list(/obj/item/tome, /obj/item/melee/cultblade)
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 	cold_protection = CHEST|GROIN|LEGS|ARMS
 	min_cold_protection_temperature = ARMOR_MIN_TEMP_PROTECT
 	heat_protection = CHEST|GROIN|LEGS|ARMS
@@ -400,7 +400,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/magusred)
 	inhand_icon_state = "magusred"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	allowed = list(/obj/item/tome, /obj/item/melee/cultblade)
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	flags_inv = HIDEGLOVES|HIDESHOES|HIDESHIRT
 
 TYPEINFO_DEF(/obj/item/clothing/suit/hooded/cultrobes/hardened)
 	default_armor = list(BLUNT = 50, PUNCTURE = 40, SLASH = 0, LASER = 50, ENERGY = 60, BOMB = 50, BIO = 30, FIRE = 100, ACID = 100)
@@ -414,7 +414,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/hooded/cultrobes/hardened)
 	allowed = list(/obj/item/tome, /obj/item/melee/cultblade, /obj/item/tank/internals)
 	hoodtype = /obj/item/clothing/head/hooded/cult_hoodie/hardened
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL
-	flags_inv = HIDEGLOVES | HIDESHOES | HIDEJUMPSUIT
+	flags_inv = HIDEGLOVES | HIDESHOES | HIDESHIRT
 	min_cold_protection_temperature = SPACE_SUIT_MIN_TEMP_PROTECT
 	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
 	resistance_flags = NONE

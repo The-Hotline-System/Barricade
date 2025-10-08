@@ -32,7 +32,7 @@
 /datum/outfit/gangster
 	name = "Gangster (Preview only)"
 
-	uniform = /obj/item/clothing/under/suit/henchmen
+	shirt = /obj/item/clothing/under/suit/henchmen
 	back = /obj/item/storage/backpack/henchmen
 
 /datum/antagonist/gang/get_team()
@@ -319,11 +319,9 @@
 	roundend_category = "The Tunnel Snakes"
 	gang_name = "Tunnel Snakes"
 	gang_id = "TS"
-	acceptable_clothes = list(/obj/item/clothing/under/pants/classicjeans,
-		/obj/item/clothing/suit/jacket,
+	acceptable_clothes = list(/obj/item/clothing/suit/jacket,
 		/obj/item/clothing/mask/bandana/skull/black)
 	free_clothes = list(/obj/item/clothing/suit/jacket,
-		/obj/item/clothing/under/pants/classicjeans,
 		/obj/item/toy/crayon/spraycan)
 	antag_hud_name = "Snakes"
 	gang_team_type = /datum/team/gang/tunnel_snakes

@@ -513,9 +513,9 @@ GLOBAL_DATUM(everyone_a_traitor, /datum/everyone_is_a_traitor_controller)
 					if(animetype == "Yes")
 						var/seifuku = pick(typesof(/obj/item/clothing/under/costume/schoolgirl))
 						var/obj/item/clothing/under/costume/schoolgirl/I = new seifuku
-						var/olduniform = H.w_uniform
-						H.temporarilyRemoveItemFromInventory(H.w_uniform, TRUE, FALSE)
-						H.equip_to_slot_or_del(I, ITEM_SLOT_ICLOTHING)
+						var/olduniform = H.w_shirt
+						H.temporarilyRemoveItemFromInventory(H.w_shirt, TRUE, FALSE)
+						H.equip_to_slot_or_del(I, ITEM_SLOT_SHIRT)
 						qdel(olduniform)
 						if(droptype == "Yes")
 							ADD_TRAIT(I, TRAIT_NODROP, ADMIN_TRAIT)

@@ -612,7 +612,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 			send2adminchat("Server", "[cheesy_message] (No admins online)")
 	QDEL_LIST_ASSOC_VAL(char_render_holders)
 
-	active_mousedown_item = null
+	active_mousedown = null
 	SSambience.remove_ambience_client(src)
 	SSmouse_entered.hovers -= src
 	SSmouse_entered.sustained_hovers -= src

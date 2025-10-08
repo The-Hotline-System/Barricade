@@ -144,6 +144,15 @@
 			body += "<A href='?_src_=holder;[HrefToken()];tdomeobserve=[REF(M)]'>Thunderdome Observer</A> | "
 		body += "<A href='?_src_=holder;[HrefToken()];admincommend=[REF(M)]'>Commend Behavior</A> | "
 
+		body += "<br<br>"
+		body += "<br><b>|-Flag Management-|</b>"
+		body += "<br>"
+		body += "<a href='?_src_=holder;[HrefToken()];showwl=add;mob=[REF(M)]'>\[Show flags\]</a>	"
+		body += "<a href='?_src_=holder;[HrefToken()];addwl=add;mob=[REF(M)]'>\[Add flag\]</a>	"
+		body += "<a href='?_src_=holder;[HrefToken()];delwl=add;mob=[REF(M)]'>\[Remove flag\]</a>	"
+		body += "<a href='?_src_=holder;[HrefToken()];updatewl=add;mob=[REF(M)]'>\[Reload flags list\]</a>"
+		body += "<br>"
+
 	body += "<br>"
 	body += "</body></html>"
 

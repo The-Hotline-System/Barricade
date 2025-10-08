@@ -301,7 +301,7 @@
 /obj/item/organ/teshari_body_feathers/can_draw_on_bodypart(mob/living/carbon/human/human)
 	if(!human)
 		return TRUE
-	if(human.obscured_slots & HIDEJUMPSUIT)
+	if(human.obscured_slots & HIDESHIRT)
 		return FALSE
 	return TRUE
 

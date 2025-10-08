@@ -133,7 +133,7 @@
 	inhand_x_dimension = 32
 	inhand_y_dimension = 32
 
-	gun_flags = NO_AKIMBO
+	gun_flags = NO_AKIMBO | GUN_SMOKE_PARTICLES
 	mag_type = /obj/item/ammo_box/magazine/m12g
 	can_suppress = FALSE
 	burst_size = 1
@@ -247,7 +247,7 @@
 	icon_state = "dshotgun"
 	inhand_icon_state = "shotgun_db"
 	w_class = WEIGHT_CLASS_BULKY
-	gun_flags = NO_AKIMBO
+	gun_flags = NO_AKIMBO | GUN_SMOKE_PARTICLES
 	force = 10
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BACK
@@ -276,7 +276,7 @@
 	inhand_x_dimension = 32
 	inhand_y_dimension = 32
 	mag_type = /obj/item/ammo_box/magazine/internal/shot/bounty
-	gun_flags = NO_AKIMBO
+	gun_flags = NO_AKIMBO | GUN_SMOKE_PARTICLES
 	semi_auto = TRUE
 	flags_1 = CONDUCT_1
 	force = 18 //it has a hook on it

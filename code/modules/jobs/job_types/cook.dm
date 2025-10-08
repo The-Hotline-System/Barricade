@@ -95,7 +95,7 @@
 	jobtype = /datum/job/cook
 
 	id_template = /datum/access_template/job/cook
-	uniform = /obj/item/clothing/under/rank/civilian/chef
+	shirt = /obj/item/clothing/under/rank/civilian/chef
 	suit = /obj/item/clothing/suit/apron/chef
 	backpack_contents = list(
 		/obj/item/choice_beacon/ingredient = 1,

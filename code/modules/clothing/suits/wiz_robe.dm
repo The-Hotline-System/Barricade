@@ -79,7 +79,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/wizrobe)
 	permeability_coefficient = 0.01
 	body_parts_covered = CHEST|GROIN|ARMS|LEGS
 	allowed = list(/obj/item/teleportation_scroll, /obj/item/highfrequencyblade/wizard)
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 	strip_delay = 50
 	equip_delay_other = 50
 	clothing_flags = SNUG_FIT | CASTING_CLOTHES

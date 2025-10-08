@@ -50,7 +50,8 @@ There are several things that need to be remembered:
 /mob/living/carbon/human/regenerate_icons()
 
 	if(!..())
-		update_worn_undersuit()
+		update_worn_shirt()
+		update_worn_pants()
 		update_worn_id()
 		update_worn_glasses()
 		update_worn_gloves()
@@ -73,18 +74,18 @@ There are several things that need to be remembered:
 /* --------------------------------------- */
 //vvvvvv UPDATE_INV PROCS vvvvvv
 
-/mob/living/carbon/human/update_worn_undersuit()
-	remove_overlay(UNIFORM_LAYER)
+/mob/living/carbon/human/update_worn_shirt()
+	remove_overlay(SHIRT_LAYER)
 
 	if(client && hud_used)
-		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_ICLOTHING) + 1]
+		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_SHIRT) + 1]
 		inv.update_icon()
 
-	if(istype(w_uniform, /obj/item/clothing/under))
-		var/obj/item/clothing/under/uniform = w_uniform
-		update_hud_uniform(uniform)
+	if(istype(w_shirt, /obj/item/clothing/under))
+		var/obj/item/clothing/under/uniform = w_shirt
+		update_hud_shirt(uniform)
 
-		if(check_obscured_slots() & ITEM_SLOT_ICLOTHING)
+		if(check_obscured_slots() & ITEM_SLOT_SHIRT)
 			return
 
 
@@ -120,7 +121,7 @@ There are several things that need to be remembered:
 			//END SPECIES HANDLING
 			uniform_overlay = uniform.build_worn_icon(
 				src,
-				default_layer = UNIFORM_LAYER,
+				default_layer = SHIRT_LAYER,
 				default_icon_file = icon_file,
 				isinhands = FALSE,
 				female_uniform = woman ? uniform.female_sprite_flags : null,
@@ -135,8 +136,61 @@ There are several things that need to be remembered:
 		if(uniform.accessory_overlay && (OFFSET_ACCESSORY in dna.species.offset_features))
 			uniform.accessory_overlay.pixel_x += dna.species.offset_features[OFFSET_ACCESSORY][1]
 			uniform.accessory_overlay.pixel_y += dna.species.offset_features[OFFSET_ACCESSORY][2]
-		overlays_standing[UNIFORM_LAYER] = uniform_overlay
-		apply_overlay(UNIFORM_LAYER)
+		overlays_standing[SHIRT_LAYER] = uniform_overlay
+		apply_overlay(SHIRT_LAYER)
+
+/mob/living/carbon/human/update_worn_pants()
+	remove_overlay(PANTS_LAYER)
+
+	if(client && hud_used)
+		var/atom/movable/screen/inventory/inv = hud_used.inv_slots[TOBITSHIFT(ITEM_SLOT_PANTS) + 1]
+		inv.update_icon()
+
+	if(istype(w_pants, /obj/item/clothing/under))
+		var/obj/item/clothing/under/uniform = w_pants
+		update_hud_pants(uniform)
+
+		if(check_obscured_slots() & ITEM_SLOT_PANTS)
+			return
+
+
+		var/target_overlay = uniform.icon_state
+		if(uniform.adjusted == ALT_STYLE)
+			target_overlay = "[target_overlay]_d"
+
+		var/mutable_appearance/pants_overlay
+
+		var/handled_by_bodytype = TRUE
+		var/icon_file
+		var/woman
+		if(!pants_overlay)
+
+			if(dna.species.sexes && (dna.species.bodytype & BODYTYPE_HUMANOID) && physique == FEMALE && uniform.female_sprite_flags != NO_FEMALE_UNIFORM) //Agggggggghhhhh
+				woman = TRUE
+
+			if(!icon_exists(icon_file, RESOLVE_ICON_STATE(uniform)))
+				icon_file = DEFAULT_PANTS_FILE
+				handled_by_bodytype = FALSE
+			//END SPECIES HANDLING
+			pants_overlay = uniform.build_worn_icon(
+				src,
+				default_layer = PANTS_LAYER,
+				default_icon_file = icon_file,
+				isinhands = FALSE,
+				female_uniform = woman ? uniform.female_sprite_flags : null,
+				override_state = target_overlay,
+				override_file = handled_by_bodytype ? icon_file : null,
+				fallback = handled_by_bodytype ? null : dna.species.fallback_clothing_path
+			)
+
+		if(!handled_by_bodytype && (OFFSET_UNIFORM in dna.species.offset_features))
+			pants_overlay?.pixel_x += dna.species.offset_features[OFFSET_UNIFORM][1]
+			pants_overlay?.pixel_y += dna.species.offset_features[OFFSET_UNIFORM][2]
+		if(uniform.accessory_overlay && (OFFSET_ACCESSORY in dna.species.offset_features))
+			uniform.accessory_overlay.pixel_x += dna.species.offset_features[OFFSET_ACCESSORY][1]
+			uniform.accessory_overlay.pixel_y += dna.species.offset_features[OFFSET_ACCESSORY][2]
+		overlays_standing[PANTS_LAYER] = pants_overlay
+		apply_overlay(PANTS_LAYER)
 
 /mob/living/carbon/human/update_worn_id()
 	remove_overlay(ID_LAYER)
@@ -786,8 +840,8 @@ There are several things that need to be remembered:
 /proc/wear_female_version(t_color, icon, layer, type, greyscale_colors)
 	var/index = "[t_color]-[greyscale_colors]"
 	var/icon/female_clothing_icon = GLOB.female_clothing_icons[index]
-	if(!female_clothing_icon) 	//Create standing/laying icons if they don't exist
-		generate_female_clothing(index, t_color, icon, type)
+	if(!female_clothing_icon)
+		generate_female_clothing(index, t_color, icon)
 	return mutable_appearance(GLOB.female_clothing_icons[index], layer = -layer)
 
 /**
@@ -836,8 +890,14 @@ There are several things that need to be remembered:
 
 //human HUD updates for items in our inventory
 
-/mob/living/carbon/human/proc/update_hud_uniform(obj/item/worn_item)
-	worn_item.screen_loc = ui_iclothing
+/mob/living/carbon/human/proc/update_hud_shirt(obj/item/worn_item)
+	worn_item.screen_loc = ui_ishirt
+	if((client && hud_used) && (hud_used.inventory_shown && hud_used.hud_shown))
+		client.screen += worn_item
+	update_observer_view(worn_item,TRUE)
+
+/mob/living/carbon/human/proc/update_hud_pants(obj/item/worn_item)
+	worn_item.screen_loc = ui_ipants
 	if((client && hud_used) && (hud_used.inventory_shown && hud_used.hud_shown))
 		client.screen += worn_item
 	update_observer_view(worn_item,TRUE)
@@ -964,7 +1024,10 @@ generate/load female uniform sprites matching all previously decided variables
 	if(fallback)
 		standing = wear_fallback_version(file2use, t_state, layer2use, fallback)
 	else if(female_uniform)
-		standing = wear_female_version(t_state, file2use, layer2use, female_uniform, greyscale_colors) //should layer2use be in sync with the adjusted value below? needs testing - shiz
+		if(!icon_exists(file2use, "[t_state]_f"))
+			standing = wear_female_version(t_state, file2use, layer2use, female_uniform, greyscale_colors) //should layer2use be in sync with the adjusted value below? needs testing - shiz
+		else
+			standing = mutable_appearance(file2use, "[t_state]_f", -layer2use)
 	if(!standing)
 		standing = mutable_appearance(file2use, t_state, -layer2use)
 

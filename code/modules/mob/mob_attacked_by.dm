@@ -156,4 +156,4 @@
 
 		if(BODY_ZONE_CHEST)
 			if(blood_dna)
-				add_blood_DNA_to_items(blood_dna, ITEM_SLOT_ICLOTHING | ITEM_SLOT_OCLOTHING)
+				add_blood_DNA_to_items(blood_dna, ITEM_SLOT_SHIRT | ITEM_SLOT_PANTS | ITEM_SLOT_OCLOTHING)

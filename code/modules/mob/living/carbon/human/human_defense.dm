@@ -23,7 +23,7 @@
 	if(!d_type)
 		return 0
 	var/protection = limb.returnArmor().getRating(d_type)
-	var/list/body_parts = list(head, wear_mask, wear_suit, w_uniform, back, gloves, shoes, belt, s_store, glasses, ears, wear_id, wear_neck) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
+	var/list/body_parts = list(head, wear_mask, wear_suit, w_shirt, back, gloves, shoes, belt, s_store, glasses, ears, wear_id, wear_neck) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
 
 	for(var/obj/item/clothing/C in body_parts)
 		if(C.body_parts_covered & limb.body_part)
@@ -35,7 +35,7 @@
 ///Get all the clothing on a specific body part
 /mob/living/carbon/human/proc/clothingonpart(obj/item/bodypart/def_zone)
 	var/list/covering_part = list()
-	var/list/body_parts = list(head, wear_mask, wear_suit, w_uniform, back, gloves, shoes, belt, s_store, glasses, ears, wear_id, wear_neck) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
+	var/list/body_parts = list(head, wear_mask, wear_suit, w_shirt, back, gloves, shoes, belt, s_store, glasses, ears, wear_id, wear_neck) //Everything but pockets. Pockets are l_store and r_store. (if pockets were allowed, putting something armored, gloves or hats for example, would double up on the armor)
 	for(var/bp in body_parts)
 		if(!bp)
 			continue
@@ -236,8 +236,8 @@
 		return TRUE
 
 	if(user.combat_mode)
-		if (w_uniform)
-			w_uniform.add_fingerprint(user)
+		if (w_shirt)
+			w_shirt.add_fingerprint(user)
 		var/damage = prob(90) ? rand(user.melee_damage_lower, user.melee_damage_upper) : 0
 		if(!damage)
 			playsound(loc, 'sound/weapons/slashmiss.ogg', 50, TRUE, -1)
@@ -489,14 +489,14 @@
 	//CHEST//
 	if(!bodyzone_hit || bodyzone_hit == BODY_ZONE_CHEST)
 		var/obj/item/clothing/chest_clothes = null
-		if(w_uniform)
-			chest_clothes = w_uniform
+		if(w_shirt)
+			chest_clothes = w_shirt
 		if(wear_suit)
 			chest_clothes = wear_suit
 		if(chest_clothes)
 			if(!(chest_clothes.resistance_flags & UNACIDABLE) && affect_clothing)
 				chest_clothes.acid_act(acidpwr, acid_volume)
-				update_worn_undersuit()
+				update_worn_shirt()
 				update_worn_oversuit()
 			else
 				to_chat(src, span_notice("Your [chest_clothes.name] protects your body from the acid!"))
@@ -519,8 +519,8 @@
 		var/obj/item/clothing/arm_clothes = null
 		if(gloves)
 			arm_clothes = gloves
-		if(w_uniform && ((w_uniform.body_parts_covered & HANDS) || (w_uniform.body_parts_covered & ARMS)))
-			arm_clothes = w_uniform
+		if(w_shirt && ((w_shirt.body_parts_covered & HANDS) || (w_shirt.body_parts_covered & ARMS)))
+			arm_clothes = w_shirt
 		if(wear_suit && ((wear_suit.body_parts_covered & HANDS) || (wear_suit.body_parts_covered & ARMS)))
 			arm_clothes = wear_suit
 
@@ -528,7 +528,7 @@
 			if(!(arm_clothes.resistance_flags & UNACIDABLE) && affect_clothing)
 				arm_clothes.acid_act(acidpwr, acid_volume)
 				update_worn_gloves()
-				update_worn_undersuit()
+				update_worn_shirt()
 				update_worn_oversuit()
 			else
 				to_chat(src, span_notice("Your [arm_clothes.name] protects your arms and hands from the acid!"))
@@ -546,15 +546,15 @@
 		var/obj/item/clothing/leg_clothes = null
 		if(shoes)
 			leg_clothes = shoes
-		if(w_uniform && ((w_uniform.body_parts_covered & FEET) || (bodyzone_hit != "feet" && (w_uniform.body_parts_covered & LEGS))))
-			leg_clothes = w_uniform
+		if(w_shirt && ((w_shirt.body_parts_covered & FEET) || (bodyzone_hit != "feet" && (w_pants.body_parts_covered & LEGS))))
+			leg_clothes = w_pants
 		if(wear_suit && ((wear_suit.body_parts_covered & FEET) || (bodyzone_hit != "feet" && (wear_suit.body_parts_covered & LEGS))))
 			leg_clothes = wear_suit
 		if(leg_clothes)
 			if(!(leg_clothes.resistance_flags & UNACIDABLE) && affect_clothing)
 				leg_clothes.acid_act(acidpwr, acid_volume)
 				update_worn_shoes()
-				update_worn_undersuit()
+				update_worn_pants()
 				update_worn_oversuit()
 			else
 				to_chat(src, span_notice("Your [leg_clothes.name] protects your legs and feet from the acid!"))
@@ -628,8 +628,8 @@
 
 	if(wear_suit)
 		wear_suit.add_fingerprint(helper)
-	else if(w_uniform)
-		w_uniform.add_fingerprint(helper)
+	else if(w_shirt)
+		w_shirt.add_fingerprint(helper)
 
 	return ..()
 
@@ -658,8 +658,8 @@
 	//CHEST//
 	if(!def_zone || def_zone == BODY_ZONE_CHEST)
 		var/obj/item/clothing/chest_clothes = null
-		if(w_uniform)
-			chest_clothes = w_uniform
+		if(w_shirt)
+			chest_clothes = w_shirt
 		if(wear_suit)
 			chest_clothes = wear_suit
 		if(chest_clothes)
@@ -670,8 +670,8 @@
 		var/obj/item/clothing/arm_clothes = null
 		if(gloves)
 			arm_clothes = gloves
-		if(w_uniform && ((w_uniform.body_parts_covered & HANDS) || (w_uniform.body_parts_covered & ARMS)))
-			arm_clothes = w_uniform
+		if(w_shirt && ((w_shirt.body_parts_covered & HANDS) || (w_shirt.body_parts_covered & ARMS)))
+			arm_clothes = w_shirt
 		if(wear_suit && ((wear_suit.body_parts_covered & HANDS) || (wear_suit.body_parts_covered & ARMS)))
 			arm_clothes = wear_suit
 		if(arm_clothes)
@@ -682,8 +682,8 @@
 		var/obj/item/clothing/leg_clothes = null
 		if(shoes)
 			leg_clothes = shoes
-		if(w_uniform && ((w_uniform.body_parts_covered & FEET) || (w_uniform.body_parts_covered & LEGS)))
-			leg_clothes = w_uniform
+		if(w_shirt && ((w_shirt.body_parts_covered & FEET) || (w_shirt.body_parts_covered & LEGS)))
+			leg_clothes = w_shirt
 		if(wear_suit && ((wear_suit.body_parts_covered & FEET) || (wear_suit.body_parts_covered & LEGS)))
 			leg_clothes = wear_suit
 		if(leg_clothes)
@@ -719,8 +719,10 @@
 		burning_items += head
 
 	//CHEST//
-	if(w_uniform && !(obscured & ITEM_SLOT_ICLOTHING))
-		burning_items += w_uniform
+	if(w_shirt && !(obscured & ITEM_SLOT_SHIRT))
+		burning_items += w_shirt
+	if(w_pants && !(obscured & ITEM_SLOT_PANTS))
+		burning_items += w_pants
 	if(wear_suit)
 		burning_items += wear_suit
 
@@ -730,8 +732,8 @@
 		arm_clothes = gloves
 	else if(wear_suit && ((wear_suit.body_parts_covered & HANDS) || (wear_suit.body_parts_covered & ARMS)))
 		arm_clothes = wear_suit
-	else if(w_uniform && ((w_uniform.body_parts_covered & HANDS) || (w_uniform.body_parts_covered & ARMS)))
-		arm_clothes = w_uniform
+	else if(w_shirt && ((w_shirt.body_parts_covered & HANDS) || (w_shirt.body_parts_covered & ARMS)))
+		arm_clothes = w_shirt
 	if(arm_clothes)
 		burning_items |= arm_clothes
 
@@ -741,8 +743,8 @@
 		leg_clothes = shoes
 	else if(wear_suit && ((wear_suit.body_parts_covered & FEET) || (wear_suit.body_parts_covered & LEGS)))
 		leg_clothes = wear_suit
-	else if(w_uniform && ((w_uniform.body_parts_covered & FEET) || (w_uniform.body_parts_covered & LEGS)))
-		leg_clothes = w_uniform
+	else if(w_shirt && ((w_shirt.body_parts_covered & FEET) || (w_shirt.body_parts_covered & LEGS)))
+		leg_clothes = w_shirt
 	if(leg_clothes)
 		burning_items |= leg_clothes
 

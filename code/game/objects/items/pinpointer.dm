@@ -102,8 +102,8 @@ TYPEINFO_DEF(/obj/item/pinpointer)
 	var/turf/here = get_turf(src)
 	var/turf/there = get_turf(H)
 	if(here && there && (there.z == here.z || (is_station_level(here.z) && is_station_level(there.z)))) // Device and target should be on the same level or different levels of the same station
-		if (istype(H.w_uniform, /obj/item/clothing/under))
-			var/obj/item/clothing/under/U = H.w_uniform
+		if (istype(H.w_shirt, /obj/item/clothing/under))
+			var/obj/item/clothing/under/U = H.w_shirt
 			if(U.has_sensor && (U.sensor_mode >= SENSOR_COORDS || ignore_suit_sensor_level)) // Suit sensors must be on maximum or a contractor pinpointer
 				return TRUE
 	return FALSE

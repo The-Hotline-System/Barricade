@@ -2,7 +2,7 @@
 	name = "Redfield Castle Knight"
 	icon_state = "medisim_knight"
 
-	uniform = /obj/item/clothing/under/color/red
+	shirt = /obj/item/clothing/under/color/red
 	shoes = /obj/item/clothing/shoes/plate/red
 	suit = /obj/item/clothing/suit/armor/riot/knight/red
 	gloves = /obj/item/clothing/gloves/plate/red
@@ -18,7 +18,7 @@
 	has_radio = FALSE
 	has_card = FALSE
 
-	nodrop_slots = list(ITEM_SLOT_OCLOTHING, ITEM_SLOT_GLOVES, ITEM_SLOT_FEET, ITEM_SLOT_ICLOTHING, ITEM_SLOT_EARS, ITEM_SLOT_BELT, ITEM_SLOT_HEAD)
+	nodrop_slots = list(ITEM_SLOT_OCLOTHING, ITEM_SLOT_GLOVES, ITEM_SLOT_FEET, ITEM_SLOT_SHIRT, ITEM_SLOT_EARS, ITEM_SLOT_BELT, ITEM_SLOT_HEAD)
 
 	class_description = "Melee class. Armed with a claymore."
 
@@ -35,7 +35,7 @@
 /datum/outfit/ctf/medisim/blue
 	name = "Bluesworth Hold Knight"
 
-	uniform = /obj/item/clothing/under/color/blue
+	shirt = /obj/item/clothing/under/color/blue
 	shoes = /obj/item/clothing/shoes/plate/blue
 	suit = /obj/item/clothing/suit/armor/riot/knight/blue
 	gloves = /obj/item/clothing/gloves/plate/blue
@@ -44,7 +44,7 @@
 /datum/outfit/ctf/medisim/archer/blue
 	name = "Bluesworth Hold Archer"
 
-	uniform = /obj/item/clothing/under/color/blue
+	shirt = /obj/item/clothing/under/color/blue
 	shoes = /obj/item/clothing/shoes/plate/blue
 	gloves = /obj/item/clothing/gloves/plate/blue
 	head = /obj/item/clothing/head/helmet/knight/blue

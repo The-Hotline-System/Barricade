@@ -48,7 +48,7 @@
 	jobtype = /datum/job/lawyer
 
 	id_template = /datum/access_template/job/lawyer
-	uniform = /obj/item/clothing/under/rank/civilian/lawyer/black
+	shirt = /obj/item/clothing/under/rank/civilian/lawyer/black
 	belt = /obj/item/modular_computer/tablet/pda/lawyer
 	shoes = /obj/item/clothing/shoes/laceup
 	l_pocket = /obj/item/laser_pointer
@@ -64,7 +64,7 @@
 
 	var/static/use_purple_suit = FALSE //If there is one lawyer, they get the default blue suit. If another lawyer joins the round, they start with a purple suit.
 	if(use_purple_suit)
-		uniform = /obj/item/clothing/under/rank/civilian/lawyer/purpsuit
+		shirt = /obj/item/clothing/under/rank/civilian/lawyer/purpsuit
 		suit = /obj/item/clothing/suit/toggle/lawyer/purple
 	else
 		use_purple_suit = TRUE
@@ -77,8 +77,8 @@
 
 /datum/outfit/job/lawyer/defence
 	name = "Defence Attorney"
-	uniform = /obj/item/clothing/under/rank/civilian/lawyer/blue
+	shirt = /obj/item/clothing/under/rank/civilian/lawyer/blue
 
 /datum/outfit/job/lawyer/prosecutor
 	name = "Prosecutor"
-	uniform = /obj/item/clothing/under/rank/civilian/lawyer/red
+	shirt = /obj/item/clothing/under/rank/civilian/lawyer/red

@@ -122,11 +122,12 @@
 			fibers[fibertext]++
 			. = TRUE
 
-		if(!(M.wear_suit.body_parts_covered & CHEST) && M.w_uniform)
-			fibertext = M.w_uniform.get_fibers()
+		if(!(M.wear_suit.body_parts_covered & CHEST) && M.w_shirt)
+			fibertext = M.w_shirt.get_fibers()
 			if(fibertext && prob(12*item_multiplier)) //Wearing a suit means less of the uniform exposed.
 				fibers[fibertext]++
 				. = TRUE
+
 
 		if(!(M.wear_suit.body_parts_covered & HANDS) && M.gloves)
 			fibertext = M.gloves.get_fibers()
@@ -134,17 +135,23 @@
 				fibers[fibertext]++
 				. = TRUE
 
-	else if(M.w_uniform)
-		fibertext = M.w_uniform.get_fibers()
+	else if(M.w_shirt)
+		fibertext = M.w_shirt.get_fibers()
 		if(fibertext && prob(15*item_multiplier))
 			fibers[fibertext]++
 			. = TRUE
 
-		if(!(M.w_uniform.body_parts_covered & HANDS) && M.gloves)
+		if(!(M.w_shirt.body_parts_covered & HANDS) && M.gloves)
 			fibertext = M.gloves.get_fibers()
 			if(fibertext && prob(20*item_multiplier))
 				fibers[fibertext]++
 				. = TRUE
+
+	else if(M.w_pants)
+		fibertext = M.w_pants.get_fibers()
+		if(fibertext && prob(10*item_multiplier))
+			fibers[fibertext]++
+			. = TRUE
 
 	else if(M.gloves)
 		fibertext = M.gloves.get_fibers()

@@ -32,7 +32,7 @@ TYPEINFO_DEF(/obj/item/ammo_casing)
 	///Override this to make your gun have a faster fire rate, in tenths of a second. 4 is the default gun cooldown.
 	var/click_cooldown_override = 0
 	///the visual effect appearing when the ammo is fired.
-	var/firing_effect_type = /obj/effect/temp_visual/dir_setting/firing_effect
+	var/firing_effect_type = null ///obj/effect/temp_visual/dir_setting/firing_effect
 	var/heavy_metal = TRUE
 	///pacifism check for boolet, set to FALSE if bullet is non-lethal
 	var/harmful = TRUE

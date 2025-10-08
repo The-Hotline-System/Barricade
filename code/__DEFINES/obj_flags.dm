@@ -96,6 +96,8 @@
 #define NOT_A_REAL_GUN (1<<1)
 /// Can't fire with akimbo
 #define NO_AKIMBO (1<<2)
+/// Do not spawn the gun smoke particles.
+#define GUN_SMOKE_PARTICLES (1<<4)
 
 /// Flags for sharpness in obj/item
 #define SHARP_EDGED (1<<0)

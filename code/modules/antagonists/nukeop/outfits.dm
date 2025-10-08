@@ -1,7 +1,7 @@
 /datum/outfit/syndicate
 	name = "Syndicate Operative - Basic"
 
-	uniform = /obj/item/clothing/under/syndicate
+	shirt = /obj/item/clothing/under/syndicate
 	shoes = /obj/item/clothing/shoes/combat
 	gloves = /obj/item/clothing/gloves/combat
 	back = /obj/item/storage/backpack/fireproof

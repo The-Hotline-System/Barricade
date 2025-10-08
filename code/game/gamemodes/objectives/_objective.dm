@@ -730,7 +730,7 @@ GLOBAL_LIST_EMPTY(possible_items_special)
 
 /datum/objective/steal_n_of_type/summon_guns/check_if_valid_item(obj/item/current_item)
 	var/obj/item/gun/gun = current_item
-	return !(gun.gun_flags & NOT_A_REAL_GUN)
+	return !(CHECK_BITFIELD(gun.gun_flags, NOT_A_REAL_GUN))
 
 /datum/objective/steal_n_of_type/summon_guns/thief
 	explanation_text = "Steal at least 3 guns!"

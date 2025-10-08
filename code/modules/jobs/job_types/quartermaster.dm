@@ -45,7 +45,7 @@
 
 	id = /obj/item/card/id/advanced/silver
 	id_template = /datum/access_template/job/quartermaster
-	uniform = /obj/item/clothing/under/rank/cargo/qm
+	shirt = /obj/item/clothing/under/rank/cargo/qm
 	belt = /obj/item/modular_computer/tablet/pda/quartermaster
 	ears = /obj/item/radio/headset/heads/qm
 	glasses = /obj/item/clothing/glasses/sunglasses

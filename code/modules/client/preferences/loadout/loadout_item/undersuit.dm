@@ -2,8 +2,8 @@
 	category = LOADOUT_CATEGORY_UNIFORM
 
 /datum/loadout_item/uniform/insert_path_into_outfit(datum/outfit/outfit, mob/living/carbon/human/equipper, visuals_only = FALSE)
-	. = outfit.uniform
-	outfit.uniform = path
+	. = outfit.shirt
+	outfit.shirt = path
 
 //MISC
 /datum/loadout_item/uniform/jumpsuit
@@ -148,34 +148,9 @@
 /datum/loadout_item/uniform/pants
 	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_PANTS
 
-/datum/loadout_item/uniform/pants/bjeans
-	path = /obj/item/clothing/under/pants/blackjeans
-
-/datum/loadout_item/uniform/pants/cjeans
-	path = /obj/item/clothing/under/pants/classicjeans
-
-/datum/loadout_item/uniform/pants/khaki
-	path = /obj/item/clothing/under/pants/khaki
-
-/datum/loadout_item/uniform/pants/wpants
-	path = /obj/item/clothing/under/pants/white
-
-/datum/loadout_item/uniform/pants/rpants
-	path = /obj/item/clothing/under/pants/red
-
-/datum/loadout_item/uniform/pants/tpants
-	path = /obj/item/clothing/under/pants/tan
-
-/datum/loadout_item/uniform/pants/trpants
-	path = /obj/item/clothing/under/pants/track
-
-
 //SHORTS
 /datum/loadout_item/uniform/shorts
 	subcategory = LOADOUT_SUBCATEGORY_UNIFORM_SHORTS
-
-/datum/loadout_item/uniform/shorts/camoshorts
-	path = /obj/item/clothing/under/pants/camo
 
 /datum/loadout_item/uniform/shorts/athleticshorts
 	path = /obj/item/clothing/under/shorts/red

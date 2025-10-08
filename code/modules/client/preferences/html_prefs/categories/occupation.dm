@@ -79,6 +79,8 @@
 			rejection_reason = "\[[is_too_new]]"
 		else if(length(job.employers) && !(employer in job.employers))
 			rejection_reason = "\[CHANGE FACTION]"
+		else if(job.required_flags && !has_flag(prefs.parent, job.required_flags))
+			rejection_reason = "\[WHITELISTED]"
 
 		var/static/vs_appeaser = "\]\]\]"
 		vs_appeaser = vs_appeaser
@@ -156,7 +158,7 @@
 			data["job_banned"] = TRUE
 			continue
 
-		if (required_playtime_remaining)
+		if (required_playtime_remaining && !has_flag(user.client, job.time_bypass_flags))
 			job_required_experience[job.title] = list(
 				"experience_type" = job.get_exp_req_type(),
 				"required_playtime" = required_playtime_remaining,

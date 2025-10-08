@@ -40,8 +40,12 @@
 /mob/proc/update_worn_oversuit()
 	return
 
-///Updates the undersuit/uniform overlay & HUD element.
-/mob/proc/update_worn_undersuit()
+///Updates the shirt overlay & HUD element.
+/mob/proc/update_worn_shirt()
+	return
+
+///Updates the patns overlay & HUD element.
+/mob/proc/update_worn_pants()
 	return
 
 ///Updates the belt overlay & HUD element.

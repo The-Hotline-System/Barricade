@@ -6,7 +6,7 @@
 	icon_state = "debug"
 	w_class = WEIGHT_CLASS_NORMAL
 
-	smoking_gun = TRUE
+	gun_flags = GUN_SMOKE_PARTICLES
 	//Most ballistics can have a bit of recoil, just to feel punchy.
 	recoil = 0.5
 	unwielded_recoil = 1
@@ -230,7 +230,7 @@
 		. += "[icon_state]_mag_[capacity_number]"
 
 
-/obj/item/gun/ballistic/do_chamber_update(empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE)
+/obj/item/gun/ballistic/do_chamber_update(empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE, atom/shooter = null)
 	if(!semi_auto && from_firing)
 		return
 
@@ -242,7 +242,16 @@
 
 		else if(casing_ejector || !from_firing)
 			casing.forceMove(drop_location()) //Eject casing onto ground.
-			casing.bounce_away(TRUE)
+			// MOJAVE IMPORT START // BRCD13
+			pixel_x = rand(-4, 4)
+			pixel_y = rand(-4, 4)
+			if(ismob(shooter))
+				pixel_z = 8 //bounce time
+				casing.SpinAnimation(speed = 3 SECONDS, loops = 2)
+				var/angle_of_movement = !isnull(shooter) ? (rand(-3000, 3000) / 100) + dir2angle(turn(shooter.dir, 180)) : rand(-3000, 3000) / 100
+				casing.AddComponent(/datum/component/movable_physics, _horizontal_velocity = rand(450, 550) / 100, _vertical_velocity = rand(400, 450) / 100, _horizontal_friction = rand(20, 24) / 100, _z_gravity = 9.80665, _z_floor = 0, _angle_of_movement = angle_of_movement)
+			// MOJAVE IMPORT END // BRCD13
+			//casing.bounce_away(TRUE)
 			SEND_SIGNAL(casing, COMSIG_CASING_EJECTED)
 			chambered = null
 
@@ -275,7 +284,7 @@
 	if (user)
 		to_chat(user, span_notice("You rack the [bolt_wording] of [src]."))
 
-	update_chamber(!chambered, FALSE)
+	update_chamber(!chambered, FALSE, user)
 
 	bolt.post_rack()
 

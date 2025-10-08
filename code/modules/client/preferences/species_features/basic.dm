@@ -61,7 +61,7 @@
 
 /datum/preference/color/facial_hair_color/create_default_value()
 	return "#422f03"
-
+/*
 /datum/preference/choiced/facial_hair_gradient
 	explanation = "Facial Hair Gradient"
 	savefile_identifier = PREFERENCE_CHARACTER
@@ -96,7 +96,7 @@
 	if (!..(preferences))
 		return FALSE
 	return preferences.read_preference(/datum/preference/choiced/facial_hair_gradient) != "None"
-
+*/
 /datum/preference/color/hair_color
 	explanation = "Hair Color"
 	savefile_key = "hair_color"
@@ -132,7 +132,7 @@
 
 /datum/preference/choiced/hairstyle/create_default_value()
 	return "Bald"
-
+/*
 /datum/preference/choiced/hair_gradient
 	explanation = "Hairstyle Gradient"
 	savefile_identifier = PREFERENCE_CHARACTER
@@ -175,7 +175,7 @@
 	if (!..(preferences))
 		return FALSE
 	return preferences.read_preference(/datum/preference/choiced/hair_gradient) != "None"
-
+*/
 /datum/preference/color/sclera
 	explanation = "Sclera Color"
 	savefile_identifier = PREFERENCE_CHARACTER

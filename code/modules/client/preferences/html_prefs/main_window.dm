@@ -5,7 +5,7 @@
 
 	if(href_list["select_preview"])
 		var/new_preview = href_list["select_preview"]
-		if(!(new_preview in list(PREVIEW_PREF_JOB, PREVIEW_PREF_LOADOUT, PREVIEW_PREF_UNDERWEAR)))
+		if(!(new_preview in list(PREVIEW_PREF_JOB, PREVIEW_PREF_LOADOUT)))//, PREVIEW_PREF_UNDERWEAR)))
 			return TRUE
 
 		preview_pref = new_preview

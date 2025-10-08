@@ -4,18 +4,20 @@
 		/datum/preference/name/real_name,
 		/datum/preference/numeric/age,
 		/datum/preference/choiced/gender,
+		/*
 		/datum/preference/choiced/body_type = TRUE,
 		/datum/preference/choiced/species,
 		/datum/preference/text/flavor_text,
+		*/
 	)
-
+/*
 	var/list/clothing = list(
 		/datum/preference/choiced/jumpsuit,
 		/datum/preference/choiced/undershirt = TRUE,
 		/datum/preference/choiced/underwear = TRUE,
 		/datum/preference/choiced/socks = TRUE,
 	)
-
+*/
 /datum/preference_group/body/get_content(datum/preferences/prefs)
 	. = ..()
 	. += {"
@@ -37,6 +39,7 @@
 				<td style='padding: 4px 8px'>[pref.get_button(prefs)]</td>
 			</tr>
 		"}
+/*
 	. += "<tr><td colspan='2'><HR></td></tr>"
 
 	for(var/path in clothing)
@@ -53,5 +56,5 @@
 				<td style='padding: 4px 8px'>[button]</td>
 			</tr>
 		"}
-
+*/
 	. += "</table></fieldset>"

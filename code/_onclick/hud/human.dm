@@ -99,11 +99,19 @@
 	static_inventory += using
 
 	inv_box = new /atom/movable/screen/inventory(null, src)
-	inv_box.name = "i_clothing"
+	inv_box.name = "i_shirt"
 	inv_box.icon = ui_style
-	inv_box.slot_id = ITEM_SLOT_ICLOTHING
+	inv_box.slot_id = ITEM_SLOT_SHIRT
 	inv_box.icon_state = "uniform"
-	inv_box.screen_loc = ui_iclothing
+	inv_box.screen_loc = ui_ishirt
+	toggleable_inventory += inv_box
+
+	inv_box = new /atom/movable/screen/inventory(null, src)
+	inv_box.name = "i_pants"
+	inv_box.icon = ui_style
+	inv_box.slot_id = ITEM_SLOT_PANTS
+	inv_box.icon_state = "uniform"
+	inv_box.screen_loc = ui_ipants
 	toggleable_inventory += inv_box
 
 	inv_box = new /atom/movable/screen/inventory(null, src)
@@ -321,16 +329,16 @@
 	if(istype(human_mob))
 		blocked_slots |= human_mob.dna?.species?.no_equip_flags
 
-		if(isnull(human_mob.w_uniform))
+		if(isnull(human_mob.w_pants))
 			var/obj/item/bodypart/chest = human_mob.get_bodypart(BODY_ZONE_CHEST)
 			if(isnull(chest) || IS_ORGANIC_LIMB(chest))
-				blocked_slots |= ITEM_SLOT_ID|ITEM_SLOT_BELT
+				blocked_slots |= ITEM_SLOT_BELT
 
 			var/obj/item/bodypart/left_leg = human_mob.get_bodypart(BODY_ZONE_L_LEG)
-			if(isnull(left_leg) || IS_ORGANIC_LIMB(left_leg))
+			if(isnull(left_leg) || IS_ORGANIC_LIMB(left_leg) || (!CHECK_BITFIELD(human_mob.w_pants.pockets, PANTS_LEFT_POCKET) && !CHECK_BITFIELD(human_mob.w_pants.pockets, PANTS_BOTH_POCKETS)))
 				blocked_slots |= ITEM_SLOT_LPOCKET
 
-			var/obj/item/bodypart/right_leg = human_mob.get_bodypart(BODY_ZONE_R_LEG)
+			var/obj/item/bodypart/right_leg = human_mob.get_bodypart(BODY_ZONE_R_LEG) || (!CHECK_BITFIELD(human_mob.w_pants.pockets, PANTS_RIGHT_POCKET) && !CHECK_BITFIELD(human_mob.w_pants.pockets, PANTS_BOTH_POCKETS))
 			if(isnull(right_leg) || IS_ORGANIC_LIMB(right_leg))
 				blocked_slots |= ITEM_SLOT_RPOCKET
 
@@ -375,9 +383,12 @@
 		if(H.glasses)
 			H.glasses.screen_loc = ui_glasses
 			screenmob.client.screen += H.glasses
-		if(H.w_uniform)
-			H.w_uniform.screen_loc = ui_iclothing
-			screenmob.client.screen += H.w_uniform
+		if(H.w_shirt)
+			H.w_shirt.screen_loc = ui_ishirt
+			screenmob.client.screen += H.w_shirt
+		if(H.w_pants)
+			H.w_pants.screen_loc = ui_ipants
+			screenmob.client.screen += H.w_pants
 		if(H.wear_suit)
 			H.wear_suit.screen_loc = ui_oclothing
 			screenmob.client.screen += H.wear_suit
@@ -395,7 +406,8 @@
 		if(H.gloves) screenmob.client.screen -= H.gloves
 		if(H.ears) screenmob.client.screen -= H.ears
 		if(H.glasses) screenmob.client.screen -= H.glasses
-		if(H.w_uniform) screenmob.client.screen -= H.w_uniform
+		if(H.w_shirt) screenmob.client.screen -= H.w_shirt
+		if(H.w_pants) screenmob.client.screen -= H.w_pants
 		if(H.wear_suit) screenmob.client.screen -= H.wear_suit
 		if(H.wear_mask) screenmob.client.screen -= H.wear_mask
 		if(H.wear_neck) screenmob.client.screen -= H.wear_neck

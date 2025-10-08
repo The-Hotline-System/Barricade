@@ -52,7 +52,7 @@
 
 // 	id = /obj/item/card/id/advanced/silver
 // 	id_template = /datum/access_template/job/head_of_personnel
-// 	uniform = /obj/item/clothing/under/suit/burgundy
+// 	shirt = /obj/item/clothing/under/suit/burgundy
 // 	suit = /obj/item/clothing/suit/armor/vest/ballistic
 // 	belt = /obj/item/modular_computer/tablet/pda
 // 	gloves = /obj/item/clothing/gloves/color/black

@@ -18,5 +18,5 @@
 
 /datum/outfit/abductorcorpse
 	name = "Abductor Corpse"
-	uniform = /obj/item/clothing/under/color/grey
+	shirt = /obj/item/clothing/under/color/grey
 	shoes = /obj/item/clothing/shoes/combat

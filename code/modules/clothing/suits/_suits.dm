@@ -51,9 +51,9 @@ TYPEINFO_DEF(/obj/item/clothing/suit)
 			. += mutable_appearance('icons/effects/blood.dmi', "[blood_overlay_type]blood")
 
 	var/mob/living/carbon/human/M = loc
-	if(!ishuman(M) || !M.w_uniform)
+	if(!ishuman(M) || !M.w_shirt)
 		return
-	var/obj/item/clothing/under/U = M.w_uniform
+	var/obj/item/clothing/under/U = M.w_shirt
 	if(istype(U) && U.attached_accessory)
 		var/obj/item/clothing/accessory/A = U.attached_accessory
 		if(A.above_suit)

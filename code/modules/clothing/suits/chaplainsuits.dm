@@ -23,7 +23,7 @@
 	icon_state = "holidaypriest"
 	inhand_icon_state = "w_suit"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 
 /obj/item/clothing/suit/chaplainsuit/nun
 	name = "nun robe"
@@ -31,7 +31,7 @@
 	icon_state = "nun"
 	inhand_icon_state = "nun"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS|HANDS
-	flags_inv = HIDESHOES|HIDEJUMPSUIT
+	flags_inv = HIDESHOES|HIDESHIRT
 
 /obj/item/clothing/suit/chaplainsuit/bishoprobe
 	name = "bishop's robes"
@@ -39,7 +39,7 @@
 	icon_state = "bishoprobe"
 	inhand_icon_state = "bishoprobe"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 
 /obj/item/clothing/suit/chaplainsuit/studentuni
 	name = "student robe"
@@ -77,7 +77,7 @@
 	icon_state = "monkrobeeast"
 	inhand_icon_state = "monkrobeeast"
 	body_parts_covered = GROIN|LEGS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 
 /obj/item/clothing/suit/chaplainsuit/whiterobe
 	name = "white robe"
@@ -85,7 +85,7 @@
 	icon_state = "whiterobe"
 	inhand_icon_state = "whiterobe"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 
 /obj/item/clothing/suit/chaplainsuit/clownpriest
 	name = "Robes of the Honkmother"
@@ -93,5 +93,5 @@
 	icon_state = "clownpriest"
 	inhand_icon_state = "clownpriest"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 	allowed = list(/obj/item/megaphone/clown, /obj/item/soap, /obj/item/food/pie/cream, /obj/item/bikehorn, /obj/item/bikehorn/golden, /obj/item/bikehorn/airhorn, /obj/item/instrument/bikehorn, /obj/item/reagent_containers/cup/soda_cans/canned_laughter, /obj/item/toy/crayon, /obj/item/toy/crayon/spraycan, /obj/item/toy/crayon/spraycan/lubecan, /obj/item/grown/bananapeel, /obj/item/food/grown/banana)

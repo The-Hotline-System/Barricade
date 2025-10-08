@@ -44,7 +44,7 @@
 			return
 		LAZYSET(user.do_afters, interaction_key, current_interaction_count + 1)
 
-	var/datum/timed_action/action = new(user, target, time, progress, timed_action_flags, extra_checks, display)
+	var/datum/timed_action/action = new(user, target, time, progress, timed_action_flags, extra_checks)//, display)
 
 	. = action.wait()
 

@@ -143,7 +143,7 @@
 /// Adds blood DNA to certain slots the mob is wearing
 /mob/living/carbon/human/proc/add_blood_DNA_to_items(
 	list/blood_DNA_to_add,
-	target_flags = ITEM_SLOT_ICLOTHING|ITEM_SLOT_OCLOTHING|ITEM_SLOT_GLOVES|ITEM_SLOT_HEAD|ITEM_SLOT_MASK,
+	target_flags = ITEM_SLOT_SHIRT|ITEM_SLOT_OCLOTHING|ITEM_SLOT_GLOVES|ITEM_SLOT_HEAD|ITEM_SLOT_MASK,
 )
 	if(QDELING(src))
 		return FALSE
@@ -152,8 +152,8 @@
 		return FALSE
 
 	// Don't messy up our jumpsuit if we're got a coat
-	if((obscured_slots & HIDEJUMPSUIT) || ((target_flags & ITEM_SLOT_OCLOTHING) && (wear_suit?.body_parts_covered & CHEST)))
-		target_flags &= ~ITEM_SLOT_ICLOTHING
+	if((obscured_slots & HIDESHIRT) || ((target_flags & ITEM_SLOT_OCLOTHING) && (wear_suit?.body_parts_covered & CHEST)))
+		target_flags &= ~ITEM_SLOT_SHIRT
 
 	var/dirty_hands = !!(target_flags & (ITEM_SLOT_GLOVES|ITEM_SLOT_HANDS))
 	var/dirty_feet = !!(target_flags & ITEM_SLOT_FEET)

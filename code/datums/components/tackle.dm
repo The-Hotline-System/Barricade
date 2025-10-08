@@ -274,7 +274,7 @@
 	if(ishuman(target))
 		var/mob/living/carbon/human/T = target
 
-		if(isnull(T.wear_suit) && isnull(T.w_uniform)) // who honestly puts all of their effort into tackling a naked guy?
+		if(isnull(T.wear_suit) && isnull(T.w_shirt) && isnull(T.w_pants)) // who honestly puts all of their effort into tackling a naked guy?
 			defense_mod += 2
 		if(T.mob_negates_gravity())
 			defense_mod += 1

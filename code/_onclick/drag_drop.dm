@@ -104,9 +104,9 @@
 		while(selected_target[1])
 			Click(selected_target[1], location, control, selected_target[2])
 			sleep(delay)
-	active_mousedown_item = mob.canMobMousedown(object, location, params)
-	if(active_mousedown_item)
-		active_mousedown_item.onMouseDown(object, location, params, mob)
+	active_mousedown = mob.canMobMousedown(object, location, params)
+	if(active_mousedown)
+		active_mousedown.onMouseDown(object, location, params, mob)
 
 /client/MouseUp(object, location, control, params)
 	mouse_down = FALSE
@@ -116,9 +116,9 @@
 		click_intercept_time = world.time
 
 	selected_target[1] = null
-	if(active_mousedown_item)
-		active_mousedown_item.onMouseUp(object, location, params, mob)
-		active_mousedown_item = null
+	if(active_mousedown)
+		active_mousedown.onMouseUp(object, location, params, mob)
+		active_mousedown = null
 
 /mob/proc/CanMobAutoclick(object, location, params)
 
@@ -132,20 +132,24 @@
 /mob/proc/canMobMousedown(atom/object, location, params)
 
 /mob/living/carbon/canMobMousedown(atom/object, location, params)
-	var/obj/item/H = get_active_held_item()
-	if(H)
-		. = H.canItemMouseDown(object, location, params)
+	if(Adjacent(object, src) || get_active_held_item() == object)
+		return object.canAtomMouseDown(object, location, params)
+	return null
 
 /obj/item/proc/CanItemAutoclick(object, location, params)
 
-/obj/item/proc/canItemMouseDown(object, location, params)
+// i don't give a shit anymore. I'm not looking for that file.
+/atom
+	var/canMouseDown = FALSE
+
+/atom/proc/canAtomMouseDown(object, location, params)
 	if(canMouseDown)
 		return src
 
-/obj/item/proc/onMouseDown(object, location, params, mob)
+/atom/proc/onMouseDown(object, location, params, mob)
 	return
 
-/obj/item/proc/onMouseUp(object, location, params, mob)
+/atom/proc/onMouseUp(object, location, params, mob)
 	return
 
 /atom/proc/IsAutoclickable()
@@ -175,12 +179,12 @@
 	if(selected_target[1] && over_object?.IsAutoclickable())
 		selected_target[1] = over_object
 		selected_target[2] = params
-	if(active_mousedown_item)
-		active_mousedown_item.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
+	if(active_mousedown)
+		active_mousedown.onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
 	SEND_SIGNAL(src, COMSIG_CLIENT_MOUSEDRAG, src_object, over_object, src_location, over_location, src_control, over_control, params)
 	return ..()
 
-/obj/item/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
+/atom/proc/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
 	return
 
 /client/MouseDrop(atom/src_object, atom/over_object, atom/src_location, atom/over_location, src_control, over_control, params)

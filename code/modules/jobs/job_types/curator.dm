@@ -38,7 +38,7 @@
 	jobtype = /datum/job/curator
 
 	id_template = /datum/access_template/job/curator
-	uniform = /obj/item/clothing/under/rank/civilian/curator
+	shirt = /obj/item/clothing/under/rank/civilian/curator
 	backpack_contents = list(
 		/obj/item/barcodescanner = 1,
 		/obj/item/choice_beacon/hero = 1,

@@ -1,7 +1,7 @@
 /obj/projectile/bullet
 	name = "bullet"
 	icon_state = "bullet"
-	damage = 60
+	damage = 50 // lowered to 50
 	damage_type = BRUTE
 	nodamage = FALSE
 	armor_flag = PUNCTURE
@@ -14,9 +14,22 @@
 
 	light_system = OVERLAY_LIGHT
 	light_outer_range = 1.5
-	light_power = 2
-	light_color = COLOR_VERY_SOFT_YELLOW
+	light_power = 0.8
+	light_color = COLOR_MUZZLE_FLASH
 	light_on = TRUE
+
+	muzzle_flash_color_override = COLOR_MUZZLE_FLASH
+	hitscan_light_color_override = COLOR_BLACK
+	impact_light_color_override = COLOR_BLACK
+
+	hitscan_light_intensity = 0
+	impact_light_intensity = 0
+
+	muzzle_type = /obj/effect/projectile/muzzle/bullet
+	tracer_type = /obj/effect/projectile/tracer/bullet
+	impact_type = /obj/effect/projectile/impact/bullet
+
+	hitscan = TRUE
 
 /obj/projectile/bullet/smite
 	name = "divine retribution"

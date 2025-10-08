@@ -23,8 +23,11 @@
 	/// Type path of ID card trim associated with this outfit.
 	var/id_template = null
 
-	/// Type path of item to go in uniform slot
-	var/uniform = null
+	/// Type path of item to go in shirt slot
+	var/shirt = null
+
+	/// Type path of item to go in the pants slot
+	var/pants = null
 
 	/// Type path of item to go in suit slot
 	var/suit = null
@@ -175,8 +178,11 @@
 	pre_equip(H, visualsOnly)
 
 	//Start with uniform,suit,backpack for additional slots
-	if(uniform)
-		EQUIP_OUTFIT_ITEM(uniform, ITEM_SLOT_ICLOTHING)
+	if(shirt)
+		EQUIP_OUTFIT_ITEM(shirt, ITEM_SLOT_SHIRT)
+	if(pants)
+		EQUIP_OUTFIT_ITEM(pants, ITEM_SLOT_PANTS)
+		to_chat(world, "Equipping pants in outfit")
 	if(suit)
 		EQUIP_OUTFIT_ITEM(suit, ITEM_SLOT_OCLOTHING)
 	if(belt)
@@ -221,11 +227,11 @@
 		H.undershirt = initial(undershirt.name)
 
 	if(accessory)
-		var/obj/item/clothing/under/U = H.w_uniform
+		var/obj/item/clothing/under/U = H.w_shirt
 		if(U)
 			U.attach_accessory(SSwardrobe.provide_type(accessory, H))
 		else
-			WARNING("Unable to equip accessory [accessory] in outfit [name]. No uniform present!")
+			WARNING("Unable to equip accessory [accessory] in outfit [name]. No shirt present!")
 
 	if(l_hand)
 		var/obj/item/item_to_equip = SSwardrobe.provide_type(l_hand, H)
@@ -309,8 +315,10 @@
 			I.add_fingerprint(H, ignoregloves = TRUE)
 	if(H.wear_id)
 		H.wear_id.add_fingerprint(H, ignoregloves = TRUE)
-	if(H.w_uniform)
-		H.w_uniform.add_fingerprint(H, ignoregloves = TRUE)
+	if(H.w_shirt)
+		H.w_shirt.add_fingerprint(H, ignoregloves = TRUE)
+	if(H.w_pants)
+		H.w_pants.add_fingerprint(H, ignoregloves = TRUE)
 	if(H.wear_suit)
 		H.wear_suit.add_fingerprint(H, ignoregloves = TRUE)
 	if(H.wear_mask)
@@ -343,7 +351,7 @@
 
 /// Return a list of all the types that are required to disguise as this outfit type
 /datum/outfit/proc/get_chameleon_disguise_info()
-	var/list/types = list(uniform, suit, back, belt, gloves, shoes, head, mask, neck, ears, glasses, id, l_pocket, r_pocket, suit_store, r_hand, l_hand)
+	var/list/types = list(shirt, pants, suit, back, belt, gloves, shoes, head, mask, neck, ears, glasses, id, l_pocket, r_pocket, suit_store, r_hand, l_hand)
 	types += chameleon_extras
 	types += skillchips
 	list_clear_nulls(types)
@@ -354,7 +362,8 @@
 /datum/outfit/proc/get_types_to_preload()
 	var/list/preload = list()
 	preload += id
-	preload += uniform
+	preload += shirt
+	preload += pants
 	preload += suit
 	preload += suit_store
 	preload += back
@@ -388,7 +397,8 @@
 	. = list()
 	.["outfit_type"] = type
 	.["name"] = name
-	.["uniform"] = uniform
+	.["shirt"] = shirt
+	.["pants"] = pants
 	.["suit"] = suit
 	.["back"] = back
 	.["belt"] = belt
@@ -415,7 +425,8 @@
 /// Copy most vars from another outfit to this one
 /datum/outfit/proc/copyFrom(datum/outfit/target)
 	name = target.name
-	uniform = target.uniform
+	shirt = target.shirt
+	pants = target.pants
 	suit = target.suit
 	back = target.back
 	belt = target.belt
@@ -453,7 +464,8 @@
 /datum/outfit/proc/load_from(list/outfit_data)
 	//This could probably use more strict validation
 	name = outfit_data["name"]
-	uniform = text2path(outfit_data["uniform"])
+	shirt = text2path(outfit_data["shirt"])
+	pants = text2path(outfit_data["pants"])
 	suit = text2path(outfit_data["suit"])
 	back = text2path(outfit_data["back"])
 	belt = text2path(outfit_data["belt"])

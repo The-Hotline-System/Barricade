@@ -34,7 +34,7 @@
 
 	id = /obj/item/card/id/advanced/prisoner
 	id_template = /datum/access_template/job/prisoner
-	uniform = /obj/item/clothing/under/rank/prisoner
+	shirt = /obj/item/clothing/under/rank/prisoner
 	belt = null
 	ears = null
 	shoes = /obj/item/clothing/shoes/sneakers/orange

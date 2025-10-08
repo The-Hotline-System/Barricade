@@ -83,6 +83,9 @@
 	if(!J.player_old_enough(prefs.parent))
 		return FALSE
 
+	if(!has_flag(prefs.parent, J.required_flags))
+		return FALSE
+
 	return TRUE
 
 /datum/preference/blob/job_priority/user_edit(mob/user, datum/preferences/prefs, list/params)

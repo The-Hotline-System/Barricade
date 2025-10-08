@@ -771,9 +771,9 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		if(ITEM_SLOT_BELT)
 			var/obj/item/bodypart/O = H.get_bodypart(BODY_ZONE_CHEST)
 
-			if(!H.w_uniform && !nojumpsuit && (!O || IS_ORGANIC_LIMB(O)))
+			if(!H.w_pants && !nojumpsuit && (!O || IS_ORGANIC_LIMB(O)))
 				if(!disable_warning)
-					to_chat(H, span_warning("You need a jumpsuit before you can attach this [I.name]!"))
+					to_chat(H, span_warning("You need a pair of pants before you can attach this [I.name]!"))
 				return FALSE
 
 			return H.equip_delay_self_check(I, bypass_equip_delay_self)
@@ -800,14 +800,17 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 			return H.equip_delay_self_check(I, bypass_equip_delay_self)
 
-		if(ITEM_SLOT_ICLOTHING)
+		if(ITEM_SLOT_SHIRT)
+			return H.equip_delay_self_check(I, bypass_equip_delay_self)
+
+		if(ITEM_SLOT_PANTS)
 			return H.equip_delay_self_check(I, bypass_equip_delay_self)
 
 		if(ITEM_SLOT_ID)
 			var/obj/item/bodypart/O = H.get_bodypart(BODY_ZONE_CHEST)
-			if(!H.w_uniform && !nojumpsuit && (!O || IS_ORGANIC_LIMB(O)))
+			if(!H.w_pants && !nojumpsuit && (!O || IS_ORGANIC_LIMB(O)))
 				if(!disable_warning)
-					to_chat(H, span_warning("You need a jumpsuit before you can attach this [I.name]!"))
+					to_chat(H, span_warning("You need a pair of pants before you can attach this [I.name]!"))
 				return FALSE
 
 			return H.equip_delay_self_check(I, bypass_equip_delay_self)
@@ -819,9 +822,14 @@ GLOBAL_LIST_EMPTY(features_by_species)
 				return FALSE
 
 			var/obj/item/bodypart/O = H.get_bodypart(BODY_ZONE_L_LEG)
-			if(!H.w_uniform && !nojumpsuit && (!O || IS_ORGANIC_LIMB(O)))
+			if(!H.w_pants && !nojumpsuit && (!O || IS_ORGANIC_LIMB(O)))
 				if(!disable_warning)
-					to_chat(H, span_warning("You need a jumpsuit before you can attach this [I.name]!"))
+					to_chat(H, span_warning("You need a pair of pants before you can attach this [I.name]!"))
+				return FALSE
+
+			if(!CHECK_BITFIELD(H.w_pants.pockets, PANTS_LEFT_POCKET) && !CHECK_BITFIELD(H.w_pants.pockets, PANTS_BOTH_POCKETS))
+				if(!disable_warning)
+					to_chat(H, span_warning("These pants lack a left pocket."))
 				return FALSE
 
 			return TRUE
@@ -834,9 +842,14 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 			var/obj/item/bodypart/O = H.get_bodypart(BODY_ZONE_R_LEG)
 
-			if(!H.w_uniform && !nojumpsuit && (!O || IS_ORGANIC_LIMB(O)))
+			if(!H.w_pants && !nojumpsuit && (!O || IS_ORGANIC_LIMB(O)))
 				if(!disable_warning)
-					to_chat(H, span_warning("You need a jumpsuit before you can attach this [I.name]!"))
+					to_chat(H, span_warning("You need a pair of pants before you can attach this [I.name]!"))
+				return FALSE
+
+			if(!CHECK_BITFIELD(H.w_pants.pockets, PANTS_RIGHT_POCKET) && !CHECK_BITFIELD(H.w_pants.pockets, PANTS_BOTH_POCKETS))
+				if(!disable_warning)
+					to_chat(H, span_warning("These pants lack a right pocket."))
 				return FALSE
 
 			return TRUE

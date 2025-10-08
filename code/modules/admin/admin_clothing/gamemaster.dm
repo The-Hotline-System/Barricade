@@ -28,7 +28,7 @@ TYPEINFO_DEF(/obj/item/clothing/suit/hooded/gamemaster)
 	icon_state = "cultrobes"
 	worn_icon_state = "adminrobes"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
-	flags_inv = HIDEJUMPSUIT
+	flags_inv = HIDESHIRT
 	resistance_flags = ALL
 
 	clothing_traits = list(TRAIT_NODROP)

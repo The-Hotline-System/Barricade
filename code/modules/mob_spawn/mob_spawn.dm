@@ -256,7 +256,7 @@
 		if(messenger)
 			messenger.invisible = TRUE
 		// Or on crew monitors
-		var/obj/item/clothing/under/sensor_clothes = spawned_human.w_uniform
+		var/obj/item/clothing/under/sensor_clothes = spawned_human.w_shirt
 		if(istype(sensor_clothes))
 			sensor_clothes.sensor_mode = NO_SENSORS
 			spawned_human.update_suit_sensors()

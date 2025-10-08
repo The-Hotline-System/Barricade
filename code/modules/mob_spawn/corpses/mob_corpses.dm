@@ -9,7 +9,7 @@
 
 /datum/outfit/syndicatesoldiercorpse
 	name = "Syndicate Operative Corpse"
-	uniform = /obj/item/clothing/under/syndicate
+	shirt = /obj/item/clothing/under/syndicate
 	suit = /obj/item/clothing/suit/armor/vest
 	shoes = /obj/item/clothing/shoes/combat
 	gloves = /obj/item/clothing/gloves/tackler/combat/insulated
@@ -28,7 +28,7 @@
 
 /datum/outfit/syndicatecommandocorpse
 	name = "Syndicate Commando Corpse"
-	uniform = /obj/item/clothing/under/syndicate
+	shirt = /obj/item/clothing/under/syndicate
 	shoes = /obj/item/clothing/shoes/combat
 	gloves = /obj/item/clothing/gloves/tackler/combat/insulated
 	ears = /obj/item/radio/headset
@@ -47,7 +47,7 @@
 
 /datum/outfit/syndicatestormtroopercorpse
 	name = "Syndicate Stormtrooper Corpse"
-	uniform = /obj/item/clothing/under/syndicate
+	shirt = /obj/item/clothing/under/syndicate
 	shoes = /obj/item/clothing/shoes/combat
 	gloves = /obj/item/clothing/gloves/tackler/combat
 	ears = /obj/item/radio/headset
@@ -65,7 +65,7 @@
 
 /datum/outfit/piratecorpse
 	name = "Pirate Corpse"
-	uniform = /obj/item/clothing/under/costume/pirate
+	shirt = /obj/item/clothing/under/costume/pirate
 	shoes = /obj/item/clothing/shoes/jackboots
 	glasses = /obj/item/clothing/glasses/eyepatch
 	head = /obj/item/clothing/head/bandana
@@ -89,7 +89,7 @@
 
 /datum/outfit/russiancorpse
 	name = "Russian Corpse"
-	uniform = /obj/item/clothing/under/costume/soviet
+	shirt = /obj/item/clothing/under/costume/soviet
 	shoes = /obj/item/clothing/shoes/jackboots
 	head = /obj/item/clothing/head/bearpelt
 	gloves = /obj/item/clothing/gloves/color/black
@@ -110,7 +110,7 @@
 
 /datum/outfit/russiancorpse/ranged/trooper
 	name = "Ranged Russian Trooper Corpse"
-	uniform = /obj/item/clothing/under/syndicate/camo
+	shirt = /obj/item/clothing/under/syndicate/camo
 	suit = /obj/item/clothing/suit/armor/bulletproof
 	shoes = /obj/item/clothing/shoes/combat
 	gloves = /obj/item/clothing/gloves/tackler/combat
@@ -125,7 +125,7 @@
 
 /datum/outfit/russiancorpse/officer
 	name = "Russian Officer Corpse"
-	uniform = /obj/item/clothing/under/costume/russian_officer
+	shirt = /obj/item/clothing/under/costume/russian_officer
 	suit = /obj/item/clothing/suit/security/officer/russian
 	shoes = /obj/item/clothing/shoes/combat
 	ears = /obj/item/radio/headset
@@ -142,7 +142,7 @@
 
 /datum/outfit/wizardcorpse
 	name = "Space Wizard Corpse"
-	uniform = /obj/item/clothing/under/color/lightpurple
+	shirt = /obj/item/clothing/under/color/lightpurple
 	suit = /obj/item/clothing/suit/wizrobe
 	shoes = /obj/item/clothing/shoes/sandal/magic
 	head = /obj/item/clothing/head/wizard
@@ -156,7 +156,7 @@
 
 /datum/outfit/nanotrasensoldiercorpse2
 	name = "NT Private Security Officer Corpse"
-	uniform = /obj/item/clothing/under/rank/security/officer
+	shirt = /obj/item/clothing/under/rank/security/officer
 	suit = /obj/item/clothing/suit/armor/vest
 	shoes = /obj/item/clothing/shoes/combat
 	gloves = /obj/item/clothing/gloves/tackler/combat
@@ -175,7 +175,7 @@
 
 /datum/outfit/nanotrasenassaultsoldiercorpse
 	name = "NT Assault Officer Corpse"
-	uniform = /obj/item/clothing/under/syndicate
+	shirt = /obj/item/clothing/under/syndicate
 	suit = /obj/item/clothing/suit/armor/vest
 	shoes = /obj/item/clothing/shoes/combat
 	gloves = /obj/item/clothing/gloves/combat
@@ -195,7 +195,7 @@
 
 /datum/outfit/cat_butcher
 	name = "Cat Butcher Uniform"
-	uniform = /obj/item/clothing/under/rank/medical/scrubs/green
+	shirt = /obj/item/clothing/under/rank/medical/scrubs/green
 	suit = /obj/item/clothing/suit/apron/surgical
 	shoes = /obj/item/clothing/shoes/sneakers/white
 	gloves = /obj/item/clothing/gloves/color/latex/nitrile
@@ -211,7 +211,7 @@
 
 /datum/outfit/bee_terrorist
 	name = "BLF Operative"
-	uniform = /obj/item/clothing/under/color/yellow
+	shirt = /obj/item/clothing/under/color/yellow
 	suit = /obj/item/clothing/suit/hooded/bee_costume
 	shoes = /obj/item/clothing/shoes/sneakers/yellow
 	gloves = /obj/item/clothing/gloves/color/yellow

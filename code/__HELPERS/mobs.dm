@@ -557,8 +557,10 @@ GLOBAL_LIST_EMPTY(species_list)
 		slot_strings += "shoe"
 	if(slot_flags & ITEM_SLOT_OCLOTHING)
 		slot_strings += "oversuit"
-	if(slot_flags & ITEM_SLOT_ICLOTHING)
-		slot_strings += "undersuit"
+	if(slot_flags & ITEM_SLOT_SHIRT)
+		slot_strings += "shirt"
+	if(slot_flags & ITEM_SLOT_PANTS)
+		slot_strings += "pants"
 	if(slot_flags & ITEM_SLOT_SUITSTORE)
 		slot_strings += "suit storage"
 	if(slot_flags & (ITEM_SLOT_LPOCKET|ITEM_SLOT_RPOCKET))

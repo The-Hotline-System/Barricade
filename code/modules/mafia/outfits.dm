@@ -3,7 +3,7 @@
 
 /datum/outfit/mafia
 	name = "Mafia Game Outfit"
-	uniform = /obj/item/clothing/under/color/grey
+	shirt = /obj/item/clothing/under/color/grey
 	shoes = /obj/item/clothing/shoes/sneakers/black
 
 //town
@@ -11,12 +11,12 @@
 /datum/outfit/mafia/assistant
 	name = "Mafia Assistant"
 
-	uniform = /obj/item/clothing/under/color/rainbow
+	shirt = /obj/item/clothing/under/color/rainbow
 
 /datum/outfit/mafia/detective
 	name = "Mafia Detective"
 
-	uniform = /obj/item/clothing/under/rank/security/detective
+	shirt = /obj/item/clothing/under/rank/security/detective
 	neck = /obj/item/clothing/neck/tie/detective
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	suit = /obj/item/clothing/suit/det_suit
@@ -27,25 +27,25 @@
 /datum/outfit/mafia/psychologist
 	name = "Mafia Psychologist"
 
-	uniform = /obj/item/clothing/under/suit/black
+	shirt = /obj/item/clothing/under/suit/black
 	shoes = /obj/item/clothing/shoes/laceup
 
 /datum/outfit/mafia/chaplain
 	name = "Mafia Chaplain"
 
-	uniform = /obj/item/clothing/under/rank/civilian/chaplain
+	shirt = /obj/item/clothing/under/rank/civilian/chaplain
 
 /datum/outfit/mafia/md
 	name = "Mafia Medical Doctor"
 
-	uniform = /obj/item/clothing/under/rank/medical/scrubs/blue
+	shirt = /obj/item/clothing/under/rank/medical/scrubs/blue
 	shoes = /obj/item/clothing/shoes/sneakers/white
 	suit = /obj/item/clothing/suit/toggle/labcoat
 
 /datum/outfit/mafia/security
 	name = "Mafia Security Officer"
 
-	uniform = /obj/item/clothing/under/rank/security/officer
+	shirt = /obj/item/clothing/under/rank/security/officer
 	gloves = /obj/item/clothing/gloves/color/black
 	head = /obj/item/clothing/head/helmet/sec
 	suit = /obj/item/clothing/suit/armor/vest
@@ -54,14 +54,14 @@
 /datum/outfit/mafia/lawyer
 	name = "Mafia Lawyer"
 
-	uniform = /obj/item/clothing/under/rank/civilian/lawyer/bluesuit
+	shirt = /obj/item/clothing/under/rank/civilian/lawyer/bluesuit
 	suit = /obj/item/clothing/suit/toggle/lawyer
 	shoes = /obj/item/clothing/shoes/laceup
 
 /datum/outfit/mafia/hop
 	name = "Mafia Head of Personnel"
 
-	uniform = /obj/item/clothing/under/rank/civilian/head_of_personnel
+	shirt = /obj/item/clothing/under/rank/civilian/head_of_personnel
 	suit = /obj/item/clothing/suit/armor/vest/ballistic
 	shoes = /obj/item/clothing/shoes/sneakers/brown
 	head = /obj/item/clothing/head/hopcap
@@ -70,7 +70,7 @@
 /datum/outfit/mafia/hos
 	name = "Mafia Head of Security"
 
-	uniform = /obj/item/clothing/under/rank/security/head_of_security
+	shirt = /obj/item/clothing/under/rank/security/head_of_security
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/armor/hos/trenchcoat
 	gloves = /obj/item/clothing/gloves/color/black
@@ -80,7 +80,7 @@
 /datum/outfit/mafia/warden
 	name = "Mafia Warden"
 
-	uniform = /obj/item/clothing/under/rank/security/warden
+	shirt = /obj/item/clothing/under/rank/security/warden
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/armor/vest/warden/alt
 	gloves = /obj/item/clothing/gloves/color/black
@@ -100,12 +100,12 @@
 /datum/outfit/mafia/fugitive
 	name = "Mafia Fugitive"
 
-	uniform = /obj/item/clothing/under/rank/prisoner
+	shirt = /obj/item/clothing/under/rank/prisoner
 	shoes = /obj/item/clothing/shoes/sneakers/orange
 
 /datum/outfit/mafia/obsessed
 	name = "Mafia Obsessed"
-	uniform = /obj/item/clothing/under/misc/overalls
+	shirt = /obj/item/clothing/under/misc/overalls
 	shoes = /obj/item/clothing/shoes/sneakers/white
 	gloves = /obj/item/clothing/gloves/color/latex
 	mask = /obj/item/clothing/mask/surgical
@@ -119,7 +119,7 @@
 /datum/outfit/mafia/clown
 	name = "Mafia Clown"
 
-	uniform = /obj/item/clothing/under/rank/civilian/clown
+	shirt = /obj/item/clothing/under/rank/civilian/clown
 	shoes = /obj/item/clothing/shoes/clown_shoes
 	mask = /obj/item/clothing/mask/gas/clown_hat
 
@@ -127,11 +127,11 @@
 	name = "Mafia Traitor"
 
 	mask = /obj/item/clothing/mask/gas/syndicate
-	uniform = /obj/item/clothing/under/syndicate/tacticool
+	shirt = /obj/item/clothing/under/syndicate/tacticool
 	shoes = /obj/item/clothing/shoes/jackboots
 
 /datum/outfit/mafia/nightmare
 	name = "Mafia Nightmare"
 
-	uniform = null
+	shirt = null
 	shoes = null

@@ -735,15 +735,19 @@ TYPEINFO_DEF(/atom)
 		. += "<hr>"
 
 	var/place_linebreak = FALSE
+	/*
 	var/datum/codex_entry/entry = SScodex.get_codex_entry(get_codex_value(user))
 	if(entry)
 		var/information_type = length(entry.controls_text) ? "controls" : "relevant information"
 		. += "<span class='obviousnotice'>The codex has <b><a href='?src=\ref[SScodex];show_examined_info=\ref[src];show_to=\ref[user]'>[information_type]</a></b> available.</span>"
 		place_linebreak = TRUE
+	*/
 
+	/*
 	if(isitem(src) && length(slapcraft_examine_hints_for_type(type)))
 		. += "<span class='obviousnotice'><b><a href='?src=\ref[user.client];show_slapcraft_hints=[type];'>You could craft [(length(slapcraft_examine_hints_for_type(type)) > 1) ? "several things" : "something"] with it.</a><b></span>"
 		place_linebreak = TRUE
+	*/
 
 	if(place_linebreak)
 		. += ""
@@ -752,11 +756,13 @@ TYPEINFO_DEF(/atom)
 		var/diff = abs(user.z - z)
 		. += span_notice("<b>[p_theyre(TRUE)] [diff] level\s below you.</b>")
 
+	/*
 	if(custom_materials)
 		var/list/materials_list = list()
 		for(var/datum/material/current_material as anything in custom_materials)
 			materials_list += "[current_material.name]"
 		. += span_notice("It is made out of [english_list(materials_list)].")
+	*/
 
 	if(reagents)
 		if(reagents.flags & TRANSPARENT)

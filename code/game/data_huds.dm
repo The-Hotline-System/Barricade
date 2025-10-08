@@ -25,7 +25,7 @@
 /datum/atom_hud/data/human/medical/basic/proc/check_sensors(mob/living/carbon/human/H)
 	if(!istype(H))
 		return FALSE
-	var/obj/item/clothing/under/U = H.w_uniform
+	var/obj/item/clothing/under/U = H.w_shirt
 	if(!istype(U))
 		return FALSE
 	if(U.sensor_mode <= SENSOR_LIVING)

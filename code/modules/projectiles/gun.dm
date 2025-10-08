@@ -80,6 +80,11 @@ TYPEINFO_DEF(/obj/item/gun)
 	var/recoil = 0 // boom boom shake the room
 	/// How much recoil there is when fired with one hand
 	var/unwielded_recoil = 0
+	/// A multiplier of the duration the recoil takes to go back to normal view, this is (recoil*recoil_backtime_multiplier)+1
+	var/recoil_backtime_multiplier = 2
+	/// This is how much deviation the gun recoil can have, recoil pushes the screen towards the reverse angle you shot + some deviation which this is the max.
+	var/recoil_deviation = 22.5
+
 	/// How many shots to fire per fire sequence
 	var/burst_size = 1
 	/// The cooldown (DS) before the gun can be fired again after firing

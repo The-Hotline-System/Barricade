@@ -50,7 +50,7 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 	var/list/items_to_check = get_all_worn_items() + held_items
 	var/list/to_nuke = list() //List of items queued for deletion, can't qdel them before iterating their contents in case they hold something
 	///Travel to the bottom of the contents chain, expanding it out
-	for(var/i = 1; i <= length(items_to_check); i++) //Needs to be a c style loop since it can expand
+	for(var/i = 1, i <= length(items_to_check), i++) //Needs to be a c style loop since it can expand
 		var/obj/item/checking = items_to_check[i]
 		if(QDELETED(checking)) //Nulls in the list, depressing
 			continue

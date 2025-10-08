@@ -8,6 +8,8 @@ GLOBAL_PROTECT(exp_to_update)
 		return 0
 	if(!CONFIG_GET(flag/use_exp_tracking))
 		return 0
+	if(has_flag(C, time_bypass_flags))
+		return 0
 	if(!SSdbcore.Connect())
 		return 0
 	if(!IS_XP_LOCKED(src))

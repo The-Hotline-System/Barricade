@@ -99,7 +99,7 @@
 		return
 
 	if (!(flags & CALTROP_BYPASS_SHOES))
-		if ((H.wear_suit?.body_parts_covered | H.w_uniform?.body_parts_covered | H.shoes?.body_parts_covered) & FEET)
+		if ((H.wear_suit?.body_parts_covered | H.w_shirt?.body_parts_covered | H.shoes?.body_parts_covered) & FEET)
 			return
 
 	var/damage = rand(min_damage, max_damage)

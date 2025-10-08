@@ -29,8 +29,11 @@
 	if(slot_flags & ITEM_SLOT_OCLOTHING)
 		update_worn_oversuit()
 		update_body_parts = TRUE
-	if(slot_flags & ITEM_SLOT_ICLOTHING)
-		update_worn_undersuit()
+	if(slot_flags & ITEM_SLOT_SHIRT)
+		update_worn_shirt()
+		update_body_parts = TRUE
+	if(slot_flags & ITEM_SLOT_PANTS)
+		update_worn_pants()
 		update_body_parts = TRUE
 	if(slot_flags & ITEM_SLOT_SUITSTORE)
 		update_suit_storage()

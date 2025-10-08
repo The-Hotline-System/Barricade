@@ -127,12 +127,12 @@ TYPEINFO_DEF(/obj/item/clothing/accessory/medal)
 	if(ishuman(M) && !user.combat_mode)
 
 		if(M.wear_suit)
-			if((M.wear_suit.flags_inv & HIDEJUMPSUIT)) //Check if the jumpsuit is covered
+			if((M.wear_suit.flags_inv & HIDESHIRT)) //Check if the jumpsuit is covered
 				to_chat(user, span_warning("Medals can only be pinned on jumpsuits."))
 				return
 
-		if(M.w_uniform)
-			var/obj/item/clothing/under/U = M.w_uniform
+		if(M.w_shirt)
+			var/obj/item/clothing/under/U = M.w_shirt
 			var/delay = 20
 			if(user == M)
 				delay = 0

@@ -54,7 +54,7 @@
 				continue
 			mannequin.add_quirk(quirk_type, parent)
 
-	mannequin.update_body()
-	mannequin.add_overlay(mutable_appearance('icons/turf/floors.dmi', icon_state = "floor", layer = SPACE_LAYER))
+	mannequin.update_body() // The pants do not show up if the body is updated, shows up on icon regen? - BARRICADE
+	//mannequin.add_overlay(mutable_appearance('icons/turf/floors.dmi', icon_state = "floor", layer = SPACE_LAYER))
 	return mannequin.appearance
 

@@ -128,7 +128,7 @@
 ///Called on progress end, be it successful or a failure. Wraps up things to delete the datum and bar.
 /datum/progressbar/proc/end_progress()
 	if(last_progress != goal)
-		bar.icon_state = "[bar.icon_state]_fail"
+		bar.icon_state = "prog_bar_fail"
 
 	animate(bar, alpha = 0, time = PROGRESSBAR_ANIMATION_TIME)
 
@@ -196,7 +196,7 @@
 
 /datum/world_progressbar/proc/end_progress()
 	if(last_progress != goal)
-		bar.icon_state = "[bar.icon_state]_fail"
+		bar.icon_state = "prog_bar_fail"
 
 	if(qdel_when_done)
 		animate(bar, alpha = 0, time = PROGRESSBAR_ANIMATION_TIME)

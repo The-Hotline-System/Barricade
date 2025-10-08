@@ -154,7 +154,7 @@
 	///list returned by playsound() filled by client mobs who heard the footstep. given to play_fov_effect()
 	var/list/heard_clients
 
-	if((source.wear_suit?.body_parts_covered | source.w_uniform?.body_parts_covered | source.shoes?.body_parts_covered) & FEET)
+	if((source.wear_suit?.body_parts_covered | source.w_shirt?.body_parts_covered | source.w_pants?.body_parts_covered | source.shoes?.body_parts_covered) & FEET)
 		// we are wearing shoes
 
 		var/shoestep_type = prepared_steps[FOOTSTEP_MOB_SHOE]

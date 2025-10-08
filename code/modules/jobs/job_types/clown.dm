@@ -55,7 +55,7 @@
 	jobtype = /datum/job/clown
 
 	id_template = /datum/access_template/job/clown
-	uniform = /obj/item/clothing/under/rank/civilian/clown
+	shirt = /obj/item/clothing/under/rank/civilian/clown
 	backpack_contents = list(
 		/obj/item/stamp/clown = 1,
 		/obj/item/reagent_containers/spray/waterflower = 1,
@@ -110,7 +110,7 @@
 	jobtype = /datum/job/clown
 
 	id_template = /datum/access_template/job/mime
-	uniform = /obj/item/clothing/under/rank/civilian/mime
+	shirt = /obj/item/clothing/under/rank/civilian/mime
 	suit = /obj/item/clothing/suit/toggle/suspenders
 	backpack_contents = list(
 		/obj/item/book/mimery = 1,

@@ -3,7 +3,7 @@
 
 	id = /obj/item/card/id/advanced/centcom
 	id_template = /datum/access_template/centcom/specops_officer
-	uniform = /obj/item/clothing/under/rank/centcom/commander
+	shirt = /obj/item/clothing/under/rank/centcom/commander
 	suit = /obj/item/clothing/suit/space/officer
 	back = /obj/item/storage/backpack/satchel/leather
 	belt = /obj/item/gun/energy/pulse/pistol/m1911
@@ -32,7 +32,7 @@
 /datum/outfit/space
 	name = "Standard Space Gear"
 
-	uniform = /obj/item/clothing/under/color/grey
+	shirt = /obj/item/clothing/under/color/grey
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	suit = /obj/item/clothing/suit/space
 	back = /obj/item/tank/jetpack/oxygen
@@ -42,7 +42,7 @@
 /datum/outfit/tournament
 	name = "tournament standard red"
 
-	uniform = /obj/item/clothing/under/color/red
+	shirt = /obj/item/clothing/under/color/red
 	suit = /obj/item/clothing/suit/armor/vest
 	head = /obj/item/clothing/head/helmet/thunderdome
 	shoes = /obj/item/clothing/shoes/sneakers/black
@@ -53,12 +53,12 @@
 /datum/outfit/tournament/green
 	name = "tournament standard green"
 
-	uniform = /obj/item/clothing/under/color/green
+	shirt = /obj/item/clothing/under/color/green
 
 /datum/outfit/tournament/gangster
 	name = "tournament gangster"
 
-	uniform = /obj/item/clothing/under/rank/security/detective
+	shirt = /obj/item/clothing/under/rank/security/detective
 	suit = /obj/item/clothing/suit/det_suit
 	glasses = /obj/item/clothing/glasses/thermal/monocle
 	head = /obj/item/clothing/head/fedora/det_hat
@@ -69,7 +69,7 @@
 /datum/outfit/tournament/janitor
 	name = "tournament janitor"
 
-	uniform = /obj/item/clothing/under/rank/civilian/janitor
+	shirt = /obj/item/clothing/under/rank/civilian/janitor
 	suit = null
 	back = /obj/item/storage/backpack
 	backpack_contents = list(
@@ -91,7 +91,7 @@
 /datum/outfit/laser_tag
 	name = "Laser Tag Red"
 
-	uniform = /obj/item/clothing/under/color/red
+	shirt = /obj/item/clothing/under/color/red
 	suit = /obj/item/clothing/suit/redtag
 	suit_store = /obj/item/gun/energy/laser/redtag
 	back = /obj/item/storage/backpack
@@ -106,7 +106,7 @@
 /datum/outfit/laser_tag/blue
 	name = "Laser Tag Blue"
 
-	uniform = /obj/item/clothing/under/color/blue
+	shirt = /obj/item/clothing/under/color/blue
 	suit = /obj/item/clothing/suit/bluetag
 	suit_store = /obj/item/gun/energy/laser/bluetag
 	gloves = /obj/item/clothing/gloves/color/blue
@@ -118,7 +118,7 @@
 
 	id = /obj/item/card/id/advanced
 	id_template = /datum/access_template/pirate
-	uniform = /obj/item/clothing/under/costume/pirate
+	shirt = /obj/item/clothing/under/costume/pirate
 	suit = /obj/item/clothing/suit/pirate/armored
 	ears = /obj/item/radio/headset/syndicate
 	glasses = /obj/item/clothing/glasses/eyepatch
@@ -163,7 +163,7 @@
 
 	id = /obj/item/card/id/advanced/silver
 	id_template = /datum/access_template/pirate/silverscale
-	uniform = /obj/item/clothing/under/syndicate/sniper
+	shirt = /obj/item/clothing/under/syndicate/sniper
 	suit = /obj/item/clothing/suit/armor/vest
 	glasses = /obj/item/clothing/glasses/monocle
 	gloves = /obj/item/clothing/gloves/color/black
@@ -183,7 +183,7 @@
 
 	id = /obj/item/card/id/advanced/gold
 	id_template = /datum/access_template/tunnel_clown
-	uniform = /obj/item/clothing/under/rank/civilian/clown
+	shirt = /obj/item/clothing/under/rank/civilian/clown
 	suit = /obj/item/clothing/suit/hooded/chaplain_hoodie
 	ears = /obj/item/radio/headset
 	glasses = /obj/item/clothing/glasses/thermal/monocle
@@ -206,7 +206,7 @@
 /datum/outfit/psycho
 	name = "Masked Killer"
 
-	uniform = /obj/item/clothing/under/misc/overalls
+	shirt = /obj/item/clothing/under/misc/overalls
 	suit = /obj/item/clothing/suit/apron
 	shoes = /obj/item/clothing/shoes/sneakers/white
 	ears = /obj/item/radio/headset
@@ -230,7 +230,7 @@
 
 	id = /obj/item/card/id/advanced/chameleon/black
 	id_template = /datum/access_template/reaper_assassin
-	uniform = /obj/item/clothing/under/suit/black
+	shirt = /obj/item/clothing/under/suit/black
 	belt = /obj/item/modular_computer/tablet/pda/heads
 	ears = /obj/item/radio/headset
 	gloves = /obj/item/clothing/gloves/color/black
@@ -240,7 +240,7 @@
 	l_hand = /obj/item/storage/secure/briefcase
 
 /datum/outfit/assassin/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
-	var/obj/item/clothing/under/U = H.w_uniform
+	var/obj/item/clothing/under/U = H.w_shirt
 	U.attach_accessory(new /obj/item/clothing/accessory/waistcoat(H))
 
 	if(visualsOnly)
@@ -271,7 +271,7 @@
 
 	id = /obj/item/card/id/advanced/centcom
 	id_template = /datum/access_template/centcom/commander
-	uniform = /obj/item/clothing/under/rank/centcom/commander
+	shirt = /obj/item/clothing/under/rank/centcom/commander
 	suit = /obj/item/clothing/suit/armor/centcom_formal
 	back = /obj/item/storage/backpack/satchel/leather
 	belt = /obj/item/gun/ballistic/revolver/mateba
@@ -307,7 +307,7 @@
 /datum/outfit/ghost_cultist
 	name = "Cultist Ghost"
 
-	uniform = /obj/item/clothing/under/color/black/ghost
+	shirt = /obj/item/clothing/under/color/black/ghost
 	suit = /obj/item/clothing/suit/hooded/cultrobes/alt/ghost
 	shoes = /obj/item/clothing/shoes/cult/alt/ghost
 	l_hand = /obj/item/melee/cultblade/ghost
@@ -315,7 +315,7 @@
 /datum/outfit/wizard
 	name = "Blue Wizard"
 
-	uniform = /obj/item/clothing/under/color/lightpurple
+	shirt = /obj/item/clothing/under/color/lightpurple
 	suit = /obj/item/clothing/suit/wizrobe
 	back = /obj/item/storage/backpack
 	backpack_contents = list(
@@ -362,7 +362,7 @@
 
 	id = /obj/item/card/id/advanced/centcom
 	id_template = /datum/access_template/centcom/admiral
-	uniform = /obj/item/clothing/under/costume/soviet
+	shirt = /obj/item/clothing/under/costume/soviet
 	suit = /obj/item/clothing/suit/pirate/captain
 	back = /obj/item/storage/backpack/satchel/leather
 	belt = /obj/item/gun/ballistic/revolver/mateba
@@ -388,7 +388,7 @@
 
 	id = /obj/item/card/id/advanced
 	id_template = /datum/access_template/mobster
-	uniform = /obj/item/clothing/under/suit/black_really
+	shirt = /obj/item/clothing/under/suit/black_really
 	ears = /obj/item/radio/headset
 	glasses = /obj/item/clothing/glasses/sunglasses
 	gloves = /obj/item/clothing/gloves/color/black
@@ -408,7 +408,7 @@
 /datum/outfit/chrono_agent
 	name = "Timeline Eradication Agent"
 
-	uniform = /obj/item/clothing/under/color/white
+	shirt = /obj/item/clothing/under/color/white
 	suit_store = /obj/item/tank/internals/oxygen
 	mask = /obj/item/clothing/mask/breath
 	back = /obj/item/mod/control/pre_equipped/chrono
@@ -423,7 +423,7 @@
 	name = "Debug outfit"
 
 	id = /obj/item/card/id/advanced/debug
-	uniform = /obj/item/clothing/under/misc/patriotsuit
+	shirt = /obj/item/clothing/under/misc/patriotsuit
 	suit_store = /obj/item/tank/internals/oxygen
 	back = /obj/item/mod/control/pre_equipped/debug
 	backpack_contents = list(
@@ -454,7 +454,7 @@
 	name = "Admin outfit"
 
 	id = /obj/item/card/id/advanced/debug
-	uniform = /obj/item/clothing/under/misc/patriotsuit
+	shirt = /obj/item/clothing/under/misc/patriotsuit
 	suit_store = /obj/item/tank/internals/oxygen
 	back = /obj/item/mod/control/pre_equipped/administrative
 	backpack_contents = list(

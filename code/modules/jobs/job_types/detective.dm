@@ -63,7 +63,7 @@
 	jobtype = /datum/job/detective
 
 	id_template = /datum/access_template/job/detective
-	uniform = /obj/item/clothing/under/rank/security/detective
+	shirt = /obj/item/clothing/under/rank/security/detective
 	suit = /obj/item/clothing/suit/det_suit
 	belt = /obj/item/modular_computer/tablet/pda/detective
 	gloves = /obj/item/clothing/gloves/forensic
@@ -92,7 +92,7 @@
 /datum/outfit/job/detective/forensic
 	name = "Forensic Technician"
 
-	uniform = /obj/item/clothing/under/rank/security/detective/noir
+	shirt = /obj/item/clothing/under/rank/security/detective/noir
 	suit = /obj/item/clothing/suit/toggle/labcoat/forensic
 	gloves = /obj/item/clothing/gloves/color/latex
 	head = /obj/item/clothing/head/flatcap

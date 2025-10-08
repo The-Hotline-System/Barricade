@@ -103,7 +103,7 @@
 		return TRUE
 
 	if(ishuman(parent_atom))
-		var/bloody_slots = ITEM_SLOT_OCLOTHING|ITEM_SLOT_ICLOTHING|ITEM_SLOT_FEET
+		var/bloody_slots = ITEM_SLOT_OCLOTHING|ITEM_SLOT_SHIRT|ITEM_SLOT_FEET
 		var/mob/living/carbon/human/to_bloody = parent_atom
 		if(to_bloody.body_position == LYING_DOWN)
 			bloody_slots |= ITEM_SLOT_HEAD|ITEM_SLOT_MASK|ITEM_SLOT_GLOVES

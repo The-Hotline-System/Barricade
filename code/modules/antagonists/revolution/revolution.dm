@@ -507,7 +507,7 @@
 /datum/outfit/revolutionary
 	name = "Revolutionary (Preview only)"
 
-	uniform = /obj/item/clothing/under/costume/soviet
+	shirt = /obj/item/clothing/under/costume/soviet
 	head = /obj/item/clothing/head/ushanka
 	gloves = /obj/item/clothing/gloves/color/black
 	l_hand = /obj/item/spear

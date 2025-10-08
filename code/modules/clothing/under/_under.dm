@@ -10,7 +10,7 @@ TYPEINFO_DEF(/obj/item/clothing/under)
 
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
 	permeability_coefficient = 0.9
-	slot_flags = ITEM_SLOT_ICLOTHING
+	slot_flags = ITEM_SLOT_SHIRT
 
 
 	equip_sound = 'sound/items/equip/jumpsuit_equip.ogg'
@@ -134,7 +134,7 @@ TYPEINFO_DEF(/obj/item/clothing/under)
 
 /obj/item/clothing/under/equipped(mob/user, slot)
 	..()
-	if(slot == ITEM_SLOT_ICLOTHING && freshly_laundered)
+	if(slot == ITEM_SLOT_SHIRT && freshly_laundered)
 		freshly_laundered = FALSE
 
 /obj/item/clothing/under/unequipped(mob/user)
@@ -151,7 +151,7 @@ TYPEINFO_DEF(/obj/item/clothing/under)
 	update_sensor_list()
 
 /mob/living/carbon/human/proc/update_sensor_list()
-	var/obj/item/clothing/under/U = w_uniform
+	var/obj/item/clothing/under/U = w_shirt
 	if(istype(U) && U.has_sensor > 0 && U.sensor_mode)
 		GLOB.suit_sensors_list |= src
 	else
@@ -279,7 +279,7 @@ TYPEINFO_DEF(/obj/item/clothing/under)
 
 	if(ishuman(loc))
 		var/mob/living/carbon/human/H = loc
-		if(H.w_uniform == src)
+		if(H.w_shirt == src)
 			H.update_suit_sensors()
 
 /obj/item/clothing/under/AltClick(mob/user)

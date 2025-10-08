@@ -2722,7 +2722,6 @@
 /turf/open/floor/iron/white,
 /area/station/hallway/secondary/entry)
 "aVx" = (
-/obj/structure/chair,
 /obj/machinery/camera/directional/north{
 	c_tag = "Arrivals - Fore Arm - Far"
 	},
@@ -4819,11 +4818,13 @@
 /area/station/security/checkpoint/engineering)
 "bFH" = (
 /obj/item/radio/intercom/directional/north,
-/obj/structure/chair,
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
 /obj/effect/turf_decal/tile/yellow/opposingcorners,
+/obj/machinery/foundry{
+	id = "foundry2"
+	},
 /turf/open/floor/iron/white,
 /area/station/hallway/secondary/entry)
 "bFI" = (
@@ -5805,6 +5806,19 @@
 "bXZ" = (
 /turf/closed/wall/r_wall/prepainted/daedalus,
 /area/station/maintenance/starboard/fore)
+"bYc" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/turf_decal/tile/yellow/opposingcorners,
+/obj/machinery/door/airlock{
+	name = "2 button door";
+	id_tag = "Test2";
+	dir = 1
+	},
+/turf/open/floor/iron/white,
+/area/station/hallway/secondary/entry)
 "bYt" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -5934,6 +5948,15 @@
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/turret_protected/aisat_interior)
+"caS" = (
+/obj/effect/turf_decal/tile/yellow/opposingcorners,
+/obj/machinery/button/pushdown/cooperative/door/directional/north{
+	id = "Test2";
+	normaldoorcontrol = 1;
+	pixel_y = 0
+	},
+/turf/open/floor/iron/white,
+/area/station/hallway/secondary/entry)
 "caT" = (
 /obj/machinery/atmospherics/pipe/smart/simple/cyan/visible{
 	dir = 4
@@ -13332,12 +13355,11 @@
 /turf/open/floor/iron,
 /area/station/ai_monitored/command/storage/eva)
 "eIn" = (
-/obj/structure/chair,
-/obj/machinery/light/directional/north,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
+/obj/effect/turf_decal/stripes/line,
 /obj/effect/turf_decal/tile/yellow/opposingcorners,
+/obj/machinery/button/pushdown/cooperative/foundry{
+	id = "foundry2"
+	},
 /turf/open/floor/iron/white,
 /area/station/hallway/secondary/entry)
 "eIr" = (
@@ -15646,6 +15668,15 @@
 	},
 /turf/open/floor/iron,
 /area/station/cargo/sorting)
+"fzq" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow/opposingcorners,
+/obj/machinery/foundry,
+/obj/machinery/button/pushdown/cooperative/foundry,
+/turf/open/floor/iron/white,
+/area/station/hallway/secondary/entry)
 "fzr" = (
 /obj/structure/bed,
 /obj/item/bedsheet,
@@ -28077,6 +28108,16 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
+"kaU" = (
+/obj/effect/turf_decal/stripes/line,
+/obj/effect/turf_decal/tile/yellow/opposingcorners,
+/obj/machinery/button/pushdown/cooperative/door/directional/north{
+	id = "Test1";
+	normaldoorcontrol = 1;
+	pixel_y = 0
+	},
+/turf/open/floor/iron/white,
+/area/station/hallway/secondary/entry)
 "kaW" = (
 /obj/structure/cable/yellow{
 	icon_state = "5"
@@ -34804,6 +34845,11 @@
 	},
 /obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/tile/yellow/opposingcorners,
+/obj/machinery/button/pushdown/cooperative/door/directional/north{
+	id = "Test2";
+	normaldoorcontrol = 1;
+	pixel_y = 0
+	},
 /turf/open/floor/iron/white,
 /area/station/hallway/secondary/entry)
 "mrD" = (
@@ -35721,6 +35767,11 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable/yellow{
 	icon_state = "12"
+	},
+/obj/machinery/door/airlock{
+	name = "1 button door";
+	id_tag = "Test1";
+	dir = 1
 	},
 /turf/open/floor/iron/white,
 /area/station/hallway/secondary/entry)
@@ -42276,6 +42327,16 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/command)
+"oVG" = (
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow/opposingcorners,
+/obj/machinery/button/pushdown/cooperative/foundry{
+	id = "foundry2"
+	},
+/turf/open/floor/iron/white,
+/area/station/hallway/secondary/entry)
 "oVY" = (
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 8
@@ -78267,7 +78328,7 @@ lMJ
 lMJ
 lMJ
 gbI
-aVu
+oVG
 jSF
 uwS
 lMJ
@@ -78525,7 +78586,7 @@ aaa
 aaa
 gbI
 bFH
-aWU
+eIn
 oWO
 lMJ
 aaa
@@ -78781,7 +78842,7 @@ aaa
 aaa
 aaa
 gbI
-eIn
+gVu
 aWV
 gbI
 lMJ
@@ -79295,7 +79356,7 @@ aaa
 aaa
 aaa
 gbI
-aVu
+fzq
 aWU
 eeG
 aZZ
@@ -80066,7 +80127,7 @@ aaa
 aaa
 aaa
 gbI
-rkZ
+bYc
 bvF
 aWU
 bEZ
@@ -80324,7 +80385,7 @@ aaa
 aaa
 gbI
 nJU
-bvF
+caS
 aWU
 bab
 oWO
@@ -81095,7 +81156,7 @@ aaa
 aaa
 gbI
 nFy
-aWU
+kaU
 eeG
 aZZ
 xrX

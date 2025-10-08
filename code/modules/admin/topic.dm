@@ -676,7 +676,7 @@
 
 		if(ishuman(L))
 			var/mob/living/carbon/human/observer = L
-			observer.equip_to_slot_or_del(new /obj/item/clothing/under/suit/black(observer), ITEM_SLOT_ICLOTHING)
+			observer.equip_to_slot_or_del(new /obj/item/clothing/under/suit/black(observer), ITEM_SLOT_SHIRT)
 			observer.equip_to_slot_or_del(new /obj/item/clothing/shoes/sneakers/black(observer), ITEM_SLOT_FEET)
 		L.Unconscious(100)
 		sleep(5)
@@ -1959,3 +1959,84 @@
 		if(!datum_to_mark)
 			return
 		return usr.client?.mark_datum(datum_to_mark)
+
+// whitelist additions // // flaglist?
+
+	else if(href_list["showwl"])
+		if(!check_rights(R_ADMIN))
+			return
+		var/mob/M = (locate(href_list["mob"]) in GLOB.mob_list)
+		if(!M?.client)
+			alert(usr, "[M] does not have a client.")
+			return
+		var/client/mob_client = M.client
+		check_flag_menu(mob_client.ckey)
+
+	else if(href_list["updatewl"])
+		if(!check_rights(R_ADMIN))
+			return
+		var/mob/M = (locate(href_list["mob"]) in GLOB.mob_list)
+		if(!M?.client)
+			alert(usr, "[M] does not have a client.")
+			return
+		var/client/mob_client = M.client
+		load_client_flags(mob_client)
+
+	else if(href_list["addwl"])
+		if(!check_rights(R_ADMIN))
+			return
+		var/mob/M = (locate(href_list["mob"]) in GLOB.mob_list)
+		if(!M?.client)
+			alert(usr, "[M] does not have a client.")
+			return
+
+		var/alert = alert(usr, "Do you wish to manually input the flag, or select from a list?", "FLAG MANAGEMENT", "Manual", "List")
+		var/string
+
+		if(alert == "Manual")
+			//if(usr.client?.prefs?.toggles & TOGGLE_OLD_UI)
+			//	string = input(usr, "ENTER THE FLAG:", "FLAG MANAGEMENT") as text|null
+			//else
+			string = tgui_input_text(usr, "ENTER THE FLAG:", "FLAG MANAGEMENT", max_length = MAX_BROADCAST_LEN, encode = FALSE)
+
+		else
+			string  = tgui_input_list(usr, "SELECT THE FLAG:", "FLAG MANAGEMENT", ALL_WHITELISTS)
+
+		if(!string) return
+
+		var/reason
+		//if(usr.client?.prefs?.toggles & TOGGLE_OLD_UI)
+		//	reason = input(usr, "THE REASON BEHIND THE ADDITION:", "FLAG MANAGEMENT") as text|null
+		//else
+		reason = tgui_input_text(usr, "THE REASON BEHIND THE ADDITION:", "FLAG MANAGEMENT", max_length = MAX_BROADCAST_LEN, encode = FALSE)
+
+		if(!reason) return
+
+		add_to_whitelist(M.client, string, usr.key, reason)
+		message_admins("[usr.key] adjusted [M.key]'s flags, adding '[string]' with [!reason ? "no reason given" : "reason: [reason]"].")
+		log_admin("[usr.key] adjusted [M.key]'s flags, adding '[string]' with [!reason ? "no reason given" : "reason: [reason]"].")
+
+	else if(href_list["delwl"])
+		if(!check_rights(R_ADMIN))
+			return
+		var/mob/M = (locate(href_list["mob"]) in GLOB.mob_list)
+		if(!M?.client)
+			alert(usr, "[M] does not have a client.")
+			return
+		var/alert = alert(usr, "Do you wish to manually input the flag, or select from a list?", "FLAG MANAGEMENT", "Manual", "List")
+		var/string
+		if(alert == "Manual")
+			//if(usr.client?.prefs?.toggles & TOGGLE_OLD_UI)
+			//	string = input(usr, "THE FLAG YOU WISH TO REMOVE:", "FLAG MANAGEMENT") as text|null
+			//else
+			string = uppertext(tgui_input_text(usr, "THE FLAG YOU WISH TO REMOVE:", "FLAG MANAGEMENT", max_length = MAX_BROADCAST_LEN, encode = FALSE))
+		else
+			if(!M.client.flags || !length(M.client.flags))
+				alert(usr, "This client has no flags, or an error has occured.")
+				return
+			string  = tgui_input_list(usr, "SELECT THE FLAG:", "FLAG MANAGEMENT", M.client.flags)
+		if(!string)
+			return
+		remove_from_whitelist(M.client, string)
+		message_admins("[usr.key] adjusted [M.key]'s flags, removing '[string]'.")
+		log_admin("[usr.key] adjusted [M.key]'s flags, removing '[string]'.")

@@ -239,8 +239,6 @@ DEFINE_INTERACTABLE(/obj/item)
 	//Grinder var:A reagent list containing blah blah... but when JUICED in a grinder!
 	var/list/juice_results
 
-	var/canMouseDown = FALSE
-
 	/// Used in obj/item/examine to give additional notes on what the weapon does, separate from the predetermined output variables
 	var/offensive_notes
 	/// Used in obj/item/examine to determines whether or not to detail an item's statistics even if it does not meet the force requirements
@@ -424,7 +422,8 @@ DEFINE_INTERACTABLE(/obj/item)
 		"head" = ITEM_SLOT_HEAD,
 		"feet" = ITEM_SLOT_FEET,
 		"over body" = ITEM_SLOT_OCLOTHING,
-		"body" = ITEM_SLOT_ICLOTHING,
+		"chest" = ITEM_SLOT_SHIRT,
+		"legs" = ITEM_SLOT_PANTS,
 		"neck" = ITEM_SLOT_NECK,
 	)
 

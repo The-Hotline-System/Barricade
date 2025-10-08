@@ -18,6 +18,7 @@
 				QDEL_IN(new /obj/effect/projectile_lighting(T, light_color_override, light_range, light_intensity, instance_key), qdel_in > 0? qdel_in : 5)
 		line = null
 	if(qdel_in)
+		animate(PB, time = qdel_in, alpha = 0, flags = ANIMATION_PARALLEL)
 		QDEL_IN(PB, qdel_in)
 
 /obj/effect/projectile/tracer

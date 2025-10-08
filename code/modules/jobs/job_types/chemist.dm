@@ -45,7 +45,7 @@
 	jobtype = /datum/job/chemist
 
 	id_template = /datum/access_template/job/chemist
-	uniform = /obj/item/clothing/under/rank/medical/chemist
+	shirt = /obj/item/clothing/under/rank/medical/chemist
 	suit = /obj/item/clothing/suit/toggle/labcoat/chemist
 	belt = /obj/item/modular_computer/tablet/pda/chemist
 	ears = /obj/item/radio/headset/headset_med

@@ -49,7 +49,7 @@
 
 	id = /obj/item/card/id/advanced
 	id_template = /datum/access_template/job/psychologist
-	uniform = /obj/item/clothing/under/suit/black
+	shirt = /obj/item/clothing/under/suit/black
 	backpack_contents = list(
 		/obj/item/storage/pill_bottle/lsdpsych,
 		/obj/item/storage/pill_bottle/alkysine,

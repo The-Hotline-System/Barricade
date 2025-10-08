@@ -1965,7 +1965,8 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 
 		REMOVE_TRAIT(src, TRAIT_FAT, OBESITY)
 		remove_movespeed_modifier(/datum/movespeed_modifier/obesity)
-		update_worn_undersuit()
+		update_worn_shirt()
+		update_worn_pants()
 		update_worn_oversuit()
 
 	// Reset overeat duration.
