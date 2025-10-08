@@ -40,7 +40,7 @@
 	var/destroy_after = 0.5 SECONDS
 	switch(state)
 		if(INTERACT_GENERIC, INTERACT_HELP, INTERACT_HARM, INTERACT_GRAB, INTERACT_DISARM)
-			particle.alpha = 180
+			particle.alpha = 100
 			animate_transform.Scale(0.3, 0.3)
 			particle.transform = animate_transform
 
@@ -50,13 +50,13 @@
 		if(INTERACT_PULL)
 			particle.pixel_x = target.pixel_x + (x_offset*32)
 			particle.pixel_y = target.pixel_y + (y_offset*32)
-			particle.alpha = 200
+			particle.alpha = 100
 			particle.transform = transform.Turn(rand(-40, 40))
 
 			animate(particle, pixel_x = origin_coords[1], pixel_y = origin_coords[2], time = 2, easing = LINEAR_EASING)
 
 		if(INTERACT_UNPULL)
-			particle.alpha = 200
+			particle.alpha = 100
 
 			animate(particle, pixel_x = target.pixel_x + (x_offset*32), pixel_y = target.pixel_y + (y_offset*32), time = 2, easing = LINEAR_EASING)
 

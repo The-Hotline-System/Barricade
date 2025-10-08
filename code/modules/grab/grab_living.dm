@@ -124,7 +124,28 @@
 
 /// Called by grab objects when a grab has been released
 /mob/living/proc/after_grab_release(atom/movable/old_target)
-	animate_interact(old_target, INTERACT_UNPULL)
+	animate_interact(old_target, INTERACT_UNPULL) //TOGRAB
+	var/direction = get_dir(src, old_target)
+
+	var/angle = dir2angle(direction)
+	var/obj/effect/abstract/interact/interactive = new(get_turf(old_target))
+	interactive.icon_state = "handgrab_closed"
+	var/new_transform = interactive.transform.Turn(angle)//180 + angle)
+	//new_transform = matrix(new_transform) * 0.6
+	interactive.transform = new_transform
+	interactive.alpha = 0
+
+	var/time_to_pick_up = 0.25 SECONDS
+
+	// Animate moving from player to item (centered)
+	animate(interactive, time = time_to_pick_up, alpha = 255, pixel_w = ((src.x - old_target.x) * 32 + src.pixel_x), pixel_z = ((src.y - old_target.y) * 32 + src.pixel_y), easing = SINE_EASING)
+
+	sleep(time_to_pick_up)
+
+	interactive.icon_state = "handgrab_open"
+	animate(interactive, time = 0.3 SECONDS, alpha = 0, easing = SINE_EASING)
+	QDEL_IN(interactive, time_to_pick_up)
+
 	update_pull_hud_icon()
 
 /// Called during or immediately after movement. Used to move grab targets around to ensure the grabs do not break during movement.

@@ -149,6 +149,8 @@
 /mob/proc/can_put_in_hand(obj/item/I, hand_index)
 	return FALSE
 
+#define PICKUP_INTERACTION_KEY(item) "pickup_item_[ref(item)]"
+
 /// A helper for picking up an item.
 /mob/proc/pickup_item(obj/item/I, hand_index = active_hand_index, ignore_anim = FALSE)
 	if(QDELETED(I))
@@ -156,6 +158,38 @@
 
 	if(!can_put_in_hand(I, hand_index))
 		return
+
+	if(DOING_INTERACTION(src, PICKUP_INTERACTION_KEY(I))) return
+
+	if(isturf(I.loc) && I.loc != src.loc)
+
+		var/direction = get_dir(src, I)
+
+		var/angle = dir2angle(direction)
+		var/obj/effect/abstract/interact/interactive = new(get_turf(src))
+		interactive.icon_state = "handgrab_open"
+		var/new_transform = interactive.transform.Turn(angle)//180 + angle)
+		//new_transform = matrix(new_transform) * 0.6
+		interactive.transform = new_transform
+		interactive.alpha = 0
+		var/old_px = interactive.pixel_x
+		var/old_py = interactive.pixel_y
+
+		var/time_to_pick_up = (I.w_class / 4) SECONDS
+
+		// Animate moving from player to item (centered)
+		animate(interactive, time = time_to_pick_up, alpha = 255, pixel_w = ((I.x - src.x) * 32 + I.pixel_x), pixel_z = ((I.y - src.y) * 32 + I.pixel_y), easing = SINE_EASING)
+
+		if(!do_after(src, I, time_to_pick_up, interaction_key = PICKUP_INTERACTION_KEY(src), display = I))
+			animate(interactive, time = 0.3 SECONDS, pixel_w = old_px, pixel_z = old_py, alpha = 0, easing = SINE_EASING)
+			QDEL_IN(interactive, 0.3 SECONDS)
+			return FALSE
+
+		interactive.icon_state = "handgrab_closed"
+
+		// Fade out smoothly after successful pickup
+		animate(interactive, time = 0.3 SECONDS, pixel_w = old_px, pixel_z = old_py, alpha = 0, easing = SINE_EASING)
+		QDEL_IN(interactive, time_to_pick_up)
 
 	//If the item is in a storage item, take it out
 	var/was_in_storage = !!(I.item_flags & IN_STORAGE)
@@ -186,6 +220,7 @@
 	if(!.)
 		stack_trace("Somehow, someway, pickup_item failed put_in_hand().")
 		dropItemToGround(I, silent = TRUE)
+#undef PICKUP_INTERACTION_KEY
 
 /mob/proc/put_in_hand(obj/item/I, hand_index, forced = FALSE, ignore_anim = TRUE)
 	if(hand_index == null)

@@ -1781,7 +1781,7 @@ DEFINE_INTERACTABLE(/obj/item)
 /obj/item/proc/on_outfit_equip(mob/living/carbon/human/outfit_wearer, visuals_only, item_slot)
 	return
 
-/obj/item/proc/do_pickup_animation(atom/target, turf/source)
+/obj/item/proc/do_pickup_animation(atom/target, turf/source, timetouse = 3)
 	if(!source && !isturf(loc))
 		return
 
@@ -1817,10 +1817,10 @@ DEFINE_INTERACTABLE(/obj/item)
 
 	var/atom/movable/flick_visual/pickup = source.flick_overlay_view(pickup_animation, 0.4 SECONDS)
 	var/matrix/animation_matrix = new(pickup.transform)
-	animation_matrix.Turn(pick(-30, 30))
+	//animation_matrix.Turn(pick(-30, 30))
 	animation_matrix.Scale(0.65)
 
-	animate(pickup, alpha = 175, pixel_x = to_x, pixel_y = to_y, time = 3, transform = animation_matrix, easing = CUBIC_EASING)
+	animate(pickup, alpha = 175, pixel_x = to_x, pixel_y = to_y, time = timetouse, transform = animation_matrix, easing = CUBIC_EASING)
 	animate(alpha = 0, transform = matrix().Scale(0.7), time = 1)
 
 /obj/item/proc/do_drop_animation(atom/moving_from)
@@ -1906,10 +1906,14 @@ DEFINE_INTERACTABLE(/obj/item)
 	animate(alpha = 0, time = 3, easing = CIRCULAR_EASING|EASE_OUT)
 
 /mob/do_item_attack_animation(atom/attacked_atom, visual_effect_icon, obj/item/used_item)
+	/*
 	if(used_item)
 		animate_interact(attacked_atom, INTERACT_GENERIC, used_item)
 		return
 	return ..()
+	*/
+	// BARRICADE EDIT
+	return
 
 /// Common proc used by painting tools like spraycans and palettes that can access the entire 24 bits color space.
 /obj/item/proc/pick_painting_tool_color(mob/user, default_color)

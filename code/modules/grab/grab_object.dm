@@ -25,6 +25,8 @@
 	var/target_zone
 	/// Used by struggle grab datum to keep track of state.
 	var/done_struggle = FALSE
+	/// Used for the hand overlay
+	var/obj/effect/abstract/interact/interactive = null
 
 /obj/item/hand_item/grab/Initialize(mapload, atom/movable/target, datum/grab/grab_type, use_offhand)
 	. = ..()
@@ -57,7 +59,9 @@
 
 	/// Do flavor things like pixel offsets, animation, sound
 	adjust_position()
-	assailant.animate_interact(affecting, INTERACT_GRAB)
+	//assailant.animate_interact(affecting, INTERACT_GRAB)
+	begin_grab_anim(assailant, affecting)
+
 
 	var/sound = 'sound/weapons/thudswoosh.ogg'
 	if(iscarbon(assailant))
@@ -485,3 +489,27 @@
 	for(var/obj/item/hand_item/grab/other_grab in affecting.grabbed_by - src)
 		to_chat(other_grab.assailant, span_alert("[affecting] is ripped from your grip by [assailant]."))
 		qdel(other_grab)
+
+/obj/item/hand_item/grab/proc/begin_grab_anim(var/atom/start, var/atom/end)
+	set waitfor = 0
+	var/direction = get_dir(start, end)
+
+	var/angle = dir2angle(direction)
+	interactive = new(get_turf(start))
+	interactive.icon_state = "handgrab_open"
+	var/new_transform = interactive.transform.Turn(angle)//180 + angle)
+	//new_transform = matrix(new_transform) * 0.6
+	interactive.transform = new_transform
+	interactive.alpha = 0
+
+	var/time_to_pick_up = 0.25 SECONDS
+
+	// Animate moving from player to item (centered)
+	animate(interactive, time = time_to_pick_up, alpha = 255, pixel_w = ((end.x - start.x) * 32 + end.pixel_x), pixel_z = ((end.y - start.y) * 32 + end.pixel_y), easing = SINE_EASING)
+
+	sleep(time_to_pick_up)
+
+	interactive.icon_state = "handgrab_closed"
+	animate(interactive, time = 0.3 SECONDS, alpha = 0, easing = SINE_EASING)
+
+	QDEL_IN(interactive, time_to_pick_up)
