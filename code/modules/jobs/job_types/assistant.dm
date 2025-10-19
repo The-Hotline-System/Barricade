@@ -214,5 +214,9 @@ Assistant
 
 
 /datum/outfit/job/assistantv2
+	name = JOB_ASSISTANT
+	jobtype = /datum/job/assistant
+	id_template = /datum/access_template/job/assistant
+	/// nudged + tempfixed
 	shirt = /obj/item/clothing/under/gendarme
 	pants = /obj/item/clothing/under/pants/gendarme

@@ -809,9 +809,13 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		if(ITEM_SLOT_ID)
 			var/obj/item/bodypart/O = H.get_bodypart(BODY_ZONE_CHEST)
 			if(!H.w_pants && !nojumpsuit && (!O || IS_ORGANIC_LIMB(O)))
-				if(!disable_warning)
-					to_chat(H, span_warning("You need a pair of pants before you can attach this [I.name]!"))
-				return FALSE
+				//// SHIRTCHECK //// temp runtime squasher for pants. repath your new clothing items / scrub SS13's jumpsuits at leisure. //// SHIRTCHECK ////
+				var/shirtcheck = H.w_shirt
+				if(!istype(shirtcheck, /obj/item/clothing/under))
+				//// scrub the above addition and unindent below when you're done. - Y. ////
+					if(!disable_warning)
+						to_chat(H, span_warning("You need a pair of pants before you can attach this [I.name]!"))
+					return FALSE
 
 			return H.equip_delay_self_check(I, bypass_equip_delay_self)
 
