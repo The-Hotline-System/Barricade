@@ -27,6 +27,7 @@ GLOBAL_LIST_INIT(admin_verbs_admin, world.AVerbsAdmin())
 GLOBAL_PROTECT(admin_verbs_admin)
 /world/proc/AVerbsAdmin()
 	return list(
+	/client/proc/toggle_context_menu, /*toggles right-click context menus on/off*/
 	/client/proc/invisimin, /*allows our mob to go invisible/visible*/
 // /datum/admins/proc/show_traitor_panel, /*interface which shows a mob's mind*/ -Removed due to rare practical use. Moved to debug verbs ~Errorage
 	/datum/admins/proc/show_lag_switch_panel,
@@ -443,6 +444,15 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	if(holder)
 		holder.Game()
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Game Panel") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+/client/proc/toggle_context_menu()
+	set category = "Admin"
+	set name = "Toggle Context Menu"
+	if(!holder)
+		return
+	show_popup_menus = !show_popup_menus
+	to_chat(src, show_popup_menus ? "Right click menus are now enabled." : "Right click menus are now disabled.")
+	SSblackbox.record_feedback("tally", "admin_verb", 1, "Toggle Context Menu") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/poll_panel()
 	set name = "Server Poll Management"

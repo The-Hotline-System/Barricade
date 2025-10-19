@@ -18,6 +18,20 @@
 	user.get_admin_say()
 	return TRUE
 
+/datum/keybinding/admin/toggle_context_menu
+	hotkey_keys = list("F4")
+	name = "toggle_context_menu"
+	full_name = "Toggle Context Menu"
+	description = "Toggles right-click context menus on/off"
+	keybind_signal = COMSIG_KB_ADMIN_TOGGLECONTEXTMENU_DOWN
+
+/datum/keybinding/admin/toggle_context_menu/down(client/user)
+	. = ..()
+	if(.)
+		return
+	user.toggle_context_menu()
+	return TRUE
+
 /datum/keybinding/admin/admin_ghost
 	hotkey_keys = list("F5")
 	name = "admin_ghost"
