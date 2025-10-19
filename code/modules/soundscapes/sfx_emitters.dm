@@ -53,7 +53,7 @@
 /obj/sound_emitter/periodic/proc/on_success()
 	return
 
-/obj/sound_emitter/periodic/Process()
+/obj/sound_emitter/periodic/process()
 	if(!chance_to_play || !prob(chance_to_play)) return
 	on_success()
 	playsound(loc, pick(sounds), volume, vary)
