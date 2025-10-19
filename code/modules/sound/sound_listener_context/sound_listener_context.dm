@@ -69,7 +69,7 @@
 	proxy = null
 	return ..()
 
-/datum/sound_listener_context/proc/operator""()
+/datum/sound_listener_context/proc/getinfo()
 	return "SLC: client: [client] proxy: [proxy] current: [current_channels_by_emitter.len] free: [free_channels.len] range: [range]"
 
 
@@ -122,6 +122,7 @@
 	// GLOB.sound_stopped_event.register(E, src, PROC_REF(stop_hearing))
 	RegisterSignal(E, COMSIG_EMITTER_SND_PUSHED, src, PROC_REF(hear_once))
 	// GLOB.sound_pushed_event.register(E, src, PROC_REF(hear_once))
+
 /datum/sound_listener_context/proc/unsubscribe_from(datum/sound_emitter/E)
 	// GLOB.sound_updated_event.unregister(E, src, PROC_REF(on_sound_update))
 	UnregisterSignal(E, COMSIG_EMITTER_SND_UPDATED, E, PROC_REF(on_sound_update))
