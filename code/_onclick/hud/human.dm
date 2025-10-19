@@ -334,6 +334,9 @@
 			if(isnull(chest) || IS_ORGANIC_LIMB(chest))
 				blocked_slots |= ITEM_SLOT_BELT
 
+			if(isnull(chest) || IS_ORGANIC_LIMB(chest))
+				blocked_slots |= ITEM_SLOT_ID
+
 			var/obj/item/bodypart/left_leg = human_mob.get_bodypart(BODY_ZONE_L_LEG)
 			if(isnull(left_leg) || IS_ORGANIC_LIMB(left_leg) || (!CHECK_BITFIELD(human_mob.w_pants.pockets, PANTS_LEFT_POCKET) && !CHECK_BITFIELD(human_mob.w_pants.pockets, PANTS_BOTH_POCKETS)))
 				blocked_slots |= ITEM_SLOT_LPOCKET
