@@ -21,7 +21,10 @@
 
 	for(var/obj/item/ammo_casing/CB in parent.get_ammo_list(FALSE, TRUE))
 		CB.forceMove(parent.drop_location())
-		CB.bounce_away(FALSE, NONE)
+		//CB.bounce_away(FALSE, NONE)
+		var/angle_of_movement =(rand(-3000, 3000) / 100) + dir2angle(turn(user.dir, 180))
+		CB.AddComponent(/datum/component/movable_physics, _horizontal_velocity = rand(450, 550) / 100, _vertical_velocity = rand(400, 450) / 100, _horizontal_friction = rand(20, 24) / 100, _z_gravity = 9.80665, _z_floor = 0, _angle_of_movement = angle_of_movement)
+
 		num_unloaded++
 		var/turf/T = get_turf(parent.drop_location())
 		if(T && is_station_level(T.z))
