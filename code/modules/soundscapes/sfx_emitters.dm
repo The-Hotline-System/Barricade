@@ -2,7 +2,7 @@
 	icon = 'icons/hammer/source.dmi'
 	anchored = 1.0
 	simulated = 0
-	invisibility = 101
+	invisibility = 0
 
 /obj/sound_emitter/loop
 	var/list/sounds = list(
