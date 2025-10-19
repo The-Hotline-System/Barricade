@@ -88,7 +88,12 @@
 			CtrlShiftClickOn(A)
 			return
 
-		ShiftClickOn(A)
+		if(LAZYACCESS(modifiers, RIGHT_CLICK))
+			ShiftRightClickOn(A)
+			return
+
+		else
+			ShiftClickOn(A)
 		return
 
 	if(LAZYACCESS(modifiers, MIDDLE_CLICK))
@@ -382,6 +387,24 @@
 		return
 
 	user.examinate(src)
+	return TRUE
+
+
+/**
+ * Shift Right Click
+ * For most mobs, look ahead(?).
+ */
+
+/mob/proc/ShiftRightClickOn(atom/A)
+	A.ShiftRightClick(src)
+	return
+
+/atom/proc/ShiftRightClick(mob/user)
+	var/flags = SEND_SIGNAL(user, COMSIG_CLICK_SHIFT_RIGHT, src)
+	if(!user.client)
+		return
+	if(!((user.client.eye == user) || (user.client.eye == user.loc) || isobserver(user)) && !(flags & COMPONENT_ALLOW_EXAMINATE))
+		return
 	return TRUE
 
 /**
