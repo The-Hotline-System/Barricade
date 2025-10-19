@@ -165,6 +165,7 @@
 */
 
 /datum/sound_emitter/proc/on_source_moved(atom/mover)
+	SIGNAL_HANDLER
 	if (mover != source)
 		CRASH("Called on_source_moved while mover ([mover]) != source ([source])")
 	var/turf/T = source.loc

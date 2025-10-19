@@ -134,6 +134,7 @@
 	UnregisterSignal(E, COMSIG_EMITTER_SND_PUSHED, src, PROC_REF(hear_once))
 
 /datum/sound_listener_context/proc/start_hearing(datum/sound_emitter/emitter)
+	SIGNAL_HANDLER
 	if (!emitter.is_currently_playing())
 		return // start hearing what?
 	var/chan = assign_channel(emitter)
@@ -152,14 +153,17 @@
 	proxy.playsound_local(proxy.loc, S)
 
 /datum/sound_listener_context/proc/hear_once(sound/S, datum/sound_emitter/emitter)
+	SIGNAL_HANDLER
 	to_chat(world, "We got [S] with [S.volume] volume")
 	apply_proxymob_effects(S)
 	proxy.playsound_local(proxy.loc, S)
 
 /datum/sound_listener_context/proc/stop_hearing(datum/sound_emitter/emitter)
+	SIGNAL_HANDLER
 	release(emitter)
 
 /datum/sound_listener_context/proc/on_sound_update(datum/sound_emitter/emitter)
+	SIGNAL_HANDLER
 	var/chan = current_channels_by_emitter[emitter]
 	if (!chan)
 		return // we aren't hearing this emitter anyway

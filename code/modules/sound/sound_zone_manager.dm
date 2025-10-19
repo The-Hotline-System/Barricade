@@ -180,6 +180,7 @@ var/global/datum/sound_zone_manager/sound_zone_manager = new
 	player.last_sound_zone_hash = newHash
 
 /datum/sound_zone_manager/proc/on_player_move(mob/mover)
+	SIGNAL_HANDLER
 	if (!mover)
 		return
 	if (!mover.sound_endpoint)
