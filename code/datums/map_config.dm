@@ -14,9 +14,9 @@
 	var/votable = FALSE
 
 	// Config actually from the JSON - should default to Theseus
-	var/map_name = "Theseus"
-	var/map_path = "map_files/Theseus"
-	var/map_file = "Theseus.dmm"
+	var/map_name = "Devtest"
+	var/map_path = "map_files/Devtest"
+	var/map_file = "Devtest.dmm"
 	var/webmap_id = "DaedalusMeta"
 
 	var/traits = null
