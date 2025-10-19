@@ -95,6 +95,9 @@
 	update_ambience_area(get_area(src))
 
 	if(client)
+		// DISABLE CONTEXT MENUS.
+		client.show_popup_menus = FALSE
+
 		if(client.view_size)
 			client.view_size.resetToDefault() // Resets the client.view in case it was changed.
 		else

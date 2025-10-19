@@ -101,6 +101,9 @@
 	  */
 	var/movement_type = GROUND
 
+	/// Cardinals Carnival.
+	var/lastcardinal = 0
+
 	/// Either FALSE, [EMISSIVE_BLOCK_GENERIC], or [EMISSIVE_BLOCK_UNIQUE]
 	var/blocks_emissive = FALSE
 	///Internal holder for emissive blocker object, do not use directly use blocks_emissive
@@ -418,66 +421,74 @@
 		set_currently_z_moving(ZMOVING_VERTICAL)
 
 	var/atom/oldloc = loc
+	var/direction_to_move = direct
 	//Early override for some cases like diagonal movement
 	if(glide_size_override && glide_size != glide_size_override)
 		set_glide_size(glide_size_override)
 
 	if(loc != newloc)
 		if (!(direct & (direct - 1))) //Cardinal move
+			lastcardinal = direct
 			. = ..()
 		else //Diagonal move, split it into cardinal moves
-			moving_diagonally = FIRST_DIAG_STEP
-			var/first_step_dir
-			// The `&& moving_diagonally` checks are so that a forceMove taking
-			// place due to a Crossed, Bumped, etc. call will interrupt
-			// the second half of the diagonal movement, or the second attempt
-			// at a first half if step() fails because we hit something.
 			if (direct & NORTH)
 				if (direct & EAST)
-					if (step(src, NORTH) && moving_diagonally)
-						first_step_dir = NORTH
-						moving_diagonally = SECOND_DIAG_STEP
-						. = step(src, EAST)
-					else if (moving_diagonally && step(src, EAST))
-						first_step_dir = EAST
-						moving_diagonally = SECOND_DIAG_STEP
-						. = step(src, NORTH)
+					if(lastcardinal == NORTH)
+						direction_to_move = EAST
+						if(!step(src, EAST))
+							direction_to_move = NORTH
+							. = step(src, NORTH)
+					else if(lastcardinal == EAST)
+						direction_to_move = NORTH
+						if(!step(src, NORTH))
+							direction_to_move = EAST
+							. = step(src, EAST)
+					else
+						direction_to_move = pick(NORTH,EAST)
+						. = step(src, direction_to_move)
 				else if (direct & WEST)
-					if (step(src, NORTH) && moving_diagonally)
-						first_step_dir = NORTH
-						moving_diagonally = SECOND_DIAG_STEP
-						. = step(src, WEST)
-					else if (moving_diagonally && step(src, WEST))
-						first_step_dir = WEST
-						moving_diagonally = SECOND_DIAG_STEP
-						. = step(src, NORTH)
+					if(lastcardinal == NORTH)
+						direction_to_move = WEST
+						if(!step(src, WEST))
+							direction_to_move = NORTH
+							. = step(src, NORTH)
+					else if(lastcardinal == WEST)
+						direction_to_move = NORTH
+						if(!step(src, NORTH))
+							direction_to_move = WEST
+							. = step(src, WEST)
+					else
+						direction_to_move = pick(NORTH,WEST)
+						. = step(src, direction_to_move)
 			else if (direct & SOUTH)
 				if (direct & EAST)
-					if (step(src, SOUTH) && moving_diagonally)
-						first_step_dir = SOUTH
-						moving_diagonally = SECOND_DIAG_STEP
-						. = step(src, EAST)
-					else if (moving_diagonally && step(src, EAST))
-						first_step_dir = EAST
-						moving_diagonally = SECOND_DIAG_STEP
-						. = step(src, SOUTH)
+					if(lastcardinal == SOUTH)
+						direction_to_move = EAST
+						if(!step(src, EAST))
+							direction_to_move = SOUTH
+							. = step(src, SOUTH)
+					else if(lastcardinal == EAST)
+						direction_to_move = SOUTH
+						if(!step(src, SOUTH))
+							direction_to_move = EAST
+							. = step(src, EAST)
+					else
+						direction_to_move = pick(SOUTH,EAST)
+						. = step(src, direction_to_move)
 				else if (direct & WEST)
-					if (step(src, SOUTH) && moving_diagonally)
-						first_step_dir = SOUTH
-						moving_diagonally = SECOND_DIAG_STEP
-						. = step(src, WEST)
-					else if (moving_diagonally && step(src, WEST))
-						first_step_dir = WEST
-						moving_diagonally = SECOND_DIAG_STEP
-						. = step(src, SOUTH)
-			if(moving_diagonally == SECOND_DIAG_STEP)
-				if(!. && set_dir_on_move)
-					setDir(first_step_dir)
-				else if(!inertia_moving)
-					newtonian_move(direct)
-				if(client_mobs_in_contents)
-					update_parallax_contents()
-			moving_diagonally = 0
+					if(lastcardinal == SOUTH)
+						direction_to_move = WEST
+						if(!step(src, WEST))
+							direction_to_move = SOUTH
+							. = step(src, SOUTH)
+					else if(lastcardinal == WEST)
+						direction_to_move = SOUTH
+						if(!step(src, SOUTH))
+							direction_to_move = WEST
+							. = step(src, WEST)
+					else
+						direction_to_move = pick(SOUTH,WEST)
+						. = step(src, direction_to_move)
 			return
 
 	if(!loc || (loc == oldloc && oldloc != newloc))
