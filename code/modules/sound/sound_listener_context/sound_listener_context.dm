@@ -91,7 +91,7 @@
 	if (!chan)
 		return //no channel to release, no sound to stop (hopefully)
 	// flush it
-	proxy.playsound_local(proxy.loc, sound(file = null, channel = chan))
+	proxy << sound(file = null, channel = chan)
 
 	current_channels_by_emitter -= E
 	free_channels += chan
@@ -107,31 +107,33 @@
 		S.volume = 0
 		return
 
-	if (!(S.atom in view(range, proxy)))
-		S.volume /= 5
+	if (!(can_see(proxy, S.atom)))
+		S.volume /= get_dist(proxy, S.atom)
 
 	var/p_effect = turf_volume_coeff(proxy)
 	S.volume *= p_effect
 
 /datum/sound_listener_context/proc/subscribe_to(datum/sound_emitter/E)
-	RegisterSignal(E, COMSIG_EMITTER_SND_UPDATED, E, PROC_REF(on_sound_update))
+	RegisterSignal(E, COMSIG_EMITTER_SND_UPDATED, PROC_REF(on_sound_update))
 	// GLOB.sound_updated_event.register(E, src, PROC_REF(on_sound_update))
-	RegisterSignal(E, COMSIG_EMITTER_SND_STARTED, src, PROC_REF(start_hearing))
+	RegisterSignal(E, COMSIG_EMITTER_SND_STARTED, PROC_REF(start_hearing))
 	// GLOB.sound_started_event.register(E, src, PROC_REF(start_hearing))
-	RegisterSignal(E, COMSIG_EMITTER_SND_STOPPED, src, PROC_REF(stop_hearing))
+	RegisterSignal(E, COMSIG_EMITTER_SND_STOPPED, PROC_REF(stop_hearing))
 	// GLOB.sound_stopped_event.register(E, src, PROC_REF(stop_hearing))
-	RegisterSignal(E, COMSIG_EMITTER_SND_PUSHED, src, PROC_REF(hear_once))
+	RegisterSignal(E, COMSIG_EMITTER_SND_PUSHED, PROC_REF(hear_once))
 	// GLOB.sound_pushed_event.register(E, src, PROC_REF(hear_once))
+	to_chat(world, "SUBSCRIBED")
 
 /datum/sound_listener_context/proc/unsubscribe_from(datum/sound_emitter/E)
 	// GLOB.sound_updated_event.unregister(E, src, PROC_REF(on_sound_update))
-	UnregisterSignal(E, COMSIG_EMITTER_SND_UPDATED, E, PROC_REF(on_sound_update))
+	UnregisterSignal(E, COMSIG_EMITTER_SND_UPDATED, PROC_REF(on_sound_update))
 	// GLOB.sound_started_event.unregister(E, src, PROC_REF(start_hearing))
-	UnregisterSignal(E, COMSIG_EMITTER_SND_STARTED, src, PROC_REF(start_hearing))
+	UnregisterSignal(E, COMSIG_EMITTER_SND_STARTED, PROC_REF(start_hearing))
 	// GLOB.sound_stopped_event.unregister(E, src, PROC_REF(stop_hearing))
-	UnregisterSignal(E, COMSIG_EMITTER_SND_STOPPED, src, PROC_REF(stop_hearing))
+	UnregisterSignal(E, COMSIG_EMITTER_SND_STOPPED, PROC_REF(stop_hearing))
 	// GLOB.sound_pushed_event.unregister(E, src, PROC_REF(hear_once))
-	UnregisterSignal(E, COMSIG_EMITTER_SND_PUSHED, src, PROC_REF(hear_once))
+	UnregisterSignal(E, COMSIG_EMITTER_SND_PUSHED, PROC_REF(hear_once))
+	to_chat(world, "UNSUBSCRIBED")
 
 /datum/sound_listener_context/proc/start_hearing(datum/sound_emitter/emitter)
 	SIGNAL_HANDLER
@@ -150,16 +152,18 @@
 	S.status &= ~SOUND_UPDATE
 	S.channel = chan
 	apply_proxymob_effects(S)
-	proxy.playsound_local(proxy.loc, S)
+	proxy << S
 
 /datum/sound_listener_context/proc/hear_once(sound/S, datum/sound_emitter/emitter)
 	SIGNAL_HANDLER
 	to_chat(world, "We got [S] with [S.volume] volume")
 	apply_proxymob_effects(S)
-	proxy.playsound_local(proxy.loc, S)
+	proxy << S
+	to_chat(world, "HEAR ONCE")
 
 /datum/sound_listener_context/proc/stop_hearing(datum/sound_emitter/emitter)
 	SIGNAL_HANDLER
+	to_chat(world, "STOP HEARING")
 	release(emitter)
 
 /datum/sound_listener_context/proc/on_sound_update(datum/sound_emitter/emitter)
@@ -173,7 +177,8 @@
 	S.status |= SOUND_UPDATE
 	S.channel = chan
 	apply_proxymob_effects(S)
-	proxy.playsound_local(proxy.loc, S)
+	proxy << S
+	to_chat(world, "SOUND UPDATE")
 
 /datum/sound_listener_context/proc/on_enter_range(datum/sound_emitter/E)
 	start_hearing(E) // this can throw if channel reservation fails, subscribe after its safe

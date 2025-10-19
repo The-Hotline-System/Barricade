@@ -146,7 +146,7 @@
 	sound_zone_manager.unregister_emitter(src)
 	//old source should no longer fire move events
 	// GLOB.moved_event.unregister(source, src, PROC_REF(on_source_moved))
-	UnregisterSignal(src, COMSIG_MOVABLE_MOVED, source, PROC_REF(on_source_moved))
+	UnregisterSignal(source, COMSIG_MOVABLE_MOVED, PROC_REF(on_source_moved))
 
 	source = new_source
 	for (var/key in sounds)
@@ -158,7 +158,7 @@
 	sound_zone_manager.register_emitter(src)
 	//new source
 	// GLOB.moved_event.register(source, src, PROC_REF(on_source_moved))
-	RegisterSignal(src, COMSIG_MOVABLE_MOVED, source, PROC_REF(on_source_moved))
+	RegisterSignal(source, COMSIG_MOVABLE_MOVED, PROC_REF(on_source_moved))
 
 /*
 		SYSTEMS-FACING INTERFACE
@@ -203,6 +203,7 @@
 	update_env_effect()
 	// GLOB.sound_started_event.raise_event(src, src)
 	SEND_SIGNAL(src, COMSIG_EMITTER_SND_STARTED, src) /// NEW
+	to_chat(world, "ACTIVATED")
 
 // halt sounds to clients, unregister from dynamic updates
 /datum/sound_emitter/proc/deactivate()
@@ -210,6 +211,7 @@
 
 	//	GLOB.sound_stopped_event.raise_event(src, src)
 	SEND_SIGNAL(src, COMSIG_EMITTER_SND_STOPPED, src) /// NEW
+	to_chat(world, "DEACTIVATED")
 
 /datum/sound_emitter/proc/update_env_effect()
 	if (!is_currently_playing())

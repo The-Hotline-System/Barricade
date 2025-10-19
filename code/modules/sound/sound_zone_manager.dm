@@ -140,7 +140,7 @@ var/global/datum/sound_zone_manager/sound_zone_manager = new
 
 	SLC.proxy.sound_endpoint = SLC.client.mob
 	// listen for their movement to update audible emitters
-	RegisterSignal(src, COMSIG_MOVABLE_MOVED, SLC.proxy, PROC_REF(on_player_move))
+	RegisterSignal(SLC.proxy, COMSIG_MOVABLE_MOVED, PROC_REF(on_player_move))
 	// GLOB.moved_event.register(SLC.proxy, src, PROC_REF(on_player_move))
 	on_player_move(SLC.proxy)
 
@@ -156,7 +156,7 @@ var/global/datum/sound_zone_manager/sound_zone_manager = new
 		if (bucket)
 			bucket -= M
 	// stop them from picking up new emitters
-	UnregisterSignal(M, COMSIG_MOVABLE_MOVED, src, PROC_REF(on_player_move))
+	UnregisterSignal(M, COMSIG_MOVABLE_MOVED, PROC_REF(on_player_move))
 	// GLOB.moved_event.unregister(M, src, PROC_REF(on_player_move))
 	M.sound_endpoint = null
 
