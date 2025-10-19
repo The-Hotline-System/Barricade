@@ -34,11 +34,26 @@
 	. = ..()
 	if(interacting)
 		return
+	var/list/modifiers = params2list(params)
+	if(LAZYACCESS(modifiers, SHIFT_CLICK))
+		if(LAZYACCESS(modifiers, CTRL_CLICK))
+			return
+		return
+	if(LAZYACCESS(modifiers, ALT_CLICK)) // alt and alt-gr (rightalt)
+		return
+	if(LAZYACCESS(modifiers, CTRL_CLICK))
+		return
+	if(LAZYACCESS(modifiers, MIDDLE_CLICK))
+		return
+	if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		return
 	interacting = usr
 	button_down(mob)
 
 /obj/machinery/button/pushdown/onMouseUp()
 	. = ..()
+	if(interacting != usr)
+		return
 	button_up()
 
 	interacting = null
