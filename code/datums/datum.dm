@@ -292,3 +292,8 @@
 /// Optional, you should use this for cases where replication is difficult and extra context is required
 /datum/proc/dump_harddel_info()
 	return
+
+// Process the /datum for garbage collection??? GUH???
+/datum/proc/Process()
+	set waitfor = 0
+	return PROCESS_KILL
