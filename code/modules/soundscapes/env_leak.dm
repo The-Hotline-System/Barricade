@@ -22,4 +22,4 @@
 	if(!m) return
 	if(!m.client) return
 	if(prob(chance_to_play))
-		to_chat(m, SPAN_YELLOW("A drop of water lands on your head."))
+		to_chat(m, ("A drop of water lands on your head."))

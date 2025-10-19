@@ -1,7 +1,6 @@
 /obj/sound_emitter/
 	icon = 'icons/hammer/source.dmi'
 	anchored = 1.0
-	unacidable = 1
 	simulated = 0
 	invisibility = 101
 
@@ -26,7 +25,7 @@
 		audio.volume = src.volume
 		sound_emitter.add(audio, key)
 
-	sound_emitter.play(safepick(sounds)) // <3
+	sound_emitter.play(pick_safe(sounds)) // <3
 
 
 /obj/sound_emitter/periodic

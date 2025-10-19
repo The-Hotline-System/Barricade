@@ -64,7 +64,7 @@ var/global/datum/sound_zone_manager/sound_zone_manager = new
 	var/turf/T = get_turf(E.source)
 	if (!T)
 		// eg. pods have an internal air canister, that has an emitter but no turf
-		log_debug("sound_zone_manager: Failed to get turf in register_emitter on [E]")
+		stack_trace("sound_zone_manager: Failed to get turf in register_emitter on [E]")
 		return
 
 	var/X = index(T.x)
@@ -139,7 +139,9 @@ var/global/datum/sound_zone_manager/sound_zone_manager = new
 	listener_buckets[h] |= SLC.proxy
 
 	SLC.proxy.sound_endpoint = SLC.client.mob
-	GLOB.moved_event.register(SLC.proxy, src, PROC_REF(on_player_move))
+	// listen for their movement to update audible emitters
+	RegisterSignal(src, COMSIG_MOVABLE_MOVED, SLC.proxy, PROC_REF(on_player_move))
+	// GLOB.moved_event.register(SLC.proxy, src, PROC_REF(on_player_move))
 	on_player_move(SLC.proxy)
 
 /datum/sound_zone_manager/proc/unregister_listener(datum/sound_listener_context/SLC)
@@ -154,7 +156,8 @@ var/global/datum/sound_zone_manager/sound_zone_manager = new
 		if (bucket)
 			bucket -= M
 	// stop them from picking up new emitters
-	GLOB.moved_event.unregister(M, src, PROC_REF(on_player_move))
+	UnregisterSignal(M, COMSIG_MOVABLE_MOVED, src, PROC_REF(on_player_move))
+	// GLOB.moved_event.unregister(M, src, PROC_REF(on_player_move))
 	M.sound_endpoint = null
 
 /datum/sound_zone_manager/proc/update_listener(mob/player)
