@@ -217,7 +217,7 @@
 	env_volume_coeff = turf_volume_coeff(source)
 	active_sound.volume_mutator = env_volume_coeff
 
-/datum/sound_emitter/proc/getinfo()
+/datum/sound_emitter/proc/operator""()
 	return "sound_emitter on [source] playing sound [active_sound?.base_sound?.file]"
 
 /datum/sound_emitter/proc/clients_in_range()

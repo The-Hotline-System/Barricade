@@ -69,7 +69,7 @@
 	proxy = null
 	return ..()
 
-/datum/sound_listener_context/proc/getinfo()
+/datum/sound_listener_context/proc/operator""()
 	return "SLC: client: [client] proxy: [proxy] current: [current_channels_by_emitter.len] free: [free_channels.len] range: [range]"
 
 
