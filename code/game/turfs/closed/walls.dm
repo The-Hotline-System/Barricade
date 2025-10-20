@@ -59,6 +59,8 @@ GLOBAL_REAL_VAR(wall_overlays_cache) = list()
 	/// Whether this wall is hard to deconstruct, like a reinforced plasteel wall. Dictated by material
 	var/hard_decon
 	/// Deconstruction state, matters if the wall is hard to deconstruct (hard_decon)
+	var/no_decon
+	/// Can't deconstruct this with a welder.
 	var/d_state = INTACT
 	/// Whether this wall is rusted or not, to apply the rusted overlay
 	var/rusted
@@ -178,7 +180,8 @@ GLOBAL_REAL_VAR(wall_overlays_cache) = list()
 		. += span_notice("It's coated with a <font color=[wall_paint]>layer of paint</font>.")
 	if(stripe_paint)
 		. += span_notice("It has a <font color=[stripe_paint]>painted stripe</font> around its base.")
-	. += deconstruction_hints(user)
+	if(!no_decon)
+		. += deconstruction_hints(user)
 
 /turf/closed/wall/proc/deconstruction_hints(mob/user)
 	if(hard_decon)
@@ -591,13 +594,13 @@ GLOBAL_REAL_VAR(wall_overlays_cache) = list()
 		if(I.tool_behaviour == TOOL_WELDER)
 			if(!I.tool_start_check(user, amount=0))
 				return FALSE
-
-			to_chat(user, span_notice("You begin slicing through the outer plating..."))
-			if(I.use_tool(src, user, slicing_duration, volume=100))
-				if(iswallturf(src))
-					to_chat(user, span_notice("You remove the outer plating."))
-					dismantle_wall()
-				return TRUE
+			if(!no_decon)
+				to_chat(user, span_notice("You begin slicing through the outer plating..."))
+				if(I.use_tool(src, user, slicing_duration, volume=100))
+					if(iswallturf(src))
+						to_chat(user, span_notice("You remove the outer plating."))
+						dismantle_wall()
+					return TRUE
 
 	return FALSE
 
