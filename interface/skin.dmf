@@ -126,6 +126,7 @@ window "mapwindow"
 		border = line
 		saved-params = ""
 		text = ""
+		is-visible = false
 		align = left
 	elem "credits"
 		type = BROWSER
