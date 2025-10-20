@@ -113,6 +113,8 @@ SUBSYSTEM_DEF(loudspeak)
 
 	if(LAZYLEN(speakdata.additional_talk_sound) && !mute)
 		SSloudspeak.handle_playsound(speakdata, mobs, id, pick_safe(speakdata.additional_talk_sound), speakdata.additional_talk_sound_volume, speakdata.additional_talk_sound_vary)
+	else if(!mute)
+		ping_speakers(id)
 
 	if(isnull(message))
 		return
@@ -162,6 +164,28 @@ SUBSYSTEM_DEF(loudspeak)
 	additional_talk_sound_volume = 55
 	// BLUE ^^
 */
+/datum/broadcast_template/hijack
+	var/startmsg = span_speaker_event("PLACEHOLDER START MESSAGE.")
+	var/endmsg = span_speaker_event("PLACEHOLDER END MESSAGE.")
+
+/datum/broadcast_template/hijack/fcastfem
+	name = "Friendcast Female"
+	icon = "loudspeaker"
+	height = 26
+	width = 26
+
+	startmsg = span_speaker_event("STANDBY FOR A FRIENDLY MESSAGE.")
+	endmsg = span_speaker_event("FRIENDLY MESSAGE CONCLUDED.")
+
+	broadcast_start_sound = list('code/modules/rpf_imports/loudspeakers/sound/b_templates/friendcast_n2_start.ogg')
+	broadcast_start_sound_volume = 85
+
+
+	broadcast_end_sound = list('code/modules/rpf_imports/loudspeakers/sound/b_templates/friendcast_end.ogg') //"feedbacknoise"
+	broadcast_end_sound_volume = 85
+
+	additional_talk_sound = list('code/modules/rpf_imports/loudspeakers/sound/b_templates/fem_01.ogg','code/modules/rpf_imports/loudspeakers/sound/b_templates/fem_02.ogg','code/modules/rpf_imports/loudspeakers/sound/b_templates/fem_03.ogg','code/modules/rpf_imports/loudspeakers/sound/b_templates/fem_04.ogg','code/modules/rpf_imports/loudspeakers/sound/b_templates/fem_05.ogg')
+
 
 /datum/broadcast_template/announcement
 	broadcast_start_sound = null//'code/modules/rpf_imports/loudspeakers/sound/effects/announce.ogg'
@@ -189,6 +213,7 @@ SUBSYSTEM_DEF(loudspeak)
 
 /datum/broadcast/New()
 	template = new template
+
 /*
 /datum/broadcast/checkpoint
 	dialogue = list(
@@ -263,8 +288,9 @@ SUBSYSTEM_DEF(loudspeak)
 	return dialogue[index][5]
 
 
-/client/var/datum/broadcast/selected_template = null
+/client/var/datum/broadcast/selected = null
 /client/var/broadcast_id = ALL_SPEAKERS
+/client/var/datum/broadcast_template/hijack/hijacker = null
 
 /client/proc/broadcast_playback()
 	set name = "playback broadcast"
@@ -273,10 +299,64 @@ SUBSYSTEM_DEF(loudspeak)
 
 	var/choice = input("Select a broadcast.") as anything in subtypesof(/datum/broadcast)
 	if(!choice) return
-	selected_template = new choice()
-	selected_template.play()
+	selected = new choice()
+	selected.play()
 
+/client/proc/broadcast_hijack()
+	set name = "hijack loudspeakers"
+	set desc = "redacted"
+	set category = "roleplay"
 
+	var/choice = input("Select a hijacker?:") as anything in subtypesof(/datum/broadcast_template/hijack/)
+	if(!choice) return
+	hijacker = new choice()
+
+	var/list/ids = list("CANCEL", "ALL") // Start with "ALL"
+	for(var/id in GLOB.speakers)
+		ids |= id
+	var/id = input("Choose an ID to play to:",) as anything in ids
+	if(id == "CANCEL")
+		return
+	broadcast_id = id
+	var/list/mobs = list()
+	for(var/obj/s in AUDIOSOURCES)
+		mobs |= SSloudspeak.get_mobs_around_obj(hijacker.broadcast_range, s)
+	SSloudspeak.prep_announce(hijacker, broadcast_id, null, null, null, FALSE)
+	SSloudspeak.handle_playsound(hijacker, mobs, broadcast_id, hijacker.broadcast_start_sound, hijacker.broadcast_start_sound_volume, 0)
+	SSloudspeak.announce(hijacker, broadcast_id, hijacker.startmsg, mobs, null, TRUE)
+
+/client/proc/broadcast_hijack_stop()
+	set name = "end hijacking"
+	set desc = "redacted"
+	set category = "roleplay"
+	if(!hijacker) return
+	var/list/mobs = list()
+	for(var/obj/s in AUDIOSOURCES)
+		mobs |= SSloudspeak.get_mobs_around_obj(hijacker.broadcast_range, s)
+	SSloudspeak.prep_announce(hijacker, broadcast_id, null, null, null, FALSE)
+	SSloudspeak.handle_playsound(hijacker, mobs, broadcast_id, hijacker.broadcast_end_sound, hijacker.broadcast_end_sound_volume, 0)
+	SSloudspeak.announce(hijacker, broadcast_id, hijacker.endmsg, mobs, null, TRUE)
+
+/client/proc/broadcast_hijack_speak()
+	set name = "talk as hijacker"
+	set desc = "redacted"
+	set category = "roleplay"
+	if(!hijacker) return
+	var/raw_message = input("What do you want to say?")
+	if(!raw_message) return
+	raw_message = replacetext(raw_message, "/", "")
+	raw_message = replacetext(raw_message, "~", "")
+	raw_message = replacetext(raw_message, "@", "")
+	raw_message = replacetext(raw_message, " i ", " I ")
+	raw_message = replacetext(raw_message, " ive ", " I've ")
+	raw_message = replacetext(raw_message, " im ", " I'm ")
+	raw_message = replacetext(raw_message, " u ", " you ")
+	var/list/mobs = list()
+	for(var/obj/s in AUDIOSOURCES)
+		mobs |= SSloudspeak.get_mobs_around_obj(hijacker.broadcast_range, s)
+	var/processedmsg = span_speaker_name("UNKNOWN speaks, \"[span_speaker_text(raw_message)]\"")
+	SSloudspeak.handle_playsound(hijacker, mobs, broadcast_id, pick(hijacker.additional_talk_sound), hijacker.additional_talk_sound_volume, hijacker.additional_talk_sound_vary)
+	SSloudspeak.announce(hijacker, broadcast_id, processedmsg, mobs, null, TRUE)
 
 
 
