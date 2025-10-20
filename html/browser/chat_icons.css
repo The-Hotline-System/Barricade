@@ -1,7 +1,7 @@
 img.chat_tag {
 	width: 32px;
 	height: 10px;
-	min-height:10px;
+	min-height: 10px;
 }
 
 img.radio_tag {
@@ -11,4 +11,24 @@ img.radio_tag {
 	position: relative;
 	left: -1px;
 	bottom: -4px;
+}
+
+img {
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+	-ms-interpolation-mode: nearest-neighbor;
+	image-rendering: pixelated;
+}
+img.icon {
+	height: 1em;
+	min-height: 16px;
+	width: auto;
+	vertical-align: bottom;
+}
+
+img.nosize {
+	image-rendering: smooth;
+	-ms-interpolation-mode: bicubic;
+	vertical-align: bottom;
 }

@@ -68,6 +68,11 @@ h1.alert, h2.alert		{color: #000000;}
 .userdanger				{color: #ff0000;	font-weight: bold;	font-size: 3;}
 .danger					{color: #ff0000;	font-weight: bold;}
 .danger					{color: #ff0000;}
+.yelBig					{color: #ccbd8c; font-weight: bold; font-style: italic; text-shadow: 0px 0px 3px rgb(148, 140, 96);}
+.yel				{color: #b1a773;}
+
+.whiBig					{color: #ced2d6; font-weight: bold; font-style: italic; text-shadow: 0px 0px 3px rgb(148, 140, 96);}
+.whi				{color: #adb2b6;}
 .tinydanger				{color: #ff0000; font-size: 85%;}
 .smalldanger			{color: #ff0000; font-size: 90%;}
 .warning				{color: #ff0000;	font-style: italic;}
