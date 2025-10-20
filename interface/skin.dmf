@@ -164,6 +164,7 @@ window "info_and_buttons"
 
 window "infobuttons"
 	elem "infobuttons"
+		is-visible = false
 		type = MAIN
 		pos = 382,280
 		size = 640x30
@@ -178,6 +179,7 @@ window "infobuttons"
 		inner-pos = 8,31
 		screen-size = 1920x1040
 	elem "changelog"
+		is-visible = false
 		type = BUTTON
 		pos = 17,0
 		size = 79x30
@@ -188,6 +190,7 @@ window "infobuttons"
 		text = "Changelog"
 		command = "changelog"
 	elem "report-issue"
+		is-visible = false
 		type = BUTTON
 		pos = 95,0
 		size = 100x30
@@ -198,6 +201,7 @@ window "infobuttons"
 		text = "Report Issue"
 		command = "report-issue"
 	elem "codex_button"
+		is-visible = false
 		type = BUTTON
 		pos = 445,0
 		size = 50x30
@@ -208,6 +212,7 @@ window "infobuttons"
 		text = "Codex"
 		command = "Codex"
 	elem "webmap"
+		is-visible = false
 		type = BUTTON
 		pos = 545,0
 		size = 75x30
@@ -219,6 +224,7 @@ window "infobuttons"
 		command = "webmap"
 	elem "rules"
 		type = BUTTON
+		is-visible = false
 		pos = 395,0
 		size = 50x30
 		anchor1 = 62,0
@@ -229,6 +235,7 @@ window "infobuttons"
 		command = "rules"
 	elem "wiki"
 		type = BUTTON
+		is-visible = false
 		pos = 495,0
 		size = 50x30
 		anchor1 = 77,0
@@ -239,6 +246,7 @@ window "infobuttons"
 		command = "wiki"
 	elem "forum"
 		type = BUTTON
+		is-visible = false
 		pos = 295,0
 		size = 100x30
 		anchor1 = 46,0
@@ -249,6 +257,7 @@ window "infobuttons"
 		command = "forum"
 	elem "github"
 		type = BUTTON
+		is-visible = false
 		pos = 195,0
 		size = 100x30
 		anchor1 = 30,0
