@@ -186,6 +186,24 @@ SUBSYSTEM_DEF(loudspeak)
 
 	additional_talk_sound = list('code/modules/rpf_imports/loudspeakers/sound/b_templates/fem_01.ogg','code/modules/rpf_imports/loudspeakers/sound/b_templates/fem_02.ogg','code/modules/rpf_imports/loudspeakers/sound/b_templates/fem_03.ogg','code/modules/rpf_imports/loudspeakers/sound/b_templates/fem_04.ogg','code/modules/rpf_imports/loudspeakers/sound/b_templates/fem_05.ogg')
 
+/datum/broadcast_template/hijack/fcastmale
+	name = "Friendcast Male"
+	icon = "loudspeaker"
+	height = 26
+	width = 26
+
+	startmsg = span_speaker_event("STANDBY FOR A FRIENDLY MESSAGE.")
+	endmsg = span_speaker_event("FRIENDLY MESSAGE CONCLUDED.")
+
+	broadcast_start_sound = list('code/modules/rpf_imports/loudspeakers/sound/b_templates/friendcast_start.ogg')
+	broadcast_start_sound_volume = 85
+
+
+	broadcast_end_sound = list('code/modules/rpf_imports/loudspeakers/sound/b_templates/friendcast_end.ogg') //"feedbacknoise"
+	broadcast_end_sound_volume = 85
+
+	additional_talk_sound = list('code/modules/rpf_imports/loudspeakers/sound/b_templates/male_mumble01.ogg','code/modules/rpf_imports/loudspeakers/sound/b_templates/male_mumble02.ogg','code/modules/rpf_imports/loudspeakers/sound/b_templates/male_mumble03.ogg')
+
 
 /datum/broadcast_template/announcement
 	broadcast_start_sound = null//'code/modules/rpf_imports/loudspeakers/sound/effects/announce.ogg'
