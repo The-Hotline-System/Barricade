@@ -329,19 +329,24 @@ SUBSYSTEM_DEF(loudspeak)
 	set name = "end hijacking"
 	set desc = "redacted"
 	set category = "roleplay"
-	if(!hijacker) return
+	if(!hijacker)
+		to_chat(usr, span_info("Start hijacking first."))
+		return
 	var/list/mobs = list()
 	for(var/obj/s in AUDIOSOURCES)
 		mobs |= SSloudspeak.get_mobs_around_obj(hijacker.broadcast_range, s)
 	SSloudspeak.prep_announce(hijacker, broadcast_id, null, null, null, FALSE)
 	SSloudspeak.handle_playsound(hijacker, mobs, broadcast_id, hijacker.broadcast_end_sound, hijacker.broadcast_end_sound_volume, 0)
 	SSloudspeak.announce(hijacker, broadcast_id, hijacker.endmsg, mobs, null, TRUE)
+	hijacker = null
 
 /client/proc/broadcast_hijack_speak()
 	set name = "talk as hijacker"
 	set desc = "redacted"
 	set category = "roleplay"
-	if(!hijacker) return
+	if(!hijacker)
+		to_chat(usr, span_info("Start hijacking first."))
+		return
 	var/raw_message = input("What do you want to say?")
 	if(!raw_message) return
 	raw_message = replacetext(raw_message, "/", "")
