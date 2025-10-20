@@ -251,7 +251,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	// Instantiate tgui panel
 	tgui_panel = new(src, "browseroutput")
 
-	set_right_click_menu_mode(TRUE)
+	set_right_click_menu_mode()
 
 	GLOB.ahelp_tickets.ClientLogin(src)
 	GLOB.interviews.client_login(src)

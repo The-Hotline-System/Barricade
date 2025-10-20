@@ -13,7 +13,7 @@
 	if (isturf(T))
 		update_z(T.z)
 
-	client.set_right_click_menu_mode(FALSE)
+	client.set_right_click_menu_mode()
 	lighting_alpha = default_lighting_alpha()
 	update_sight()
 	update_monochrome()
