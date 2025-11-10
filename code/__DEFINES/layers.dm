@@ -23,11 +23,12 @@ Specifically: ZMIMIC_MAX_PLANE to (ZMIMIC_MAX_PLANE - ZMIMIC_MAX_DEPTH)
 #define GRAVITY_PULSE_PLANE -11
 #define GRAVITY_PULSE_RENDER_TARGET "*GRAVPULSE_RENDER_TARGET"
 
-#define FLOOR_PLANE -8
-#define WALL_PLANE -6
-#define GAME_PLANE -7
 
-#define FOOTSTEP_ALERT_PLANE -6
+#define FLOOR_PLANE -7
+
+#define GAME_PLANE -6
+
+#define FOOTSTEP_ALERT_PLANE -5.5
 
 ///Slightly above the game plane but does not catch mouse clicks. Useful for certain visuals that should be clicked through, like seethrough trees
 #define SEETHROUGH_PLANE -5
@@ -150,20 +151,9 @@ Specifically: ZMIMIC_MAX_PLANE to (ZMIMIC_MAX_PLANE - ZMIMIC_MAX_DEPTH)
 #define LIGHTING_PRIMARY_DIMMER_LAYER 15.1	//The layer that dims the main lights of the station
 #define LIGHTING_SECONDARY_LAYER 16	//The colourful, usually small lights that go on top
 
-#define ATOMS_FOV_SHADOWS_PLANE 121
-#define WALLS_FOV_PLANE_0 122
-#define WALLS_FOV_PLANE_1 123
-#define WALLS_FOV_PLANE_2 124
-#define WALLS_FOV_PLANE_3 125
-#define WALLS_FOV_PLANE_4 126
-#define WALLS_FOV_PLANE_5 127
-#define WALLS_FOV_PLANE_6 128
-#define WALLS_FOV_PLANE_7 129
-#define WALLS_FOV_PLANE_8 130
-#define WALLS_FOV_PLANE_9 131
 
 ///visibility + hiding of things outside of light source range
-#define BYOND_LIGHTING_PLANE 135
+#define BYOND_LIGHTING_PLANE 130
 
 
 //---------- EMISSIVES -------------
