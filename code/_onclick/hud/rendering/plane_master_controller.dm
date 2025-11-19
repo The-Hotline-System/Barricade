@@ -84,6 +84,7 @@ INITIALIZE_IMMEDIATE(/atom/movable/plane_master_controller)
 	name = PLANE_MASTERS_GAME
 	controlled_planes = list(
 		FLOOR_PLANE,
+		WALL_PLANE,
 		GAME_PLANE,
 		MASSIVE_OBJ_PLANE,
 		GHOST_PLANE,
@@ -99,6 +100,7 @@ INITIALIZE_IMMEDIATE(/atom/movable/plane_master_controller)
 		PLANE_SPACE_PARALLAX,
 		GRAVITY_PULSE_PLANE,
 		FLOOR_PLANE,
+		WALL_PLANE,
 		GAME_PLANE,
 		MASSIVE_OBJ_PLANE,
 		GHOST_PLANE,

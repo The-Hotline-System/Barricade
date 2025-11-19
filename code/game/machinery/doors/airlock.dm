@@ -153,6 +153,8 @@
 	var/note_overlay_file = 'icons/obj/doors/airlocks/station/note_overlays.dmi' //Used for papers and photos pinned to the airlock
 	var/has_fill_overlays = TRUE
 
+	var/atom/movable/atom_shadow/door/shadow
+
 	// Paint
 	var/airlock_paint
 	var/stripe_paint
@@ -208,7 +210,9 @@
 		COMSIG_ATOM_ATTACK_HAND = PROC_REF(on_attack_hand)
 	)
 	AddElement(/datum/element/connect_loc, connections)
-
+	if(!glass)
+		shadow = new(loc)
+		shadow.setDir(dir)
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/machinery/door/airlock/connect_to_shuttle(obj/docking_port/mobile/port, obj/docking_port/stationary/dock)
@@ -429,6 +433,10 @@
 /obj/machinery/door/airlock/proc/is_secure()
 	return (security_level > 0)
 
+/obj/machinery/door/airlock/setDir(ndir)
+	. = ..()
+	shadow?.dir = dir
+
 /obj/machinery/door/airlock/update_icon(updates=ALL, state=0, override=FALSE)
 	if(operating && !override)
 		return
@@ -436,6 +444,17 @@
 	if(!state)
 		state = density ? AIRLOCK_CLOSED : AIRLOCK_OPEN
 	airlock_state = state
+
+	if(shadow)
+		switch(airlock_state)
+			if(AIRLOCK_OPENING)
+				shadow.icon_state = "opening"
+			if(AIRLOCK_OPEN)
+				shadow.icon_state = "open"
+			if(AIRLOCK_CLOSING)
+				shadow.icon_state = "closing"
+			if(AIRLOCK_CLOSED)
+				shadow.icon_state = "closed"
 	UPDATE_OO_IF_PRESENT
 	. = ..()
 

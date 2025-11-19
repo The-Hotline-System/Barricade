@@ -23,7 +23,7 @@ Specifically: ZMIMIC_MAX_PLANE to (ZMIMIC_MAX_PLANE - ZMIMIC_MAX_DEPTH)
 #define GRAVITY_PULSE_PLANE -11
 #define GRAVITY_PULSE_RENDER_TARGET "*GRAVPULSE_RENDER_TARGET"
 
-
+#define WALL_PLANE -8
 #define FLOOR_PLANE -7
 
 #define GAME_PLANE -6
@@ -146,6 +146,19 @@ Specifically: ZMIMIC_MAX_PLANE to (ZMIMIC_MAX_PLANE - ZMIMIC_MAX_DEPTH)
 
 ///Things that should render ignoring lighting
 #define ABOVE_LIGHTING_PLANE 120
+
+
+#define ATOMS_FOV_SHADOWS_PLANE 129
+#define WALLS_FOV_PLANE_0 130
+#define WALLS_FOV_PLANE_1 131
+#define WALLS_FOV_PLANE_2 132
+#define WALLS_FOV_PLANE_3 133
+#define WALLS_FOV_PLANE_4 134
+#define WALLS_FOV_PLANE_5 135
+#define WALLS_FOV_PLANE_6 136
+#define WALLS_FOV_PLANE_7 137
+#define WALLS_FOV_PLANE_8 138
+#define WALLS_FOV_PLANE_9 139
 
 #define LIGHTING_PRIMARY_LAYER 15	//The layer for the main lights of the station
 #define LIGHTING_PRIMARY_DIMMER_LAYER 15.1	//The layer that dims the main lights of the station
