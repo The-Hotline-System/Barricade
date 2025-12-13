@@ -2135,6 +2135,94 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 /mob/living/proc/can_look_up()
 	return !(incapacitated(IGNORE_RESTRAINTS))
 
+/mob/proc/look_up()
+	return
+
+/mob/living/look_up()
+	if(client.perspective != MOB_PERSPECTIVE) //We are already looking up.
+		stop_looking()
+		return
+	if(client.pixel_x || client.pixel_y)
+		stop_looking()
+		return
+	if(!can_look_up())
+		return
+	changeNext_move(CLICK_CD_MELEE)
+	visible_message(span_info("[src] looks up."))
+	var/turf/ceiling = get_step_multiz(src, UP)
+	if(!istransparentturf(ceiling)) //There is no turf we can look through above us
+		to_chat(src, span_warning("A ceiling above my head."))
+		return
+	look_updown = TRUE
+	var/ttime = 1 SECONDS
+	if(!do_after(src, ttime))
+		return
+	reset_perspective(ceiling)
+	// update_cone_show()
+
+/mob/living/proc/look_further(turf/T)
+	if(client.perspective != MOB_PERSPECTIVE)
+		stop_looking()
+		return
+	if(client.pixel_x || client.pixel_y)
+		stop_looking()
+		return
+	if(!can_look_up())
+		return
+	if(!istype(T))
+		return
+	changeNext_move(CLICK_CD_MELEE)
+	var/_x = T.x-loc.x
+	var/_y = T.y-loc.y
+	if(_x > 7 || _x < -7)
+		return
+	if(_y > 7 || _y < -7)
+		return
+	// hide_cone()
+	var/ttime = 10
+	visible_message("<span class='info'>[src] looks into the distance.</span>")
+	animate(client, pixel_x = world.icon_size*_x, pixel_y = world.icon_size*_y, ttime)
+//	RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(stop_looking))
+	// update_cone_show()
+
+/mob/proc/look_down(turf/T)
+	return
+
+/mob/living/look_down(turf/T)
+	if(client.pixel_x || client.pixel_y)
+		stop_looking()
+		return
+	if(client.perspective != MOB_PERSPECTIVE)
+		stop_looking()
+		return
+	if(!can_look_up())
+		return
+	if(!istype(T))
+		return
+	var/turf/OS = get_step_multiz(T, DOWN)
+	if(!OS)
+		return
+	var/ttime = 1 SECONDS
+	visible_message("<span class='info'>[src] looks down through [T].</span>")
+	look_updown = TRUE
+	if(!do_after(src, ttime))
+		return
+	changeNext_move(CLICK_CD_MELEE)
+	reset_perspective(OS)
+	// update_cone_show()
+//	RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(stop_looking))
+
+/mob/living/proc/stop_looking()
+	look_updown = FALSE
+	animate(client, pixel_x = 0, pixel_y = 0, 2, easing = SINE_EASING)
+	if(client)
+		client.pixel_x = 0
+		client.pixel_y = 0
+	reset_perspective()
+	// update_cone_show()
+//	UnregisterSignal(src, COMSIG_MOVABLE_PRE_MOVE)
+
+/* OLD LOOK UP/DOWN CODE
 /mob/living/verb/lookup()
 	set name = "Look Upwards"
 	set desc = "If you want to know what's above."
@@ -2187,6 +2275,7 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 		return
 
 	to_chat(src, span_notice("You can see \the [T ? T : "floor"]."))
+*/
 
 /mob/living/proc/toggle_gunpoint_flag(permission)
 	gunpoint_flags ^= permission

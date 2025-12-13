@@ -2,6 +2,8 @@
 	. = ..()
 	if(client)
 		update_mouse_pointer()
+	if(look_updown)
+		stop_looking()
 	update_turf_movespeed(loc)
 	if(HAS_TRAIT(src, TRAIT_NEGATES_GRAVITY))
 		if(!isgroundlessturf(loc))

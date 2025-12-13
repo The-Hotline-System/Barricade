@@ -392,12 +392,32 @@
 
 /**
  * Shift Right Click
- * For most mobs, look ahead(?).
+ * For most mobs, look further or up and down.
  */
 
 /mob/proc/ShiftRightClickOn(atom/A)
 	A.ShiftRightClick(src)
 	return
+
+/mob/living/ShiftRightClickOn(atom/A, params)
+	var/turf/T = get_turf(A)
+//	var/turf/MT = get_turf(src)
+	if(stat)
+		return
+	if(get_dist(src, A) <= 2)
+		if(A.loc == src)
+			A.ShiftRightClick(src)
+		else if(T == loc)
+			look_up()
+		else
+			if(istransparentturf(T))
+				var/turf/MT = get_turf(src)
+				if((T in view(MT))) // if we got line of sight, allow player to look down
+					look_down(T)
+					return
+			look_further(T)
+	else
+		look_further(T)
 
 /atom/proc/ShiftRightClick(mob/user)
 	var/flags = SEND_SIGNAL(user, COMSIG_CLICK_SHIFT_RIGHT, src)

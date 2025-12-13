@@ -19,36 +19,6 @@
 	L.resist()
 	return TRUE
 
-/datum/keybinding/living/look_up
-	hotkey_keys = list("L")
-	name = "look up"
-	full_name = "Look Up"
-	description = "Look up at the next z-level.  Only works if directly below open space."
-	keybind_signal = COMSIG_KB_LIVING_LOOKUP_DOWN
-
-/datum/keybinding/living/look_up/down(client/user)
-	. = ..()
-	if(.)
-		return
-	var/mob/living/L = user.mob
-	L.do_look_up()
-	return TRUE
-
-/datum/keybinding/living/look_down
-	hotkey_keys = list(";")
-	name = "look down"
-	full_name = "Look Down"
-	description = "Look down at the previous z-level.  Only works if directly above open space."
-	keybind_signal = COMSIG_KB_LIVING_LOOKDOWN_DOWN
-
-/datum/keybinding/living/look_down/down(client/user)
-	. = ..()
-	if(.)
-		return
-	var/mob/living/L = user.mob
-	L.do_look_down()
-	return TRUE
-
 /datum/keybinding/living/rest
 	hotkey_keys = list("U")
 	name = "rest"
