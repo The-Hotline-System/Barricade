@@ -453,7 +453,7 @@
 			span_hear("You hear the rustling of clothes."),
 			DEFAULT_MESSAGE_RANGE,
 		)
-		share_blood_on_touch(helper, ITEM_SLOT_OCLOTHING | ITEM_SLOT_ICLOTHING)
+		share_blood_on_touch(helper, ITEM_SLOT_OCLOTHING | ITEM_SLOT_SHIRT)
 
 	else if(deprecise_zone(helper.zone_selected) == BODY_ZONE_HEAD && get_bodypart(BODY_ZONE_HEAD)) //Headpats!
 		helper.visible_message(
