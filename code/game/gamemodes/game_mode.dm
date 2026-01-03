@@ -167,20 +167,6 @@
 	if(GLOB.station_was_nuked)
 		return TRUE
 
-/*
- * Generate a list of active station traits to report to the crew.
- *
- * Returns a formatted string of all station traits (that are shown) affecting the station.
- */
-/datum/game_mode/proc/generate_station_trait_report()
-	var/trait_list_string = ""
-	for(var/datum/station_trait/station_trait as anything in SSstation.station_traits)
-		if(!station_trait.show_in_report)
-			continue
-		trait_list_string += "[station_trait.get_report()]<BR>"
-	if(trait_list_string != "")
-		return "<hr><b>Identified shift divergencies:</b><BR>" + trait_list_string
-	return
 
 /proc/reopen_roundstart_suicide_roles()
 	var/include_command = CONFIG_GET(flag/reopen_roundstart_suicide_roles_command_positions)

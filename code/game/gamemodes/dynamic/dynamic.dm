@@ -308,8 +308,6 @@ GLOBAL_VAR_INIT(dynamic_forced_threat_level, -1)
 
 	var/greenshift = GLOB.dynamic_forced_extended || (threat_level < min_threat && shown_threat < min_threat) //if both shown and real threat are below any ruleset, its extended time
 
-	. += generate_station_trait_report()
-
 	print_command_report(., "Central Command Status Summary", announce=FALSE)
 	if(greenshift)
 		priority_announce("Thanks to the tireless efforts of our security and intelligence divisions, there are currently no credible threats to [station_name()]. All station construction projects have been authorized. Have a secure shift!", sub_title = "Security Report", sound_type = ANNOUNCER_CENTCOM, do_not_modify = TRUE)
