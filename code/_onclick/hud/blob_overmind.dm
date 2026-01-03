@@ -199,10 +199,6 @@
 	using.screen_loc = "WEST:6,NORTH:-3"
 	static_inventory += using
 
-	using = new /atom/movable/screen/blob/jump_to_node(null, src)
-	using.screen_loc = ui_inventory
-	static_inventory += using
-
 	using = new /atom/movable/screen/blob/jump_to_core(null, src)
 	using.screen_loc = ui_zonesel
 	static_inventory += using

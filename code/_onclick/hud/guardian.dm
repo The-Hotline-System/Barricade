@@ -26,10 +26,6 @@
 	using.screen_loc = ui_storage1
 	static_inventory += using
 
-	using = new /atom/movable/screen/guardian/toggle_light(null, src)
-	using.screen_loc = ui_inventory
-	static_inventory += using
-
 	using = new /atom/movable/screen/guardian/communicate(null, src)
 	using.screen_loc = ui_back
 	static_inventory += using
@@ -77,10 +73,6 @@
 
 	using = new owner.toggle_button_type(null, src)
 	using.screen_loc = ui_storage2
-	static_inventory += using
-
-	using = new /atom/movable/screen/guardian/toggle_light(null, src)
-	using.screen_loc = ui_inventory
 	static_inventory += using
 
 /datum/hud/dextrous/guardian/persistent_inventory_update()

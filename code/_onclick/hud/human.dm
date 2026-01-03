@@ -1,33 +1,6 @@
 /atom/movable/screen/human
 	icon = 'icons/hud/screen_midnight.dmi'
 
-/atom/movable/screen/human/toggle
-	name = "toggle"
-	icon_state = "toggle"
-
-	private_screen = FALSE // We handle cases where usr != owner.
-
-/atom/movable/screen/human/toggle/Click()
-	. = ..()
-	if(.)
-		return FALSE
-
-	var/mob/targetmob = usr
-
-	if(isobserver(usr))
-		if(ishuman(usr.client.eye) && (usr.client.eye != usr))
-			var/mob/M = usr.client.eye
-			targetmob = M
-
-	if(usr.hud_used.inventory_shown && targetmob.hud_used)
-		usr.hud_used.inventory_shown = FALSE
-		usr.client.screen -= targetmob.hud_used.toggleable_inventory
-	else
-		usr.hud_used.inventory_shown = TRUE
-		usr.client.screen += targetmob.hud_used.toggleable_inventory
-
-	targetmob.hud_used.hidden_inventory_update(usr)
-
 /atom/movable/screen/human/equip
 	name = "equip"
 	icon_state = "act_equip"
@@ -196,11 +169,6 @@
 	using.icon = ui_style
 	using.screen_loc = ui_above_intent
 	hotkeybuttons += using
-
-	using = new /atom/movable/screen/human/toggle(null, src)
-	using.icon = ui_style
-	using.screen_loc = ui_inventory
-	static_inventory += using
 
 	using = new /atom/movable/screen/human/equip(null, src)
 	using.icon = ui_style

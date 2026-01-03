@@ -48,9 +48,6 @@
 	var/y_off = round((M.held_items.len-1) / 2)
 	return "CENTER+[x_off]:16,SOUTH+[y_off+1]:5"
 
-//Lower left, persistent menu
-#define ui_inventory "WEST:6,SOUTH:5"
-
 //Middle left indicators
 #define ui_lingchemdisplay "WEST,CENTER-1:15"
 #define ui_lingstingdisplay "WEST:6,CENTER-3:11"
@@ -103,7 +100,7 @@
 //Pop-up inventory
 #define ui_shoes "WEST+1:8,SOUTH:5"
 #define ui_ishirt "WEST:6,SOUTH+1:7"
-#define ui_ipants "WEST+3:10,SOUTH+1:7"
+#define ui_ipants "WEST:6,SOUTH:5"
 #define ui_oclothing "WEST+1:8,SOUTH+1:7"
 #define ui_gloves "WEST+2:10,SOUTH+1:7"
 #define ui_glasses "WEST:6,SOUTH+3:11"
