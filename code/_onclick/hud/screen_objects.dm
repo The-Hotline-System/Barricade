@@ -134,6 +134,15 @@
 	var/mob/living/navigator = usr
 	navigator.navigate()
 
+/atom/movable/screen/backhud
+	name = "backhud"
+	icon = 'icons/mob/hudback.dmi'
+	icon_state = "test"
+	screen_loc = ui_backhud
+	plane = FULLSCREEN_PLANE
+	layer = BACKHUD_LAYER
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+
 /atom/movable/screen/craft
 	name = "crafting menu"
 	icon = 'icons/hud/screen_midnight.dmi'

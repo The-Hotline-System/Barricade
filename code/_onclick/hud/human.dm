@@ -59,6 +59,9 @@
 	action_intent.screen_loc = ui_combat_toggle
 	static_inventory += action_intent
 
+	backhud =  new /atom/movable/screen/backhud()
+	backhud.screen_loc = ui_backhud
+	static_inventory += backhud
 
 	using = new /atom/movable/screen/mov_intent(null, src)
 	using.icon = ui_style

@@ -52,6 +52,9 @@
 #define ui_lingchemdisplay "WEST,CENTER-1:15"
 #define ui_lingstingdisplay "WEST:6,CENTER-3:11"
 
+// Background of HUD
+#define ui_backhud "WEST-5:0,SOUTH:0"
+
 //Lower center, persistent menu
 #define ui_sstore1 "CENTER-5:10,SOUTH:5"
 #define ui_id "CENTER-4:12,SOUTH:5"
