@@ -143,6 +143,15 @@
 	layer = BACKHUD_LAYER
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 
+/atom/movable/screen/hudmisery
+	name = "hudmisery"
+	icon = 'icons/mob/hudmisery.dmi'
+	icon_state = ""
+	screen_loc = ui_misery
+	plane = FULLSCREEN_PLANE
+	layer = MISERY_LAYER
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+
 /atom/movable/screen/craft
 	name = "crafting menu"
 	icon = 'icons/hud/screen_midnight.dmi'

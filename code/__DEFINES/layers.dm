@@ -199,6 +199,7 @@ Specifically: ZMIMIC_MAX_PLANE to (ZMIMIC_MAX_PLANE - ZMIMIC_MAX_DEPTH)
 #define CRIT_LAYER 6
 #define CURSE_LAYER 7
 #define BACKHUD_LAYER 10
+#define MISERY_LAYER 9.9
 #define FOV_EFFECTS_LAYER 10000 //Blindness effects are not layer 4, they lie to you
 
 ///--------------- FULLSCREEN RUNECHAT BUBBLES ------------

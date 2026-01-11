@@ -6,53 +6,6 @@ macro "default"
 		name = "SHIFT+UP"
 		command = ".winset :map.right-click=true\nKeyUp Shift"
 
-
-menu "menu"
-	elem
-		name = "&File"
-		command = ""
-		saved-params = "is-checked"
-	elem
-		name = "&Quick screenshot\tF2"
-		command = ".screenshot auto"
-		category = "&File"
-		saved-params = "is-checked"
-	elem
-		name = "&Save screenshot as...\tShift+F2"
-		command = ".screenshot"
-		category = "&File"
-		saved-params = "is-checked"
-	elem
-		name = ""
-		command = ""
-		category = "&File"
-		saved-params = "is-checked"
-	elem "reconnectbutton"
-		name = "&Reconnect"
-		command = ".reconnect"
-		category = "&File"
-		saved-params = "is-checked"
-	elem
-		name = "&Quit\tAlt-F4"
-		command = ".quit"
-		category = "&File"
-		saved-params = "is-checked"
-	elem "help-menu"
-		name = "&Help"
-		command = ""
-		saved-params = "is-checked"
-	elem
-		name = "&Admin Help\tF1"
-		command = "adminhelp"
-		category = "&Help"
-		saved-params = "is-checked"
-	elem
-		name = "&Hotkeys"
-		command = "Hotkeys-Help"
-		category = "&Help"
-		saved-params = "is-checked"
-
-
 window "mainwindow"
 	elem "mainwindow"
 		type = MAIN
@@ -65,17 +18,18 @@ window "mainwindow"
 		statusbar = false
 		icon = 'icons\\ui_icons\\common\\ss13_32.png'
 		macro = "default"
-		menu = "menu"
 	elem "split"
 		type = CHILD
 		pos = 3,0
-		size = 634x440
+		size = 640x440
 		anchor1 = 0,0
 		anchor2 = 100,100
 		saved-params = "splitter"
-		left = "mapwindow"
+		left = "gamewindow"
 		right = "info_and_buttons"
 		is-vert = true
+		lock = left
+		splitter = 71
 	elem "asset_cache_browser"
 		type = BROWSER
 		pos = 0,0
@@ -93,6 +47,48 @@ window "mainwindow"
 		is-visible = false
 		saved-params = ""
 
+window "gamewindow"
+	elem "gamewindow"
+		type = MAIN
+		pos = 281,0
+		size = 640x480
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		saved-params = "pos;size;is-minimized;is-maximized"
+		title = "Game"
+		is-pane = true
+	elem "game"
+		type = CHILD
+		pos = 0,0
+		size = 640x480
+		anchor1 = 0,0
+		anchor2 = 100,100
+		saved-params = "splitter"
+		left = "hudwindow"
+		right = "mapwindow"
+		is-vert = true
+		splitter = 25
+		show-splitter = false
+
+window "hudwindow"
+	elem "hudwindow"
+		type = MAIN
+		pos = 281,0
+		size = 640x480
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		saved-params = "pos;size;"
+		is-pane = true
+	elem "hud"
+		type = MAP
+		pos = 0,0
+		size = 640x480
+		anchor1 = 0,0
+		anchor2 = 100,100
+		font-family = "Arial"
+		font-size = 7
+		saved-params = "icon-size;text-mode"
+
 window "mapwindow"
 	elem "mapwindow"
 		type = MAIN
@@ -102,7 +98,6 @@ window "mapwindow"
 		anchor2 = -1,-1
 		saved-params = "pos;size;is-minimized;is-maximized"
 		is-pane = true
-		on-status = ".winset \"status_bar.text=[[*]]\" "
 	elem "map"
 		type = MAP
 		pos = 0,0
@@ -113,21 +108,8 @@ window "mapwindow"
 		font-size = 7
 		is-default = true
 		right-click = true
-		saved-params = "zoom;letterbox;zoom-mode"
+		saved-params = "zoom;letterbox;zoom-mode;icon-size;text-mode"
 		style = "img.icon {width: auto; height: auto} .center { text-align: center; } .maptext { font-family: 'Small Fonts'; font-size: 7px; -dm-text-outline: 1px black; color: white; } .vga { font-family: 'PxPlus IBM VGA9'; font-size: 12px; } .command_headset { font-weight: bold;\tfont-size: 8px; } .small { font-size: 6px; } .big { font-size: 8px; } .reallybig { font-size: 8px; } .extremelybig { font-size: 8px; } .greentext { color: #00FF00; font-size: 7px; } .redtext { color: #FF0000; font-size: 7px; } .clown { color: #FF69Bf; font-size: 7px;  font-weight: bold; } .his_grace { color: #15D512; } .hypnophrase { color: #0d0d0d; font-weight: bold; } .yell { font-weight: bold; } .italics { font-size: 6px; } .outline { -dm-text-outline: 1px black; } .align-top {vertical-align: top}"
-	elem "status_bar"
-		type = LABEL
-		pos = 0,464
-		size = 280x16
-		anchor1 = 0,100
-		anchor2 = -1,-1
-		text-color = #ffffff
-		background-color = #222222
-		border = line
-		saved-params = ""
-		text = ""
-		is-visible = false
-		align = left
 	elem "credits"
 		type = BROWSER
 		pos = 0,0
@@ -156,116 +138,9 @@ window "info_and_buttons"
 		anchor2 = 100,100
 		background-color = #ffc41f
 		saved-params = "splitter"
-		left = "infobuttons"
-		right = "infowindow"
+		left = "infowindow"
 		is-vert = false
-		splitter = 2
 		show-splitter = false
-
-window "infobuttons"
-	elem "infobuttons"
-		is-visible = false
-		type = MAIN
-		pos = 382,280
-		size = 640x30
-		anchor1 = 0,0
-		anchor2 = 100,100
-		background-color = none
-		saved-params = "pos;size;is-minimized;is-maximized"
-		is-pane = true
-		outer-size = 656x88
-		outer-pos = 382,280
-		inner-size = 640x30
-		inner-pos = 8,31
-		screen-size = 1920x1040
-	elem "changelog"
-		is-visible = false
-		type = BUTTON
-		pos = 17,0
-		size = 79x30
-		anchor1 = 0,0
-		anchor2 = 15,100
-		background-color = none
-		saved-params = "is-checked"
-		text = "Changelog"
-		command = "changelog"
-	elem "report-issue"
-		is-visible = false
-		type = BUTTON
-		pos = 95,0
-		size = 100x30
-		anchor1 = 15,0
-		anchor2 = 30,100
-		background-color = none
-		saved-params = "is-checked"
-		text = "Report Issue"
-		command = "report-issue"
-	elem "codex_button"
-		is-visible = false
-		type = BUTTON
-		pos = 445,0
-		size = 50x30
-		anchor1 = 70,0
-		anchor2 = 77,100
-		background-color = none
-		saved-params = "is-checked"
-		text = "Codex"
-		command = "Codex"
-	elem "webmap"
-		is-visible = false
-		type = BUTTON
-		pos = 545,0
-		size = 75x30
-		anchor1 = 85,0
-		anchor2 = 97,100
-		background-color = none
-		saved-params = "is-checked"
-		text = "Webmap"
-		command = "webmap"
-	elem "rules"
-		type = BUTTON
-		is-visible = false
-		pos = 395,0
-		size = 50x30
-		anchor1 = 62,0
-		anchor2 = 70,100
-		background-color = none
-		saved-params = "is-checked"
-		text = "Rules"
-		command = "rules"
-	elem "wiki"
-		type = BUTTON
-		is-visible = false
-		pos = 495,0
-		size = 50x30
-		anchor1 = 77,0
-		anchor2 = 85,100
-		background-color = none
-		saved-params = "is-checked"
-		text = "Wiki"
-		command = "wiki"
-	elem "forum"
-		type = BUTTON
-		is-visible = false
-		pos = 295,0
-		size = 100x30
-		anchor1 = 46,0
-		anchor2 = 62,100
-		background-color = none
-		saved-params = "is-checked"
-		text = "Forum"
-		command = "forum"
-	elem "github"
-		type = BUTTON
-		is-visible = false
-		pos = 195,0
-		size = 100x30
-		anchor1 = 30,0
-		anchor2 = 46,100
-		background-color = none
-		saved-params = "is-checked"
-		text = "Github"
-		command = "github"
 
 window "infowindow"
 	elem "infowindow"

@@ -53,7 +53,8 @@
 #define ui_lingstingdisplay "WEST:6,CENTER-3:11"
 
 // Background of HUD
-#define ui_backhud "WEST-5:0,SOUTH:0"
+#define ui_backhud "hud:1,1"
+#define ui_misery "hud:5,15" // placekeeper feline.
 
 //Lower center, persistent menu
 #define ui_sstore1 "CENTER-5:10,SOUTH:5"
