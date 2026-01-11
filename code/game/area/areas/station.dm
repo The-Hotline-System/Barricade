@@ -15,7 +15,7 @@
 	airlock_wires = /datum/wires/airlock/maint
 	sound_environment = SOUND_AREA_TUNNEL_ENCLOSED
 	forced_ambience = TRUE
-	ambient_buzz = 'sound/ambience/source_corridor2.ogg'
+	ambient_buzz = null
 	ambient_buzz_vol = 30
 	holomap_color = HOLOMAP_AREACOLOR_MAINTENANCE
 

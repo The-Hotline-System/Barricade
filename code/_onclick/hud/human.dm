@@ -63,6 +63,10 @@
 	backhud.screen_loc = ui_backhud
 	static_inventory += backhud
 
+	hudborders = new /atom/movable/screen/hudborders(null, src)
+	hudborders.screen_loc = ui_hudborders
+	static_inventory += hudborders
+
 	hudmisery = new /atom/movable/screen/hudmisery(null, src)
 	hudmisery.screen_loc = ui_misery
 	static_inventory += hudmisery

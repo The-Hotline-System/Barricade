@@ -55,6 +55,7 @@
 // Background of HUD
 #define ui_backhud "hud:1,1"
 #define ui_misery "hud:5,15" // placekeeper feline.
+#define ui_hudborders "1,1"
 
 //Lower center, persistent menu
 #define ui_sstore1 "CENTER-5:10,SOUTH:5"

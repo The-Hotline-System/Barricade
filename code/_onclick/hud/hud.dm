@@ -34,6 +34,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	var/atom/movable/screen/combo/combo_display
 
 	var/atom/movable/screen/backhud
+	var/atom/movable/screen/hudborders
 	var/atom/movable/screen/hudmisery
 	var/atom/movable/screen/action_intent
 	var/atom/movable/screen/zone_select

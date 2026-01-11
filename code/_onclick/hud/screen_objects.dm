@@ -143,6 +143,15 @@
 	layer = BACKHUD_LAYER
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 
+/atom/movable/screen/hudborders
+	name = "hudborders"
+	icon = 'icons/mob/hudborders.dmi'
+	icon_state = "borders"
+	screen_loc = ui_backhud
+	plane = FULLSCREEN_PLANE
+	layer = BACKHUD_LAYER
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+
 /atom/movable/screen/hudmisery
 	name = "hudmisery"
 	icon = 'icons/mob/hudmisery.dmi'
