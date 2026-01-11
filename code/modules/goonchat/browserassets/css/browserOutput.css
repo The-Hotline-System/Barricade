@@ -1,0 +1,725 @@
+/*****************************************
+*
+* GLOBAL STYLES
+*
+******************************************/
+html, body {
+	padding: 0;
+	margin: 0;
+	height: 100%;
+	color: #c9c1ba;
+}
+body {
+	background-image: url('testbg.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+	font-family: Pterra;
+	font-size: 13px;
+	color: #c9c1ba;
+	line-height: 1.2;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	word-wrap: break-word;
+	scrollbar-face-color:#1A1A1A;
+	scrollbar-track-color:#171717;
+	scrollbar-highlight-color:#171717;
+	text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000;
+}
+
+body::-webkit-scrollbar {
+	/* this sets the width of the bar, in the div.main (::-webkit-scrollbar is fro the body/html)*/
+	background-color: transparent; /* will leave after image loads */
+	width: 16px; /* change for scrollbar width */
+	background-image: url("chatscrollbar-bg-t.png"), url("chatscrollbar-bg-b.png"), url("chatscrollbar-bg.png");
+	background-position: center top, center bottom, center center;
+	background-size: 100% auto, 100% auto, contain;
+	background-repeat: no-repeat, no-repeat, round;
+	-ms-interpolation-mode: nearest-neighbor;
+	image-rendering: pixelated;
+  }
+
+  /* The buttons are broken (dont show up), but it doesnt really matter since we didnt want em */
+  /* keeping the awful CSS here incase someone wants to pick it up and use em */
+/* Top button (scroll up) for vertical scrollbar */
+body::-webkit-scrollbar-button:single-button:vertical:decrement {
+	background-color: transparent; /* will leave after image loads */
+	background-image: url('chatscrollbar-scrollup.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: top;
+	-ms-interpolation-mode: nearest-neighbor;
+	image-rendering: pixelated;
+	height: 100%;
+  }
+
+body::-webkit-scrollbar-button:single-button:vertical:increment {
+	background-color: transparent; /* will leave after image loads */
+	background-image: url('chatscrollbar-scrolldown.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: bottom;
+	-ms-interpolation-mode: nearest-neighbor;
+	image-rendering: pixelated;
+	height: 100%;
+  }
+
+body::-webkit-scrollbar-thumb {
+	background-color: transparent; /* will leave after image loads */
+	background-image: url("chatscroller-t.png"), url("chatscroller-b.png"), url("chatscroller-m.png");
+	background-position: center top, center bottom, center center;
+	background-size: 100% auto, 100% auto, contain;
+	background-repeat: no-repeat, no-repeat, round;
+	-ms-interpolation-mode: nearest-neighbor;
+	image-rendering: pixelated;
+	min-height: 32px;
+  }
+/* Fonts */
+
+/* Pixel chat fonts */
+
+@font-face {
+	font-family: "DePixelBreit";
+	src: url('DePixelBreit.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: "DePixelBreitFett";
+	src: url('DePixelBreitFett.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: "DePixelHalbfett";
+	src: url('DePixelHalbfett.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: "DePixelIllegible";
+	src: url('DePixelIllegible.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: "DePixelKlein";
+	src: url('DePixelKlein.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: "DePixelSchmal";
+	src: url('DePixelSchmal.ttf') format('truetype');
+}
+
+/* --- */
+
+@font-face {
+	font-family: "NotmyType";
+	src: url('Not-my-Type.ttf') format('truetype');
+}
+
+/* --- */
+
+@font-face {
+  font-family: "Roboto Condensed";
+  src: url('roboto_c.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Roboto Condensed Italic";
+  src: url('roboto_c_italic.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: "uberbit7";
+	src: url('uberbit7.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: "lilgard";
+	src: url('lilgard.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Pterra";
+  src: url('pterra.ttf') format('truetype');
+}
+@font-face {
+  font-family: "Honoka Mincho";
+  src: url('HonokaMincho.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Dauphin";
+  src: url('elf.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "MasonAlternate";
+  src: url('dwarf.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Arabolical";
+  src: url('sand.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Xaphan";
+  src: url('hell.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "FriskyVampire";
+  src: url('undead.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Thief by The Riddler";
+  src: url('orc.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Kingthings Petrock";
+  src: url('draconic.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: "Emperialisme";
+  src: url('lupian.ttf') format('truetype');
+}
+
+/* */
+
+em {
+	font-style: normal;
+	font-weight: bold;
+}
+
+img {
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+	-ms-interpolation-mode: nearest-neighbor;
+	image-rendering: pixelated;
+}
+img.icon {
+	height: 1em;
+	min-height: 16px;
+	width: auto;
+	vertical-align: bottom;
+}
+
+img.nosize {
+	image-rendering: smooth;
+	-ms-interpolation-mode: bicubic;
+	vertical-align: bottom;
+}
+
+.r:before { /* "repeated" badge class for combined messages */
+	content: 'x';
+}
+.r {
+	display: inline-block;
+	min-width: 0.5em;
+	font-size: 0.7em;
+	padding: 0.2em 0.3em;
+	line-height: 1.2;
+	color: white;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	background-color: crimson;
+	border-radius: 10px;
+}
+
+a {color: #397ea5;}
+a.visited {color: #7c00e6;}
+a:visited {color: #7c00e6;}
+a.popt {text-decoration: none;}
+
+/*****************************************
+*
+* OUTPUT NOT RELATED TO ACTUAL MESSAGES
+*
+******************************************/
+#loading {
+	position: fixed;
+	width: 300px;
+	height: 150px;
+	text-align: center;
+	left: 50%;
+	top: 50%;
+	margin: -75px 0 0 -150px;
+}
+#loading i {display: block; padding-bottom: 3px;}
+
+#chat-decor {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-image: url("chatbg-w-ct.png"), url("chatbg-w-cb.png"), url("chatbg-t.png"), url("chatbg-b.png"), url("chatbg-w.png");
+	background-repeat: no-repeat no-repeat, no-repeat no-repeat, repeat no-repeat, repeat no-repeat, no-repeat repeat;
+	background-size: auto auto, auto auto, auto auto, auto auto, auto auto;
+	background-attachment: fixed, fixed, fixed, fixed, fixed;
+	background-position: left top, left bottom, center top, center bottom, left bottom;
+	pointer-events: none;
+	z-index: 1;
+}
+
+#messages {
+	font-size: 13px;
+	padding: 7px;
+	margin: 0;
+	word-wrap: break-word;
+}
+#newMessages {
+	position: fixed;
+	display: block;
+	bottom: 0;
+	right: 0;
+	padding: 8px;
+	background-color: rgb(31, 20, 24);
+	background:
+		url("try6.png");
+	background-size: 100% 100%;
+	margin: 2px 8px;
+	padding: 8px 12px;
+	max-width: 550px;
+	text-decoration: none;
+	font-variant: small-caps;
+	font-size: 1.1em;
+	font-weight: bold;
+	color: #c9c1ba;
+}
+#newMessages:hover {background: #000000;}
+#newMessages i {vertical-align: middle; padding-left: 3px;}
+#ping {
+	position: fixed;
+	top: 0;
+	right: 135px;
+	width: 45px;
+	background: #202020;
+	height: 30px;
+	padding: 8px 0 2px 0;
+}
+#ping i {display: block; text-align: center;}
+#ping .ms {
+	display: block;
+	text-align: center;
+	font-size: 8pt;
+	padding-top: 2px;
+}
+#userBar {
+	position: fixed;
+	top: 0;
+	right: 0;
+}
+#userBar .subCell {
+	background: #202020;
+	height: 30px;
+	padding: 5px 0;
+	display: block;
+	color: #EEEEEE;
+	text-decoration: none;
+	line-height: 28px;
+	border-top: 1px solid #171717;
+}
+#userBar .subCell:hover {background: #202020;}
+#userBar .toggle {
+	width: 45px;
+	background: #202020;
+	border-top: 0;
+	float: right;
+	text-align: center;
+}
+#userBar .sub {clear: both; display: none; width: 200px;}
+#userBar .sub.scroll {overflow-y: scroll;}
+#userBar .sub.subCell {padding: 3px 0 3px 8px; line-height: 30px; font-size: 0.9em; clear: both;}
+#userBar .sub span {
+	display: block;
+	line-height: 30px;
+	float: left;
+}
+#userBar .sub i {
+	display: block;
+	padding: 0 5px;
+	font-size: 1.1em;
+	width: 22px;
+	text-align: center;
+	line-height: 30px;
+	float: right;
+}
+#userBar .sub input {
+	position: absolute;
+	padding: 7px 5px;
+	width: 121px;
+	line-height: 30px;
+	float: left;
+}
+#userBar .topCell {border-top: 0;}
+
+/* POPUPS */
+.popup {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	background: #ddd;
+}
+.popup .close {
+	position: absolute;
+	background: #aaa;
+	top: 0;
+	right: 0;
+	color: #333;
+	text-decoration: none;
+	z-index: 2;
+	padding: 0 10px;
+	height: 30px;
+	line-height: 30px;
+}
+.popup .close:hover {background: #999;}
+.popup .head {
+	background: #999;
+	color: #ddd;
+	padding: 0 10px;
+	height: 30px;
+	line-height: 30px;
+	text-transform: uppercase;
+	font-size: 0.9em;
+	font-weight: bold;
+	border-bottom: 2px solid green;
+}
+.popup input {border: 1px solid #999; background: #fff; margin: 0; padding: 5px; outline: none; color: #333;}
+.popup input[type=text]:hover, .popup input[type=text]:active, .popup input[type=text]:focus {border-color: green;}
+.popup input[type=submit] {padding: 5px 10px; background: #999; color: #ddd; text-transform: uppercase; font-size: 0.9em; font-weight: bold;}
+.popup input[type=submit]:hover, .popup input[type=submit]:focus, .popup input[type=submit]:active {background: #aaa; cursor: pointer;}
+
+.changeFont {padding: 10px;}
+.changeFont a {display: block; text-decoration: none; padding: 3px; color: #333;}
+.changeFont a:hover {background: #ccc;}
+
+.highlightPopup {padding: 10px; text-align: center;}
+.highlightPopup input[type=text] {display: block; width: 215px; text-align: left; margin-top: 5px;}
+.highlightPopup input.highlightColor {background-color: #FFFF00;}
+.highlightPopup input.highlightTermSubmit {margin-top: 5px;}
+
+/* ADMIN CONTEXT MENU */
+.contextMenu {
+	background-color: #ddd;
+	position: fixed;
+	margin: 2px;
+	width: 150px;
+}
+.contextMenu a {
+	display: block;
+	padding: 2px 5px;
+	text-decoration: none;
+	color: #333;
+}
+
+.contextMenu a:hover {
+	background-color: #ccc;
+}
+
+/* ADMIN FILTER MESSAGES MENU */
+.filterMessages {padding: 5px;}
+.filterMessages div {padding: 2px 0;}
+.filterMessages input
+.filterMessages label
+
+.icon-stack {height: 1em; line-height: 1em; width: 1em; vertical-align: middle; margin-top: -2px;}
+
+
+/*****************************************
+*
+* OUTPUT ACTUALLY RELATED TO MESSAGES
+*
+******************************************/
+
+body					{word-wrap: break-word; overflow-x: hidden; overflow-y: scroll; color: #c9c1ba; font-size: 16px; font-family: "Pterra";}
+
+h1, h2, h3, h4, h5, h6	{color: #c9c1ba;	font-family: Pterra;}
+
+em						{font-style: normal;	font-weight: bold; font-family: Pterra;}
+
+a:link						{color: #ae83cb;	font-weight: bold;}
+
+.motd					{color: #638500;	font-family: Pterra;}
+.motd h1, .motd h2, .motd h3, .motd h4, .motd h5, .motd h6
+	{color: #638500;	text-decoration: underline;}
+.motd a, .motd a:link, .motd a:visited, .motd a:active, .motd a:hover
+	{color: #638500;}
+h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
+.italics				{font-style: italic;}
+
+.bold					{font-weight: bold;}
+
+.prefix					{font-weight: bold;}
+
+.ooc					{color: #c5c5c5;	font-weight: bold; font-family: Pterra;}
+.adminobserverooc		{color: #cca300;	font-weight: bold; font-family: Pterra;}
+.adminooc				{color: #4972bc;	font-weight: bold;}
+
+.adminsay				{color:	#FF4500;	font-weight: bold;}
+.admin					{color: #386aff;	font-weight: bold;}
+
+.name					{font-weight: bold;}
+
+.fadein {animation: messageFadeIn 0.1s linear;}
+
+.shakein {animation: messageFadeIn 0.1s linear, shake 0.1s linear; display: inline-block;}
+
+@keyframes shake {
+	0%, 100% { transform: translate(0, 0); }
+	25% { transform: translate(-3px, 2px); }
+	50% { transform: translate(4px, -3px); }
+	75% { transform: translate(-2px, 1px); }
+	100% { transform: translate(0px, 0px); }
+}
+
+
+.lobby {
+    color: #747478;
+    font-size: 2em;
+    font-weight: bolder;
+    text-shadow: 2px 2px 4px #742f2d;
+	font-family: Pterra, TrueType;
+}
+
+.lobbyy {
+    color: #744;
+    font-size: 2em;
+    font-weight: bolder;
+    text-shadow: 0px 2px 3px rgba(0, 0, 0, 1);
+	font-family: Pterra, TrueType;
+}
+
+.say					{font-family: 'DePixelSchmal'; animation: messageFadeIn 0.1s linear;}
+.deadsay				{color: #e2c1ff;}
+.binarysay				{color: #20c20e;	background-color: #000000;	display: block;}
+.binarysay a			{color: #00ff00;}
+.binarysay a:active, .binarysay a:visited {color: #88ff88;}
+.radio					{color: #1ecc43;}
+.sciradio				{color: #c68cfa;}
+.comradio				{color: #5177ff;}
+.secradio				{color: #dd3535;}
+.medradio				{color: #57b8f0;}
+.engradio				{color: #f37746;}
+.suppradio				{color: #b88646;}
+.servradio				{color: #6ca729;}
+.syndradio				{color: #8f4a4b;}
+.centcomradio			{color: #2681a5;}
+.aiprivradio			{color: #d65d95;}
+.redteamradio			{color: #ff4444;}
+.blueteamradio			{color: #3434fd;}
+
+
+.yell					{font-weight: bold;}
+
+.alert					{color: #d82020;}
+
+.emote					{font-family: "DePixelSchmal"; color: #b1bb9f; font-size: 75%;}
+
+.aud_emote				{font-family: "DePixelSchmal"; color: #bb9f9f; font-size: 75%;}
+
+.crit					{color: #c71d76; font-weight: bold; font-size: 145%; text-shadow: 1px;animation: .4s shaker infinite alternate;}
+.userdanger				{color: #c71d76;	font-weight: bold;	font-size: 120%;}
+.danger					{color: #b9322b;	font-weight: bold;}
+.warning				{color: #bb4e28;	font-size: 75%;}
+.boldwarning			{color: #bb4e28;	font-weight: bold}
+.announce				{color: #c51e1e;	font-weight: bold;}
+.boldannounce			{color: #c51e1e;	font-weight: bold;}
+.greenannounce			{color: #059223;	font-weight: bold;}
+.rose					{color: #e7bed8;}
+.love					{color: #e7bed8;	font-size: 75%;}
+.info					{color: #a9a5b6;						font-size: 75%; line-height:1}
+.biginfo				{color: #a9a5b6;}
+.notice					{color: #f1d669;}
+.boldnotice				{color: #f1d669;	font-weight: bold;}
+.smallnotice			{color: #f1d669;	font-size: 75%;}
+.hear					{color: #6685f5;	font-style: italic;}
+.adminnotice			{color: #6685f5;}
+.adminhelp				{color: #ff0000;	font-weight: bold;}
+.unconscious			{color: #c9c1ba;	font-weight: bold;}
+.suicide				{color: #ff5050;	font-style: italic;}
+.green					{color: #80b077;}
+.smallgreen				{color: #80b077;	font-size: 75%;}
+.boldgreen				{color: #80b077;	font-weight: bold;}
+.red					{color: #b84d47;}
+.smallred				{color: #b84d47;	font-size: 75%;}
+.boldred				{color: #b84d47;	font-weight: bold;}
+.blue					{color: #6a8cb7;}
+.purple					{color: #967aaf;}
+.nicegreen				{color: #9bccd0;}
+.cult					{color: #960000;}
+.cultlarge				{color: #960000;	font-weight: bold;	font-size: 3;}
+.cultsmall				{color: #960000;	font-size: 75%;}
+.narsie					{color: #960000;	font-weight: bold;	font-size: 12;}
+.narsiesmall			{color: #960000;	font-weight: bold;	font-size: 6;}
+.colossus				{color: #7F282A;	font-size: 5;}
+.hierophant				{color: #660099;	font-weight: bold;	font-style: italic;}
+.hierophant_warning		{color: #660099;	font-style: italic;}
+.purple					{color: #5e2d79;}
+.holoparasite			{color: #35333a;}
+.beautifulmasc			{color: #083eab;}
+.beautifulfem			{color: #d70a74;}
+.beautifulnb			{color: #9656c9;}
+
+.revennotice			{color: #1d2953;}
+.revenboldnotice		{color: #1d2953;	font-weight: bold;}
+.revenbignotice			{color: #1d2953;	font-weight: bold;	font-size: 3;}
+.revenminor				{color: #823abb}
+.revenwarning			{color: #760fbb;	font-style: italic;}
+.revendanger			{color: #760fbb;	font-weight: bold;	font-size: 3;}
+
+.deconversion_message	{color: #5000A0;	font-size: 3;	font-style: italic;}
+
+.ghostalert				{color: #5c00e6;	font-style: italic;	font-weight: bold;}
+
+.alien					{color: #543354;}
+.noticealien			{color: #00c000;}
+.alertalien				{color: #00c000;	font-weight: bold;}
+.changeling				{color: #800080;	font-style: italic;}
+
+.spider					{color: #4d004d;}
+
+.interface				{color: #330033;}
+
+.sans					{font-family: "Comic Sans MS", cursive, sans-serif;}
+.papyrus				{font-family: "Papyrus", cursive, sans-serif;}
+.robot					{font-family: "Courier New", cursive, sans-serif;}
+
+.human 					{font-family: "Honoka Mincho", "Pterra";}
+.elf					{font-family: "Dauphin", cursive, "Pterra";}
+.dwarf 					{font-family: "MasonAlternate", "Pterra";}
+.sandspeak 				{font-family: "Arabolical", "Pterra";}
+.delf 					{font-family: "Dauphin", "Pterra";}
+.hellspeak				{font-family: "Xaphan", "Pterra"; font-size: 110%}
+.undead					{font-family: "FriskyVampire", "Pterra";}
+.orc					{font-family: "Thief by The Riddler", Pterra;}
+.beast					{font-family: "Thief by The Riddler", Pterra;}
+.reptile				{font-family: "Kingthings Petrock", Pterra; font-size: 120%;}
+.lupian					{font-family: "Emperialisme", Pterra; font-size: 120%;}
+.oldpsydonic			{font-family: "Breitkopf Fraktur", Pterra; font-size: 120%;}
+.zybantine				{font-family: "Byzantine", Pterra;}
+
+.torture				{color: #42ff20}
+
+.command_headset		{font-weight: bold;	font-size: 3;}
+.small					{font-size: 50%;}
+.smallyell				{font-size: 70%;font-family: Pterra;}
+.big					{font-size: 120%;}
+.reallybig				{font-size: 180%;}
+.extremelybig			{font-size: 220%;}
+.greentext				{color: #00FF00;}
+.redtext				{color: #FF0000;}
+.clown					{color: #FF69Bf;	font-size: 3;	font-family: "Comic Sans MS", cursive, sans-serif;	font-weight: bold;}
+.his_grace				{color: #15D512;	font-family: "Courier New", cursive, sans-serif;	font-style: italic;}
+.hypnophrase			{color: #3bb5d3;	font-weight: bold;	animation: hypnocolor 1500ms infinite;}
+
+.phobia					{color: #dd0000;	font-weight: bold;}
+
+.icon					{height: 1em;	width: auto;}
+
+.memo					{color: #638500;	text-align: center;}
+.memoedit				{text-align: center;	font-size: 2;}
+.abductor				{color: #800080;	font-style: italic;}
+.mind_control			{color: #A00D6F;	font-size: 3;	font-weight: bold;	font-style: italic;}
+.slime					{color: #00CED1;}
+.drone					{color: #848482;}
+.monkey					{color: #975032;}
+.swarmer				{color: #2C75FF;}
+.resonate				{color: #298F85;}
+
+.monkeyhive				{color: #774704;}
+.monkeylead				{color: #774704;	font-size: 2;}
+
+.dead					{color: #b280df;}
+.bloody					{color: #cc0f0f;}
+.artery					{color: #9B5455;}
+.infection				{color: #77c72b;}
+.necrosis				{color: #558d20;}
+.bone					{color: #e3dac9;}
+.love_low					{color: #eac8de;	font-size: 75%;}
+.love_mid					{color: #e9a8d1;	font-size: 75%;}
+.love_high					{color: #f05ee1;	font-size: 75%;}
+.love_extreme					{color: #d146f5;	font-size: 75%;}
+
+.ldspkr					{font-family: 'Roboto Condensed'; font-size: 22px; font-weight: 300;}
+
+.pa_name				{color: #D1D1D1;}
+.pa_text				{color: #3984B1;}
+.pa_event				{font-family: 'Roboto Condensed Italic'; color: #c4ab7d;}
+
+@keyframes soap {
+	0% {
+		opacity: 0.5;
+	}
+
+	50% {
+		opacity: 1;
+	}
+
+	100% {
+		opacity: 0.5;
+	}
+}
+
+.shaketext {
+	color: #ffffff;
+	animation: .4s shaker infinite alternate;
+}
+@keyframes shaker {
+	0% {
+		transform: skewX(-15deg);
+	}
+
+	25% {
+		transform: skewX(15deg);
+	}
+
+	50% {
+		transform: skewX(-15deg);
+	}
+
+	75% {
+		transform: skewX(15deg);
+	}
+
+	100% {
+		transform: skewX(0deg);
+	}
+}
+
+@keyframes messageFadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.examinebox {
+	background-color: rgb(31, 20, 24);
+	background:
+		url("try6.png");
+	background-size: 100% 100%;
+	margin: 2px 8px;
+	padding: 8px 12px;
+	max-width: 550px;
+	border-top: 4px outset rgba(67, 70, 71, 0.603);
+	border-bottom: 4px outset rgba(103, 106, 107, 0.603);
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.connectionClosed, .fatalError {background: red;	color: white;	padding: 5px;}
+.connectionClosed.restored {background: green;}
+.internal.boldnshit {color: #3d5bc3;	font-weight: bold;}
+
+/* HELPER CLASSES */
+.text-normal {font-weight: normal;	font-style: normal;}
+.hidden {display: none;	visibility: hidden;}

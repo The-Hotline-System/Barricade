@@ -42,6 +42,9 @@
 	/// Use our custom cursor
 	mouse_pointer_icon = 'icons/effects/mouse_pointers/default.dmi'
 
+	///goonchat chatoutput of the client
+	var/datum/chatOutput/chatOutput
+
 	///Contains admin info. Null if client is not an admin.
 	var/datum/admins/holder = null
 	///Needs to implement InterceptClickOn(user,params,atom) proc

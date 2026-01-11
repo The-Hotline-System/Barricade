@@ -171,6 +171,16 @@ window "outputwindow"
 		anchor2 = -1,-1
 		saved-params = "pos;size;is-minimized;is-maximized"
 		is-pane = true
+	elem "browseroutput"
+		type = BROWSER
+		pos = 0,0
+		size = 640x591
+		anchor1 = 0,0
+		anchor2 = 100,100
+		background-color = #000000
+		is-visible = false
+		is-disabled = true
+		saved-params = ""
 	elem "output_input_child"
 		type = CHILD
 		pos = 0,0
@@ -384,5 +394,13 @@ window "statwindow"
 		anchor1 = 0,0
 		anchor2 = 100,100
 		is-visible = false
+		saved-params = ""
+	elem "browser"
+		type = BROWSER
+		pos = 0,0
+		size = 1872x312
+		anchor1 = -1,-1
+		anchor2 = -1,-1
+		background-color = #060606
 		saved-params = ""
 
