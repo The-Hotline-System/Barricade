@@ -347,9 +347,8 @@ SUBSYSTEM_DEF(loudspeak)
 	var/list/mobs = list()
 	for(var/obj/s in AUDIOSOURCES)
 		mobs |= SSloudspeak.get_mobs_around_obj(hijacker.broadcast_range, s)
-	SSloudspeak.prep_announce(hijacker, broadcast_id, null, null, null, FALSE)
+	SSloudspeak.prep_announce(hijacker, broadcast_id, hijacker.startmsg, null, null, TRUE)
 	SSloudspeak.handle_playsound(hijacker, mobs, broadcast_id, hijacker.broadcast_start_sound, hijacker.broadcast_start_sound_volume, 0)
-	SSloudspeak.announce(hijacker, broadcast_id, hijacker.startmsg, mobs, null, TRUE)
 
 /client/proc/broadcast_hijack_stop()
 	set name = "end hijacking"
@@ -361,9 +360,8 @@ SUBSYSTEM_DEF(loudspeak)
 	var/list/mobs = list()
 	for(var/obj/s in AUDIOSOURCES)
 		mobs |= SSloudspeak.get_mobs_around_obj(hijacker.broadcast_range, s)
-	SSloudspeak.prep_announce(hijacker, broadcast_id, null, null, null, FALSE)
+	SSloudspeak.prep_announce(hijacker, broadcast_id, hijacker.endmsg, null, null, TRUE)
 	SSloudspeak.handle_playsound(hijacker, mobs, broadcast_id, hijacker.broadcast_end_sound, hijacker.broadcast_end_sound_volume, 0)
-	SSloudspeak.announce(hijacker, broadcast_id, hijacker.endmsg, mobs, null, TRUE)
 	hijacker = null
 
 /client/proc/broadcast_hijack_speak()
@@ -386,7 +384,6 @@ SUBSYSTEM_DEF(loudspeak)
 	for(var/obj/s in AUDIOSOURCES)
 		mobs |= SSloudspeak.get_mobs_around_obj(hijacker.broadcast_range, s)
 	var/processedmsg = span_speaker_name("UNKNOWN speaks, \"[span_speaker_text(raw_message)]\"")
-	SSloudspeak.handle_playsound(hijacker, mobs, broadcast_id, pick(hijacker.additional_talk_sound), hijacker.additional_talk_sound_volume, hijacker.additional_talk_sound_vary)
 	SSloudspeak.prep_announce(hijacker, broadcast_id, processedmsg, null, raw_message, FALSE)
 
 
