@@ -103,7 +103,7 @@ SUBSYSTEM_DEF(loudspeak)
 	var/list/speakers = match_speakers(id)
 
 	var/list/mobs = list()
-	for(var/obj/s in speakers)
+	for(var/obj/structure/fake_machine/announcementspeaker/s in speakers)
 		mobs |= get_mobs_around_obj(speakdata.broadcast_range, s)
 		for(var/mob/M in mobs)
 			if(!M.client)
@@ -113,6 +113,9 @@ SUBSYSTEM_DEF(loudspeak)
 
 	if(LAZYLEN(speakdata.additional_talk_sound) && !mute)
 		SSloudspeak.handle_playsound(speakdata, mobs, id, pick_safe(speakdata.additional_talk_sound), speakdata.additional_talk_sound_volume, speakdata.additional_talk_sound_vary)
+		if(istype(speakdata, /datum/broadcast_template/hijack))
+			ping_speakers(id)
+
 	else if(!mute)
 		ping_speakers(id)
 
@@ -335,6 +338,11 @@ SUBSYSTEM_DEF(loudspeak)
 	var/id = input("Choose an ID to play to:",) as anything in ids
 	if(id == "CANCEL")
 		return
+
+	var/obj/structure/fake_machine/announcementspeaker/fake_speaker = id
+	if(fake_speaker)
+		id = fake_speaker.id
+
 	broadcast_id = id
 	var/list/mobs = list()
 	for(var/obj/s in AUDIOSOURCES)
@@ -379,8 +387,7 @@ SUBSYSTEM_DEF(loudspeak)
 		mobs |= SSloudspeak.get_mobs_around_obj(hijacker.broadcast_range, s)
 	var/processedmsg = span_speaker_name("UNKNOWN speaks, \"[span_speaker_text(raw_message)]\"")
 	SSloudspeak.handle_playsound(hijacker, mobs, broadcast_id, pick(hijacker.additional_talk_sound), hijacker.additional_talk_sound_volume, hijacker.additional_talk_sound_vary)
-	SSloudspeak.announce(hijacker, broadcast_id, processedmsg, mobs, null, TRUE)
-
+	SSloudspeak.prep_announce(hijacker, broadcast_id, processedmsg, null, raw_message, FALSE)
 
 
 

@@ -14,6 +14,10 @@
 
 	var/datum/broadcast_template/template = /datum/broadcast_template/base
 
+/obj/structure/fake_machine/announcementmicrophone/New()
+	. = ..()
+	LAZYADD(GLOB.speakers, src)
+
 /obj/structure/fake_machine/announcementmicrophone/Initialize()
 	. = ..()
 	become_hearing_sensitive()
