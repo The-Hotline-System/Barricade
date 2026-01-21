@@ -170,12 +170,14 @@ SUBSYSTEM_DEF(loudspeak)
 /datum/broadcast_template/hijack
 	var/startmsg = span_speaker_event("PLACEHOLDER START MESSAGE.")
 	var/endmsg = span_speaker_event("PLACEHOLDER END MESSAGE.")
+	var/displayname = "UNKNOWN"
 
 /datum/broadcast_template/hijack/fcastfem
 	name = "Friendcast Female"
 	icon = "loudspeaker"
 	height = 26
 	width = 26
+	displayname = "FRANKIE"
 
 	startmsg = span_speaker_event("STANDBY FOR A FRIENDLY MESSAGE.")
 	endmsg = span_speaker_event("FRIENDLY MESSAGE CONCLUDED.")
@@ -194,6 +196,7 @@ SUBSYSTEM_DEF(loudspeak)
 	icon = "loudspeaker"
 	height = 26
 	width = 26
+	displayname = "MIKE"
 
 	startmsg = span_speaker_event("STANDBY FOR A FRIENDLY MESSAGE.")
 	endmsg = span_speaker_event("FRIENDLY MESSAGE CONCLUDED.")
@@ -329,6 +332,7 @@ SUBSYSTEM_DEF(loudspeak)
 	set category = "roleplay"
 
 	var/choice = input("Select a hijacker?:") as anything in subtypesof(/datum/broadcast_template/hijack/)
+
 	if(!choice) return
 	hijacker = new choice()
 
@@ -383,7 +387,7 @@ SUBSYSTEM_DEF(loudspeak)
 	var/list/mobs = list()
 	for(var/obj/s in AUDIOSOURCES)
 		mobs |= SSloudspeak.get_mobs_around_obj(hijacker.broadcast_range, s)
-	var/processedmsg = span_speaker_name("UNKNOWN speaks, \"[span_speaker_text(raw_message)]\"")
+	var/processedmsg = span_speaker_name("[hijacker.displayname] speaks, \"[span_speaker_text(raw_message)]\"")
 	SSloudspeak.prep_announce(hijacker, broadcast_id, processedmsg, null, raw_message, FALSE)
 
 
