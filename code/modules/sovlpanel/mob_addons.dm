@@ -77,6 +77,9 @@ and set its desc to what you want the verb to appear as in the statpanel.
 	verbs -= path
 
 /client/proc/init_panel()
+	// Lazy initialization of tab datums
+	init_statpanel_tabs()
+
 	if(!statpanel_loaded)
 		spawn(10)
 			init_panel()

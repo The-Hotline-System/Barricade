@@ -3,22 +3,27 @@
  * SPDX-License-Identifier: MIT
  */
 
-/**
- * Circumvents the message queue and sends the message
- * to the recipient (target) as soon as possible.
- */
+// ============================================================================
+// TGCHAT TO_CHAT PROCS - DISABLED
+// ============================================================================
+// These procs are commented out because:
+// 1. They conflict with /proc/to_chat and /proc/to_chat_immediate in browserOutput.dm
+// 2. They pass a LIST to SSchat.queue() but queue() expects TEXT (see chat.dm line 25)
+//
+// The goonchat versions in browserOutput.dm handle message sending correctly.
+// ============================================================================
+
+/*
 /proc/to_chat_immediate(
 	target,
 	html,
 	type = null,
 	text = null,
 	avoid_highlighting = FALSE,
-	// FIXME: These flags are now pointless and have no effect
 	handle_whitespace = TRUE,
 	trailing_newline = TRUE,
 	confidential = FALSE
 )
-	// Useful where the integer 0 is the entire message. Use case is enabling to_chat(target, some_boolean) while preventing to_chat(target, "")
 	html = "[html]"
 	text = "[text]"
 
@@ -29,7 +34,6 @@
 	if(target == world)
 		target = GLOB.clients
 
-	// Build a message
 	var/message = list()
 	if(type) message["type"] = type
 	if(text) message["text"] = text
@@ -41,35 +45,18 @@
 		for(var/_target in target)
 			var/client/client = CLIENT_FROM_VAR(_target)
 			if(client)
-				// Send to tgchat - disabled, using goonchat instead
-				// client.tgui_panel?.window.send_raw_message(message_blob)
-				// Send to old chat
 				SEND_TEXT(client, message_html)
 		return
 	var/client/client = CLIENT_FROM_VAR(target)
 	if(client)
-		// Send to tgchat - disabled, using goonchat instead
-		// client.tgui_panel?.window.send_raw_message(message_blob)
-		// Send to old chat
 		SEND_TEXT(client, message_html)
 
-/**
- * Sends the message to the recipient (target).
- *
- * Recommended way to write to_chat calls:
- * ```
- * to_chat(client,
- *     type = MESSAGE_TYPE_INFO,
- *     html = "You have found <strong>[object]</strong>")
- * ```
- */
 /proc/to_chat(
 	target,
 	html,
 	type = null,
 	text = null,
 	avoid_highlighting = FALSE,
-	// FIXME: These flags are now pointless and have no effect
 	handle_whitespace = TRUE,
 	trailing_newline = TRUE,
 	confidential = FALSE
@@ -78,7 +65,6 @@
 		to_chat_immediate(target, html, type, text, avoid_highlighting)
 		return
 
-	// Useful where the integer 0 is the entire message. Use case is enabling to_chat(target, some_boolean) while preventing to_chat(target, "")
 	html = "[html]"
 	text = "[text]"
 
@@ -89,10 +75,11 @@
 	if(target == world)
 		target = GLOB.clients
 
-	// Build a message
 	var/message = list()
 	if(type) message["type"] = type
 	if(text) message["text"] = text
 	if(html) message["html"] = html
 	if(avoid_highlighting) message["avoidHighlighting"] = avoid_highlighting
 	SSchat.queue(target, message)
+*/
+

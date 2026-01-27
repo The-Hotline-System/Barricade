@@ -26,6 +26,8 @@
 		"button_exit.png" = 'code/modules/sovlpanel/html/images/button_exit.png',
 		"button_options.png" = 'code/modules/sovlpanel/html/images/button_options.png',
 		"button_pig.png" = 'code/modules/sovlpanel/html/images/button_pig.png',
+		"button_admin.png" = 'code/modules/sovlpanel/html/images/admin.png',
+		"button_lobby.png" = 'code/modules/sovlpanel/html/images/admin_debug.png',
 		"cond.ttf" = 'code/modules/sovlpanel/html/images/cond.ttf',
 		"craft.png" = 'code/modules/sovlpanel/html/images/craft.png',
 		"cross.png" = 'code/modules/sovlpanel/html/images/cross.png',

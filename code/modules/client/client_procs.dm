@@ -88,7 +88,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 		return
 	// if(href_list["reload_tguipanel"])
 	//	nuke_chat()
-	if(href_list["reload_statbrowser"])
+	// if(href_list["reload_statbrowser"])
 		// stat_panel.reinitialize() - TGUI disabled
 	// Log all hrefs
 	log_href("[src] (usr:[usr]\[[COORD(usr)]\]) : [hsrc ? "[hsrc] " : ""][href]")
