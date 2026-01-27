@@ -67,7 +67,6 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	var/datum/asset/stat_stuff = get_asset_datum(/datum/asset/group/statpanel)
 	stat_stuff.send(owner)
 
-	//owner << browse(file('code/modules/goonchat/browserassets/html/browserOutput.html'), "window=outputwindow.browseroutput")
 	owner << browse(file('code/modules/goonchat/browserassets/html/browserOutput.html'), "window=output_browser.browseroutput")
 	owner << browse(file('code/modules/sovlpanel/html/html/statpanel.html'), "window=statwindow.browser;")
 
@@ -164,7 +163,7 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	if (regexes.len)
 		ehjax_send(data = list("syncRegex" = regexes))
 
-/datum/chatOutput/proc/ehjax_send(client/C = owner, window = "browseroutput", data)
+/datum/chatOutput/proc/ehjax_send(client/C = owner, window = "output_browser.browseroutput", data)
 	if(islist(data))
 		data = json_encode(data)
 	C << output("[data]", "[window]:ehjaxCallback")
@@ -293,23 +292,26 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 			return
 
 		// url_encode it TWICE, this way any UTF-8 characters are able to be decoded by the Javascript.
-		C << output(url_encode(url_encode(message)), "outputwindow.browseroutput:output")
+		C << output(url_encode(url_encode(message)), "output_browser.browseroutput:output")
 
 /proc/to_chat(
 	target,
-	html,
-	type = null,
 	text = null,
+	type = null,
+	html,
 	avoid_highlighting = FALSE,
 	// FIXME: These flags are now pointless and have no effect
 	handle_whitespace = TRUE,
 	trailing_newline = TRUE,
 	confidential = FALSE
 	)
+	// Use html if text is null - many admin functions pass messages via the html parameter
+	var/message = text || html
 	if(Master.current_runlevel == RUNLEVEL_LOBBY || !SSchat?.initialized)
-		to_chat_immediate(target, text, handle_whitespace)
+		to_chat_immediate(target, message, handle_whitespace)
 		return
-	SSchat.queue(target, text, handle_whitespace)
+	SSchat.queue(target, message, handle_whitespace)
+
 
 
 /datum/chatOutput/proc/swaptolightmode() //Dark mode light mode stuff. Yell at KMC if this breaks! (See darkmode.dm for documentation)

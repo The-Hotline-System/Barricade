@@ -118,6 +118,9 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 			hsrc = mob
 		if("vars")
 			return view_var_Topic(href,href_list,hsrc)
+		if("chat")
+			if(chatOutput)
+				return chatOutput.Topic(href, href_list)
 
 	if(codex_topic(href, href_list))
 		return
