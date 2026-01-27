@@ -188,30 +188,11 @@ window "outputwindow"
 		anchor2 = 100,100
 		background-color = #ffc41f
 		saved-params = "splitter"
-		left = "output_selector"
+		left = "output_browser"
 		right = "input_and_buttons"
 		is-vert = false
 		splitter = 94.9
 		show-splitter = false
-
-window "output_selector"
-	elem "output_selector"
-		type = MAIN
-		pos = 0,0
-		size = 640x475
-		anchor1 = -1,-1
-		anchor2 = -1,-1
-		saved-params = "pos;size;is-minimized;is-maximized"
-		is-pane = true
-	elem "legacy_output_selector"
-		type = CHILD
-		pos = 0,0
-		size = 640x475
-		anchor1 = 0,0
-		anchor2 = 100,100
-		saved-params = "splitter"
-		left = "output_legacy"
-		is-vert = false
 
 window "input_and_buttons"
 	elem "input_and_buttons"
@@ -303,24 +284,6 @@ window "inputbuttons"
 		command = ".winset \"oocbutton.is-checked=true ? input.command=\"!ooc \\\"\" : input.command=\"\"oocbutton.is-checked=true ? mebutton.is-checked=false\"\"oocbutton.is-checked=true ? saybutton.is-checked=false\""
 		is-flat = true
 		button-type = pushbox
-
-window "output_legacy"
-	elem "output_legacy"
-		type = MAIN
-		pos = 0,0
-		size = 640x456
-		anchor1 = -1,-1
-		anchor2 = -1,-1
-		saved-params = "pos;size;is-minimized;is-maximized"
-		is-pane = true
-	elem "output"
-		type = OUTPUT
-		pos = 0,0
-		size = 640x456
-		anchor1 = 0,0
-		anchor2 = 100,100
-		is-default = true
-		saved-params = ""
 
 window "output_browser"
 	elem "output_browser"

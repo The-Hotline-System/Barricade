@@ -67,10 +67,8 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	var/datum/asset/stat_stuff = get_asset_datum(/datum/asset/group/statpanel)
 	stat_stuff.send(owner)
 
-	// Enable the browser element before loading HTML - otherwise JS won't execute
-	winset(owner, "browseroutput", "is-disabled=false")
-
-	owner << browse(file('code/modules/goonchat/browserassets/html/browserOutput.html'), "window=browseroutput")
+	//owner << browse(file('code/modules/goonchat/browserassets/html/browserOutput.html'), "window=outputwindow.browseroutput")
+	owner << browse(file('code/modules/goonchat/browserassets/html/browserOutput.html'), "window=output_browser.browseroutput")
 	owner << browse(file('code/modules/sovlpanel/html/html/statpanel.html'), "window=statwindow.browser;")
 
 	if (load_attempts < 5) //To a max of 5 load attempts
@@ -133,7 +131,6 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 
 	testing("Chat loaded for [owner.ckey]")
 	loaded = TRUE
-	showChat()
 
 
 	for(var/message in messageQueue)
@@ -146,10 +143,6 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	syncRegex()
 
 	// Debug message removed - chat is loading correctly now that tgui_panel is disabled
-
-/datum/chatOutput/proc/showChat()
-	winset(owner, "output", "is-visible=false")
-	winset(owner, "browseroutput", "is-disabled=false;is-visible=true")
 
 /proc/syncChatRegexes()
 	for (var/user in GLOB.clients)
@@ -281,7 +274,7 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 				C.chatOutput.messageQueue += message
 				continue
 
-			C << output(twiceEncoded, "browseroutput:output")
+			C << output(twiceEncoded, "output_browser.browseroutput:output")
 	else
 		var/client/C = CLIENT_FROM_VAR(target) //Grab us a client if possible
 
@@ -300,7 +293,7 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 			return
 
 		// url_encode it TWICE, this way any UTF-8 characters are able to be decoded by the Javascript.
-		C << output(url_encode(url_encode(message)), "browseroutput:output")
+		C << output(url_encode(url_encode(message)), "outputwindow.browseroutput:output")
 
 /proc/to_chat(
 	target,
