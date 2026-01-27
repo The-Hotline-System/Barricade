@@ -86,8 +86,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	// Tgui Topic middleware
 	if(tgui_Topic(href_list))
 		return
-	if(href_list["reload_tguipanel"])
-		nuke_chat()
+	// if(href_list["reload_tguipanel"])
+	//	nuke_chat()
 	if(href_list["reload_statbrowser"])
 		// stat_panel.reinitialize() - TGUI disabled
 	// Log all hrefs
@@ -249,8 +249,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	// stat_panel = new(src, "statbrowser")
 	// stat_panel.subscribe(src, PROC_REF(on_stat_panel_message))
 
-	// Instantiate tgui panel
-	tgui_panel = new(src, "browseroutput")
+	// tgui_panel disabled - conflicts with goonchat browseroutput
+	// tgui_panel = new(src, "browseroutput")
 
 	set_right_click_menu_mode()
 
@@ -383,8 +383,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	addtimer(CALLBACK(src, PROC_REF(check_panel_loaded)), 30 SECONDS)
 	INVOKE_ASYNC(src, PROC_REF(acquire_dpi))
 
-	// Initialize tgui panel
-	tgui_panel.initialize()
+	// tgui_panel disabled - conflicts with goonchat browseroutput
+	// tgui_panel.initialize()
 
 	// Initialize goonchat and sovlpanel
 	chatOutput.start()
@@ -1296,7 +1296,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	set category = "OOC"
 	set desc = "Stop Current Sounds"
 	SEND_SOUND(usr, sound(null))
-	tgui_panel?.stop_music()
+	// tgui_panel?.stop_music() // disabled - using goonchat instead
 	SSblackbox.record_feedback("nested tally", "preferences_verb", 1, list("Stop Self Sounds"))
 
 /client/proc/show_slapcraft_hints(given_type)

@@ -179,7 +179,6 @@ window "outputwindow"
 		anchor2 = 100,100
 		background-color = #000000
 		is-visible = false
-		is-disabled = true
 		saved-params = ""
 	elem "output_input_child"
 		type = CHILD

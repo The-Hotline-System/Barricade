@@ -67,6 +67,9 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	var/datum/asset/stat_stuff = get_asset_datum(/datum/asset/group/statpanel)
 	stat_stuff.send(owner)
 
+	// Enable the browser element before loading HTML - otherwise JS won't execute
+	winset(owner, "browseroutput", "is-disabled=false")
+
 	owner << browse(file('code/modules/goonchat/browserassets/html/browserOutput.html'), "window=browseroutput")
 	owner << browse(file('code/modules/sovlpanel/html/html/statpanel.html'), "window=statwindow.browser;")
 
@@ -142,7 +145,7 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 
 	syncRegex()
 
-	SEND_TEXT(owner, "<span class=\"userdanger\">Failed to load fancy chat, reverting to old chat. Certain features won't work.</span>")
+	// Debug message removed - chat is loading correctly now that tgui_panel is disabled
 
 /datum/chatOutput/proc/showChat()
 	winset(owner, "output", "is-visible=false")

@@ -28,13 +28,14 @@ SUBSYSTEM_DEF(ping)
 		var/client/client = currentrun[currentrun.len]
 		currentrun.len--
 
-		if (client?.tgui_panel?.is_ready())
-			// Send a soft ping
-			client.tgui_panel.window.send_message("ping/soft", list(
-				// Slightly less than the subsystem timer (somewhat arbitrary)
-				// to prevent incoming pings from resetting the afk state
-				"afk" = client.is_afk(3.5 SECONDS),
-			))
+		// tgui_panel disabled - using goonchat instead
+		// if (client?.tgui_panel?.is_ready())
+		// 	// Send a soft ping
+		// 	client.tgui_panel.window.send_message("ping/soft", list(
+		// 		// Slightly less than the subsystem timer (somewhat arbitrary)
+		// 		// to prevent incoming pings from resetting the afk state
+		// 		"afk" = client.is_afk(3.5 SECONDS),
+		// 	))
 
 		if (MC_TICK_CHECK)
 			return

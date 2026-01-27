@@ -56,8 +56,5 @@
 	default_value = TRUE
 
 /datum/preference/toggle/ui_scale/apply_to_client(client/client, value)
-	if(!istype(client))
-		return
+	return
 
-	spawn(-1)
-		client.refresh_tgui()

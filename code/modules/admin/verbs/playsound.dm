@@ -37,7 +37,7 @@
 
 	for(var/mob/M in GLOB.player_list)
 		if(M.client.prefs.toggles & SOUND_MIDI)
-			admin_sound.volume = vol * M.client.admin_music_volume
+			// admin_sound.volume = vol * M.client.admin_music_volume
 			SEND_SOUND(M, admin_sound)
 			admin_sound.volume = vol
 
@@ -147,10 +147,14 @@
 				var/mob/M = m
 				var/client/C = M.client
 				if(C.prefs.toggles & SOUND_MIDI)
+					// tgui_panel disabled - using goonchat instead
+					// TODO: Implement web sound in goonchat if needed
 					if(!stop_web_sounds)
-						C.tgui_panel?.play_music(web_sound_url, music_extra_data)
+						// C.tgui_panel?.play_music(web_sound_url, music_extra_data)
+						return
 					else
-						C.tgui_panel?.stop_music()
+						// C.tgui_panel?.stop_music()
+						return
 
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Play Internet Sound")
 
@@ -176,8 +180,8 @@
 	message_admins("[key_name_admin(src)] stopped all currently playing sounds.")
 	for(var/mob/M in GLOB.player_list)
 		SEND_SOUND(M, sound(null))
-		var/client/C = M.client
-		C?.tgui_panel?.stop_music()
+		// var/client/C = M.client
+		// C?.tgui_panel?.stop_music() // disabled - using goonchat instead
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Stop All Playing Sounds") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 //world/proc/shelleo
