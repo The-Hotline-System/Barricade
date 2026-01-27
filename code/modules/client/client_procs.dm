@@ -89,7 +89,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(href_list["reload_tguipanel"])
 		nuke_chat()
 	if(href_list["reload_statbrowser"])
-		stat_panel.reinitialize()
+		// stat_panel.reinitialize() - TGUI disabled
 	// Log all hrefs
 	log_href("[src] (usr:[usr]\[[COORD(usr)]\]) : [hsrc ? "[hsrc] " : ""][href]")
 
@@ -245,9 +245,9 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 
 	persistent_client.SetClient(src)
 
-	// Instantiate stat panel
-	stat_panel = new(src, "statbrowser")
-	stat_panel.subscribe(src, PROC_REF(on_stat_panel_message))
+	// TGUI stat panel disabled - sovlpanel handles verb display
+	// stat_panel = new(src, "statbrowser")
+	// stat_panel.subscribe(src, PROC_REF(on_stat_panel_message))
 
 	// Instantiate tgui panel
 	tgui_panel = new(src, "browseroutput")
@@ -372,19 +372,22 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(SSinput.initialized)
 		set_macros()
 
-	// Initialize stat panel
-	stat_panel.initialize(
-		assets = list(get_asset_datum(/datum/asset/simple/namespaced/cursors)),
-		inline_html = file("html/statbrowser.html"),
-		inline_js = file("html/statbrowser.js"),
-		inline_css = file("html/statbrowser.css"),
-	)
+	// TGUI stat panel disabled - sovlpanel handles verb display
+	// stat_panel.initialize(
+	// 	assets = list(get_asset_datum(/datum/asset/simple/namespaced/cursors)),
+	// 	inline_html = file("html/statbrowser.html"),
+	// 	inline_js = file("html/statbrowser.js"),
+	// 	inline_css = file("html/statbrowser.css"),
+	// )
 
 	addtimer(CALLBACK(src, PROC_REF(check_panel_loaded)), 30 SECONDS)
 	INVOKE_ASYNC(src, PROC_REF(acquire_dpi))
 
 	// Initialize tgui panel
 	tgui_panel.initialize()
+
+	// Initialize goonchat and sovlpanel
+	chatOutput.start()
 
 	if(alert_mob_dupe_login && !holder)
 		var/dupe_login_message = "Your ComputerID has already logged in with another key this round, please log out of this one NOW or risk being banned!"
@@ -588,8 +591,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	if(fully_created)
 		SSlobby.client_logout(src)
 
-	if(obj_window)
-		QDEL_NULL(obj_window)
+	//if(obj_window)
+	//	QDEL_NULL(obj_window)
 	if(holder)
 		adminGreet(1)
 		holder.owner = null
@@ -1180,12 +1183,15 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 			continue
 		panel_tabs |= verb_to_init.category
 		verblist[++verblist.len] = list(verb_to_init.category, verb_to_init.name)
-	src.stat_panel.send_message("init_verbs", list(panel_tabs = panel_tabs, verblist = verblist))
+	// TGUI stat panel disabled
+	// src.stat_panel.send_message("init_verbs", list(panel_tabs = panel_tabs, verblist = verblist))
 
 /client/proc/check_panel_loaded()
-	if(stat_panel.is_ready())
-		return
-	to_chat(src, span_userdanger("Statpanel failed to load, click <a href='?src=[REF(src)];reload_statbrowser=1'>here</a> to reload the panel "))
+	// TGUI stat panel disabled
+	return
+	// if(stat_panel.is_ready())
+	// 	return
+	// to_chat(src, span_userdanger("Statpanel failed to load, click <a href='?src=[REF(src)];reload_statbrowser=1'>here</a> to reload the panel "))
 
 /**
  * Initializes dropdown menus on client
@@ -1254,7 +1260,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 			panel_tabs = list()
 		if("Set-Tab")
 			stat_tab = payload["tab"]
-			SSstatpanels.immediate_send_stat_data(src)
+			// SSstatpanels removed - using sovlpanel
 
 /// Checks if this client has met the days requirement passed in, or if
 /// they are exempt from it.

@@ -1,10 +1,10 @@
 /datum/asset/group/statpanel
 	children = list(
-		/datum/asset/simple/statpanel_images,
-		/datum/asset/simple/jquery,
-		/datum/asset/simple/namespaced/js_content
+		/datum/asset/simple/statpanel_images
+		///datum/asset/simple/jquery,
+		///datum/asset/simple/namespaced/js_content
 	)
-
+/*
 /datum/asset/simple/namespaced/js_content
 	legacy = TRUE
 	assets = list(
@@ -16,7 +16,7 @@
 		"livepipe.js" = 'code/modules/sovlpanel/html/js/livepipe.js',
 		"scrollbar.js" = 'code/modules/sovlpanel/html/js/scrollbar.js',
 	)
-
+*/
 /datum/asset/simple/statpanel_images
 	legacy = TRUE
 	assets = list(

@@ -49,7 +49,8 @@
 		var/procpath/verb_to_add = thing
 		output_list[++output_list.len] = list(verb_to_add.category, verb_to_add.name)
 
-	target.stat_panel.send_message("add_verb_list", output_list)
+	// TGUI stat panel disabled
+	// target.stat_panel.send_message("add_verb_list", output_list)
 
 /**
  * handles removing verb and sending it to browser to update, use this for removing verbs
@@ -96,4 +97,5 @@
 		var/procpath/verb_to_remove = thing
 		output_list[++output_list.len] = list(verb_to_remove.category, verb_to_remove.name)
 
-	target.stat_panel.send_message("remove_verb_list", output_list)
+	// TGUI stat panel disabled
+	// target.stat_panel.send_message("remove_verb_list", output_list)

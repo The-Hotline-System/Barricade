@@ -203,7 +203,8 @@ and set its desc to what you want the verb to appear as in the statpanel.
 		if(stat_verbs[button] || new_default_buttons.Find(button))
 			if(!new_default_buttons.Find(button))
 				client.html_verbs[button] = "<table><tr><td>" + generateVerbList(stat_verbs[button]) +"</td></tr></table>"
-			else if(!client.html_verbs[button])
+			else
+				// Always regenerate options content since it depends on admin status
 				client.html_verbs[button] = client.defaultButton(button)
 			if(button == client.current_button)
 				client.newtext(client.html_verbs[button])

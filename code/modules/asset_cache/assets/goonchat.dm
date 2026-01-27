@@ -1,6 +1,6 @@
 /datum/asset/group/goonchat
 	children = list(
-		/datum/asset/simple/jquery,
+		///datum/asset/simple/jquery,
 		/datum/asset/simple/purify,
 		/datum/asset/simple/namespaced/goonchat,
 		/datum/asset/simple/namespaced/fontawesome,
@@ -80,17 +80,17 @@
 	assets = list(
 		"purify.min.js"            = 'code/modules/goonchat/browserassets/js/purify.min.js',
 	)
-
+/*
 /datum/asset/simple/jquery
 	legacy = TRUE
 	assets = list(
 		"jquery.min.js"            = 'code/modules/goonchat/browserassets/js/jquery.min.js',
 	)
-
+*/
 /datum/asset/simple/namespaced/goonchat
 	legacy = TRUE
 	assets = list(
-		"json2.min.js"             = 'code/modules/goonchat/browserassets/js/json2.min.js',
+		//"json2.min.js"             = 'code/modules/goonchat/browserassets/js/json2.min.js',
 		"errorHandler.js"             = 'code/modules/goonchat/browserassets/js/errorHandler.js',
 		"browserOutput.js"         = 'code/modules/goonchat/browserassets/js/browserOutput.js',
 		"browserOutput.css"	       = 'code/modules/goonchat/browserassets/css/browserOutput.css',
