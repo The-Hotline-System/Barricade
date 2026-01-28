@@ -86,28 +86,10 @@ and set its desc to what you want the verb to appear as in the statpanel.
 		return
 	//else
 	//	toggle_sovlpanel()
-	var/list/buttons = list("craft","verb","emotes","gpc","cross","crown","fangs","dead","villain")
-	for(var/button in buttons)
-		html_verbs.Remove(button)
 	mob.updateStatPanel()
-	newtext(mob.noteUpdate())
-	current_button = "note"
 
 /client/verb/debug_panel()
 	init_panel()
-
-/client/verb/ready()
-	set hidden = 1
-	set name = "doneRsc"
-
-	pigReady = 1
-	init_panel()
-
-/client/verb/unready()
-	set hidden = 1
-	set name = "notdoneRsc"
-
-	pigReady = 0
 
 /mob/dead/new_player/Login()
 	..()
@@ -175,154 +157,54 @@ and set its desc to what you want the verb to appear as in the statpanel.
 	if(!client.statpanel_loaded)
 		return
 
-	var/list/buttons = list("options","verbs","emotes","fangs","dead","craft","gpc","cross","crown","villain","thanati")
-	var/list/no_draw = list("options")
-	var/list/new_default_buttons = no_draw
-	var/pixelDistancing = 46
-	var/buttonTimes = 0
-	var/list/stat_verbs = list()
-	var/list/verb_list = list()
-	verb_list += verbs
-	verb_list += client.verbs
+	// Discover unknown verb categories and register placeholder tabs
+	var/list/verb_list = verbs + client.verbs
 	for(var/v in verb_list)
-		var/typeverb/new_verb = v
-		if(!new_verb)
+		var/procpath/P = v
+		if(!P?.category || P.hidden)
 			continue
-		if(!buttons.Find(new_verb.category))
+		if(!istext(P.category))
 			continue
-		if(!istext(new_verb.category))
-			continue
-		if(new_verb.hidden)
-			continue
-		if(!stat_verbs[new_verb.category])
-			stat_verbs[new_verb.category] = list()
-		stat_verbs[new_verb.category] += list(list(new_verb.name, new_verb.desc))
+		var/parent = get_parent_category(P.category)
+		if(!(parent in GLOB.registered_verb_categories))
+			register_dynamic_category(P.category)
 
-	var/buttonHTML
+	// Build button HTML from datumized tabs
+	var/buttonHTML = ""
 	var/current_content = FALSE
-	for(var/button in buttons)
-		var/add_top = buttonTimes < 2 ? 0 : 2
-		var/distance = {"margin-top: -[50 - add_top]px; margin-left: [pixelDistancing * buttonTimes]px;"}
-		if(stat_verbs[button] || new_default_buttons.Find(button))
-			if(!new_default_buttons.Find(button))
-				client.html_verbs[button] = "<table><tr><td>" + generateVerbList(stat_verbs[button]) +"</td></tr></table>"
-			else
-				// Always regenerate options content since it depends on admin status
-				client.html_verbs[button] = client.defaultButton(button)
-			if(button == client.current_button)
-				client.newtext(client.html_verbs[button])
-				current_content = TRUE
-			if(!no_draw.Find(button))
-				if(!buttonTimes)
-					buttonHTML += {"<a href="byond://?_src_=stat;buttondynamic=[button]">"} + {"<div style="background-image: url(\'[button].png\'); margin-right: 8px;" id="[button]" class="button"></div></a>"}
-				else
-					buttonHTML += {"<a href="byond://?_src_=stat;buttondynamic=[button]">"} + {"<div style="background-image: url(\'[button].png\'); [distance]" id="[button]" class="button"></div></a>"}
-				buttonTimes++
+
+	for(var/datum/statpanel_tab/tab in GLOB.statpanel_tabs)
+		if(!tab.can_view(client))
+			continue
+
+		// Cache tab content
+		client.html_verbs[tab.id] = tab.get_content(client)
+
+		// Check if this is current tab
+		if(tab.id == client.current_button)
+			client.newtext(client.html_verbs[tab.id])
+			current_content = TRUE
+
+		// Add button HTML
+		buttonHTML += tab.get_button_html()
+
+	// Default to first visible tab if current is not visible
 	if(!current_content)
-		client.current_button = "note"
-		client.newtext(noteUpdate())
+		for(var/datum/statpanel_tab/tab in GLOB.statpanel_tabs)
+			if(tab.can_view(client) && tab.id)
+				client.current_button = tab.id
+				client.newtext(tab.get_content(client))
+				break
+
 	client.addbutton(buttonHTML, "#dynamicpanel")
+
+
+
 #define ISHTML 2
 #define ISPROC 1
 #define ISVERB 0
 
-/client/proc/optionsUpdate()
-	. = "<table><tr>"
-
-	// Main section in left column
-	. += "<td valign='top'><table><tr><td>"
-	var/list/main_options = list(
-		list("<u>|- <b>OOC</b> -|</u>", "", ISHTML),
-		list("adminhelp", "Admin Help", ISVERB),
-		list("ooc", "OOC", ISVERB),
-		list("looc", "LOOC", ISVERB),
-		list("<br><u>|- <b>PREFS</b> -|</u>", "", ISHTML),
-		list("fullscreen", "Toggle Fullscreen", ISPROC),
-		list("ToggleOldUI", "Toggle Old UI", ISPROC),
-		list("<u>|- <b>FIXES</b> -|</u>", "", ISHTML),
-		list("StopSounds", "Stop Sounds", ISVERB),
-		list("fix_chat", "Fix Chat", ISPROC)
-	)
-	. += generateVerbList(main_options)
-	. += "</td></tr></table></td>"
-
-	// Admin section in right column (only if holder)
-	if(holder)
-		. += "<td valign='top'><table><tr><td>"
-		var/list/admin_options = list(
-			list("<u>|- <b><i>ADMIN</i></b> -|</u>", "", ISHTML),
-			list("deadmin", "De-admin self", ISPROC),
-			list("readmin", "Re-Admin self", ISPROC),
-			list("list_tickets", "List tickets", ISPROC),
-			list("toggle_sovlpanel", "Toggle Statpanel", ISPROC),
-			list("show_game_over", "Debug Credits (Self)", ISPROC)
-		)
-		. += generateVerbList(admin_options)
-		. += "</td></tr></table></td>"
-
-	. += "</tr></table>"
-
-/client/proc/chromeUpdate()
-	return "<tr><td>" + generateVerbList(list(list("emote_pray", "Pray", ISVERB))) + "</td></tr>"
-
-/mob/proc/noteUpdate()
-	return
-
-/mob/living/carbon/human/noteUpdate()
-	. += "<td valign='top'><table><tr><td>"
-	var/list/main_options = list(
-		list("<u>|- <b>ACTIONS</b> -|</u>", "", ISHTML),
-		list("descend", "Respawn", ISPROC),
-		list("memory", "View Memory", ISVERB),
-		list("ShareName", "Share Name", ISVERB),
-		list("emote_pray", "Pray", ISVERB),
-		//list("show_game_over ", "DEBUG-CREDITS", ISPROC)
-
-	)
-	. += generateVerbList(main_options)
-	. += "</td></tr></table></td>"
-
-/mob/proc/verbUpdate()
-	return
-
-/mob/dead/new_player/noteUpdate()
-	var/newHTML = ""
-	var/lobby = ""
-	/*
-	if(SSticker.current_state < GAME_STATE_PLAYING)
-		var/time_remaining = SSticker.GetTimeLeft()
-		if(time_remaining > 0)
-			lobby += "Time To Start: [round(time_remaining/10)]s<br>"
-		else if(time_remaining == -10)
-			lobby += "Time To Start: DELAYED<br>"
-		else
-			lobby += "Time To Start: SOON<br>"
-		lobby += "Total players ready: [SSticker.totalPlayersReady]<br>"
-	*/
-	newHTML += {"<span style='color:#600; font-weight:bold;'>[lobby]</span>"}
-	return newHTML
-
-/mob/dead/observer/noteUpdate()
-	var/newHTML = ""
-	var/note = ""
-	newHTML += {"<span style='color:#600; font-weight:bold;'>[note]</span>"}
-	return newHTML
-
-/client/proc/defaultButton(button)
-	var/newHTML
-	switch(button)
-		//if("verbs")
-		//	newHTML = {"<table><tr><td>[generateVerbList(list(list("DisguiseVoice", "Disguise Voice"), list("Warn", "Warn"), list("Dance", "Dance"), list("vomit", "Try to Vomit"), list("Pee", "Pee"), list(".asktostop", "Stop")))]</td>"} + {"<td>[generateVerbList(list(list("Notes", "Memories"), list("Pray", "Pray"), list("Clean", "Clean"), list("Masturbate", "Masturbate"), list("Poo", "Poo")), 2)]</td></tr></table>"}
-		//if("emotes")
-		//	newHTML =  {"<table><tr><td>[generateVerbList(list(list("Slap", "Slap"), list("Nod", "Nod"), list("Praise", "Cross"), list("Hug", "Hug"), list("Bow", "Bow"), list("Scream", "Scream"), list("Whimper", "Whimper"), list("Laugh", "Laugh"), list("Sigh", "Sigh"), list("Clearthroat", "Clear Throat"), list("Collapse", "Collapse")))]</td>"} + {"<td>[generateVerbList(list(list("Kiss", "Kiss"), list("LickLips", "Lick Lips"), list("Cough", "Cough"), list("SpitonSomeone", "Spit on Someone"), list("Yawn", "Yawn"), list("Wink", "Wink"), list("Grumble", "Grumble"), list("Cry", "Cry"), list("Hem", "Hem"), list("Smile", "Smile")), 2)]</td></tr></table>"}
-		//if("craft")
-		//	newHTML = {"<table><tr><td>[generateVerbList(list(list("Furniture", "Furniture"), list("Cult", "Cult"), list("Items", "Items"), list("Leather", "Leather"), list("Mason", "Mason"), list("Tanning", "Tanning"), list("Signs", "Signs")))]</td><td>[generateVerbList(list(list("Weapons", "Weapons"), list("Other", "Other")), 2)]</td></tr></table>"}
-		if("options")
-			newHTML = optionsUpdate()
-		//if("chrome")
-		//	newHTML = chromeUpdate()
-	return newHTML
-
 /mob/living/carbon/human/Login()
 	..()
 	updateStatPanel()
+

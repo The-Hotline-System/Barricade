@@ -1,117 +1,97 @@
 // ============================================================================
 // DYNAMIC TABS - Verb Category Tabs
 // ============================================================================
-// Dynamically generated tabs based on verb categories
+// Dynamically generated tabs based on verb categories.
+// All dynamic tabs support subcategory grouping (e.g., Admin.Fun under Admin)
 // ============================================================================
 
 /datum/statpanel_tab/dynamic
 	id = "dynamic" // Base - not used directly
 	priority = 60
 
-	/// Category to match for verbs
+	/// Category to match for verbs (parent category for subcategory grouping)
 	var/verb_category
+
+/datum/statpanel_tab/dynamic/New()
+	. = ..()
 
 /datum/statpanel_tab/dynamic/can_view(client/C)
 	if(!C?.mob || !verb_category)
 		return FALSE
-	// Check if client/mob has any verbs in this category
+	// Check if client/mob has any verbs in this category or subcategories
 	var/list/verb_list = C.verbs + C.mob.verbs
 	for(var/v in verb_list)
 		var/procpath/P = v
-		if(P.category == verb_category)
+		if(!P?.category)
+			continue
+		if(matches_category(P.category))
 			return TRUE
 	return FALSE
+
+/// Check if a verb category matches this tab (exact match or subcategory)
+/datum/statpanel_tab/dynamic/proc/matches_category(check_category)
+	if(!check_category || !verb_category)
+		return FALSE
+	// Exact match
+	if(check_category == verb_category)
+		return TRUE
+	// Subcategory match (e.g., "Admin.Fun" matches "Admin")
+	if(findtext(check_category, "[verb_category]."))
+		return TRUE
+	return FALSE
+
+/// Extract subcategory name from full category (e.g., "Admin.Fun" -> "Fun")
+/datum/statpanel_tab/dynamic/proc/get_subcategory(full_category)
+	if(!full_category || !verb_category)
+		return null
+	var/prefix = "[verb_category]."
+	if(findtext(full_category, prefix) == 1)
+		return copytext(full_category, length(prefix) + 1)
+	return null
 
 /datum/statpanel_tab/dynamic/get_content(client/C)
 	if(!C?.mob || !verb_category)
 		return ""
 
-	var/list/stat_verbs = list()
-	var/list/verb_list = C.verbs + C.mob.verbs
+	var/list/main_verbs = list() // Verbs with exact category match
+	var/list/sub_verbs = list() // Assoc list: subcategory -> list of verbs
 
+	var/list/verb_list = C.verbs + C.mob.verbs
 	for(var/v in verb_list)
 		var/procpath/P = v
-		if(!P || P.category != verb_category)
+		if(!P?.category)
 			continue
 		if(P.hidden)
 			continue
-		stat_verbs += list(list(P.name, P.desc))
+		if(!matches_category(P.category))
+			continue
 
-	if(!length(stat_verbs))
+		var/subcategory = get_subcategory(P.category)
+		var/entry_type = findtext("[P]", "/proc/") ? ISPROC : ISVERB
+		if(subcategory)
+			if(!sub_verbs[subcategory])
+				sub_verbs[subcategory] = list()
+			sub_verbs[subcategory] += list(list(P.name, P.name, entry_type))
+		else
+			main_verbs += list(list(P.name, P.name, entry_type))
+
+	if(!length(main_verbs) && !length(sub_verbs))
 		return ""
 
-	return "<table><tr><td>" + generateVerbList(stat_verbs) + "</td></tr></table>"
+	. = "<table><tr><td valign='top'><table><tr><td>"
 
-// ============================================================================
-// DYNAMIC TAB SUBTYPES
-// ============================================================================
+	// Main category verbs first
+	if(length(main_verbs))
+		. += "<u>|- <b>[uppertext(verb_category)]</b> -|</u><br>"
+		. += generateVerbList(main_verbs)
+		if(length(sub_verbs))
+			. += "<br>"
 
-/datum/statpanel_tab/dynamic/craft
-	id = "craft"
-	name = "Craft"
-	icon = "craft.png"
-	verb_category = "craft"
-	priority = 61
+	// Subcategory verbs with headers
+	var/list/sorted_subs = sort_list(sub_verbs)
+	for(var/sub in sorted_subs)
+		. += "<u>|- <b>[capitalize(sub)]</b> -|</u><br>"
+		. += generateVerbList(sub_verbs[sub])
+		. += "<br>"
 
-/datum/statpanel_tab/dynamic/verbs
-	id = "verbs"
-	name = "Verbs"
-	icon = "verb.png"
-	verb_category = "verb"
-	priority = 62
-
-/datum/statpanel_tab/dynamic/emotes
-	id = "emotes"
-	name = "Emotes"
-	icon = "emotes.png"
-	verb_category = "emotes"
-	priority = 63
-
-/datum/statpanel_tab/dynamic/fangs
-	id = "fangs"
-	name = "Fangs"
-	icon = "fangs.png"
-	verb_category = "fangs"
-	priority = 64
-
-/datum/statpanel_tab/dynamic/dead
-	id = "dead"
-	name = "Dead"
-	icon = "dead.png"
-	verb_category = "dead"
-	priority = 65
-
-/datum/statpanel_tab/dynamic/gpc
-	id = "gpc"
-	name = "GPC"
-	icon = "gpc.png"
-	verb_category = "gpc"
-	priority = 66
-
-/datum/statpanel_tab/dynamic/cross
-	id = "cross"
-	name = "Cross"
-	icon = "cross.png"
-	verb_category = "cross"
-	priority = 67
-
-/datum/statpanel_tab/dynamic/crown
-	id = "crown"
-	name = "Crown"
-	icon = "crown.png"
-	verb_category = "crown"
-	priority = 68
-
-/datum/statpanel_tab/dynamic/villain
-	id = "villain"
-	name = "Villain"
-	icon = "villain.png"
-	verb_category = "villain"
-	priority = 69
-
-/datum/statpanel_tab/dynamic/thanati
-	id = "thanati"
-	name = "Thanati"
-	icon = "thanati.png"
-	verb_category = "thanati"
-	priority = 70
+	. += "</td></tr></table></td></tr></table>"

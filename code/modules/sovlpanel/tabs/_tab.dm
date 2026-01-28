@@ -6,6 +6,7 @@
 // ============================================================================
 
 GLOBAL_LIST_EMPTY(statpanel_tabs)
+GLOBAL_LIST_EMPTY(registered_verb_categories) // Tracks which categories have tabs
 
 /proc/init_statpanel_tabs()
 	if(length(GLOB.statpanel_tabs))
@@ -14,11 +15,40 @@ GLOBAL_LIST_EMPTY(statpanel_tabs)
 		var/datum/statpanel_tab/tab = new tab_type
 		if(tab.id)
 			GLOB.statpanel_tabs += tab
+			// Track categories for dynamic tabs (placeholder inherits from dynamic)
+			if(istype(tab, /datum/statpanel_tab/dynamic))
+				var/datum/statpanel_tab/dynamic/dtab = tab
+				if(dtab.verb_category)
+					GLOB.registered_verb_categories |= dtab.verb_category
 	// Sort by priority
 	sortTim(GLOB.statpanel_tabs, GLOBAL_PROC_REF(cmp_statpanel_tab_priority))
 
 /proc/cmp_statpanel_tab_priority(datum/statpanel_tab/a, datum/statpanel_tab/b)
 	return a.priority - b.priority
+
+/// Get parent category from dotted category (e.g., "Admin.Fun" -> "Admin")
+/proc/get_parent_category(category)
+	if(!category)
+		return null
+	var/dot_pos = findtext(category, ".")
+	if(dot_pos)
+		return copytext(category, 1, dot_pos)
+	return category
+
+/// Register a new placeholder tab for an unknown category
+/proc/register_dynamic_category(category)
+	if(!category)
+		return
+	var/parent = get_parent_category(category)
+	if(parent in GLOB.registered_verb_categories)
+		return // Already registered (parent category covers subcategories)
+
+	// Create placeholder tab for this category
+	var/datum/statpanel_tab/dynamic/placeholder/new_tab = new(parent)
+	GLOB.statpanel_tabs += new_tab
+	GLOB.registered_verb_categories |= parent
+	// Re-sort tabs
+	sortTim(GLOB.statpanel_tabs, GLOBAL_PROC_REF(cmp_statpanel_tab_priority))
 
 /datum/statpanel_tab
 	/// Unique identifier for this tab
