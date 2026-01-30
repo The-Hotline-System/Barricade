@@ -400,7 +400,7 @@ GLOBAL_LIST_EMPTY(cached_storage_typecaches)
  * @param override see item_insertion_feedback()
  * @param force bypass locked storage
  */
-/datum/storage/proc/attempt_insert(obj/item/to_insert, mob/user, override = FALSE, force = FALSE)
+/datum/storage/proc/attempt_insert(obj/item/to_insert, mob/user, override = FALSE, force = FALSE, params)
 	SHOULD_NOT_SLEEP(TRUE)
 
 	if(!can_insert(to_insert, user, force = force))

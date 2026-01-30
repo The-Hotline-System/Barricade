@@ -88,6 +88,11 @@
 	. = ..()
 	atom_storage.max_total_storage = 12
 
+
+/obj/item/storage/backpack/grid/
+	storage_type = /datum/storage/grid
+
+
 /obj/item/bag_of_holding_inert
 	name = "inert bag of holding"
 	desc = "What is currently a just an unwieldly block of metal with a slot ready to accept a bluespace anomaly core."

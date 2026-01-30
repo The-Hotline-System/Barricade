@@ -21,6 +21,23 @@ DEFINE_INTERACTABLE(/obj/item)
 	///How large is the object, used for stuff like whether it can fit in backpacks or not
 	w_class = WEIGHT_CLASS_SMALL
 
+	/// Width in pixels for grid storage - null means auto-calculate from w_class
+	var/grid_width
+	/// Height in pixels for grid storage - null means auto-calculate from w_class
+	var/grid_height
+	/// Parent style string applied to all enabled style elements (e.g., "metal", "wood", "tech")
+	var/grid_style
+	/// If TRUE, applies grid_style to border elements (up, down, left, right)
+	var/grid_style_border = FALSE
+	/// If TRUE, applies grid_style to corner elements (corner_left_down, etc.)
+	var/grid_style_corner = FALSE
+	/// If TRUE, applies grid_style to background underlay (block_under)
+	var/grid_style_under = FALSE
+	/// Storage-specific rotation angle in degrees (0, 90, 180, 270)
+	var/grid_storage_rotation_angle = 0
+	/// Storage-specific rotation transform - only applied visually when item is in grid storage
+	var/matrix/grid_storage_transform
+
 	///Items can by default thrown up to 10 tiles by TK users
 	tk_throw_range = 10
 
@@ -1987,3 +2004,94 @@ DEFINE_INTERACTABLE(/obj/item)
 /// Called by the attack chain, returns the item to use for attacking. CAN NOT RETURN NULL.
 /obj/item/proc/get_attacking_item(mob/living/user, atom/target) as /obj/item
 	return src
+
+/**
+ * Rotates an item in grid storage by swapping its width and height
+ *
+ * This proc allows players to rotate items in grid-based storage to fit them better.
+ * If the item is currently in grid storage, it validates that the new orientation fits.
+ *
+ * @param user - The mob attempting to flip the item
+ * @param force - If TRUE, bypasses adjacency and living checks
+ * @return TRUE if the flip was successful, FALSE otherwise
+ */
+/obj/item/proc/inventory_flip(mob/user, force = FALSE, datum/storage/grid/grid_storage = null)
+	if(!force && (user && ((!user.Adjacent(src) && !user.DirectAccess(src)) || !isliving(user))))
+		return FALSE
+
+	// Store old dimensions for potential revert
+	var/old_width = grid_width
+	var/old_height = grid_height
+
+	// Swap width and height
+	grid_height = old_width
+	grid_width = old_height
+
+	// If no grid_storage provided, check if item is in grid storage
+	if(!grid_storage && loc && istype(loc.atom_storage, /datum/storage/grid))
+		grid_storage = loc.atom_storage
+
+	// If we have a grid storage reference (either provided or from item location)
+	if(grid_storage)
+		// If item is already in storage, validate the new orientation
+		if(loc && loc.atom_storage == grid_storage)
+			// Get current position
+			var/list/first_coords = grid_storage.first_coordinates_item?[src]
+			if(first_coords && length(first_coords) >= 2)
+				var/coordinates = "[first_coords[1]],[first_coords[2]]"
+
+				// Get new dimensions (after swap)
+				var/list/new_dims = grid_storage.get_item_dimensions(src)
+				var/new_width = new_dims[1]
+				var/new_height = new_dims[2]
+
+				// Validate new orientation fits
+				if(!grid_storage.validate_grid_coordinates(coordinates, new_width, new_height, src))
+					// Revert the swap
+					grid_width = old_width
+					grid_height = old_height
+					if(user)
+						to_chat(user, span_warning("Cannot rotate [src] - insufficient space!"))
+					return FALSE
+
+				// Update the item's position in the grid
+				grid_storage.update_item_position(src)
+
+				// Force a visual refresh to update the display
+				grid_storage.refresh_views()
+
+		// Apply visual rotation (90 degrees clockwise each time)
+		// Cycle through: 0° -> 90° -> 180° -> 270° -> 0°
+		// Store rotation transform on the item itself
+
+		// Get current rotation angle
+		var/current_angle = grid_storage_rotation_angle
+
+		// Calculate new angle (rotate 90 degrees clockwise)
+		var/new_angle = current_angle - 90
+
+		// Normalize angle to 0-360 range
+		while(new_angle < 0)
+			new_angle += 360
+		while(new_angle >= 360)
+			new_angle -= 360
+
+		// Store the new angle
+		grid_storage_rotation_angle = new_angle
+
+		// Create and store the new rotation transform on the item
+		grid_storage_transform = matrix()
+		grid_storage_transform.Turn(new_angle)
+
+	return TRUE
+
+/**
+ * Called when an item exits storage
+ *
+ * The storage-specific rotation transform and angle are retained on the item
+ * so they persist when the item is re-inserted into grid storage.
+ *
+ * @param master_storage - The storage datum the item is exiting from
+ */
+/obj/item/on_exit_storage(datum/storage/master_storage)
+	. = ..()

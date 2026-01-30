@@ -596,7 +596,7 @@
 
 	var/obj/item/inserted = usr.get_active_held_item()
 	if(inserted)
-		storage_master.attempt_insert(inserted, usr)
+		storage_master.attempt_insert(inserted, usr, FALSE, FALSE, params)
 
 	return TRUE
 
@@ -625,7 +625,7 @@
 	if(!(user.is_holding(I) || (I.item_flags & IN_STORAGE)))
 		return TRUE
 
-	storage_master.attempt_insert(dropping, usr)
+	storage_master.attempt_insert(dropping, user, FALSE, FALSE, params)
 
 	return TRUE
 
