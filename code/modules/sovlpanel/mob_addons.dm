@@ -149,6 +149,20 @@ and set its desc to what you want the verb to appear as in the statpanel.
 /client/proc/addbutton(newcontent = "", selector = "")
 	src << output(list2params(list("[newcontent]", "")), "statwindow.browser:UpdateDynamicpanel")
 
+/// Called by SSsovlpanel to update the active tab's content if it supports realtime updates
+/client/proc/update_active_tab_content()
+	if(!statpanel_loaded || !current_button)
+		return
+	// Find the active tab
+	for(var/datum/statpanel_tab/tab in GLOB.statpanel_tabs)
+		if(tab.id == current_button)
+			// Only update if tab supports realtime and client can view it
+			if(!tab.realtime || !tab.can_view(src))
+				return
+			var/new_content = tab.get_content(src)
+			newtext(new_content)
+			return
+
 
 /mob/proc/updateStatPanel()
 	set waitfor = 0

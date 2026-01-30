@@ -164,8 +164,8 @@ GLOBAL_PROTECT(href_token)
 		GLOB.admins -= owner
 		owner.remove_admin_verbs()
 		owner.init_verbs()
+		owner.holder = null //must be set before updateStatPanel so can_view() checks work
 		owner.mob?.updateStatPanel() //refresh sovlpanel to remove admin options
-		owner.holder = null
 		owner = null
 
 /datum/admins/proc/check_for_rights(rights_required)

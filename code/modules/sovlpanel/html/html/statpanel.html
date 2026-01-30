@@ -477,11 +477,16 @@
 				buttonPanel.innerHTML = msgtext;
 			}
 
+			var lastContent = "";
+
 			function InputMsg(msgtext) {
 				if (elem == null) return;
 				if (msgtext != "" && msgtext != null) {
 					msgtext = msgtext.split("$").join(";");
 				}
+				// Only update if content has actually changed to prevent flicker
+				if (msgtext === lastContent) return;
+				lastContent = msgtext;
 				elem.innerHTML = msgtext;
 			}
 

@@ -59,6 +59,8 @@ GLOBAL_LIST_EMPTY(registered_verb_categories) // Tracks which categories have ta
 	var/icon
 	/// Sort priority - lower values appear first (left)
 	var/priority = 50
+	/// If TRUE, this tab receives realtime updates from SSsovlpanel
+	var/realtime = FALSE
 
 /// Returns HTML content for this tab
 /datum/statpanel_tab/proc/get_content(client/C)
