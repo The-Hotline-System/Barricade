@@ -78,6 +78,12 @@
 	if(!length(main_verbs) && !length(sub_verbs))
 		return ""
 
+	// Sort verb lists alphabetically before generating HTML
+	if(length(main_verbs))
+		sort_verb_list(main_verbs)
+	for(var/subcategory in sub_verbs)
+		sort_verb_list(sub_verbs[subcategory])
+
 	. = "<table><tr><td valign='top'><table><tr><td>"
 
 	// Main category verbs first
@@ -95,3 +101,29 @@
 		. += "<br>"
 
 	. += "</td></tr></table></td></tr></table>"
+
+/// Sort a list of verb entries alphabetically by display name (case-insensitive)
+/// Handles edge cases: empty lists, null values, single-item lists
+/// @param verb_list - List of verb entries in format [name, display_name, entry_type]
+/// @return The same list, sorted in-place
+/datum/statpanel_tab/dynamic/proc/sort_verb_list(list/verb_list)
+	// Handle edge cases: null, empty, or single-item lists
+	if(!verb_list || length(verb_list) <= 1)
+		return verb_list
+
+	// Sort using case-insensitive comparison of display names
+	sortTim(verb_list, GLOBAL_PROC_REF(cmp_verb_entry_asc))
+	return verb_list
+
+/// Comparison function for verb entries - sorts by display name (case-insensitive)
+/// @param a - First verb entry [name, display_name, entry_type]
+/// @param b - Second verb entry [name, display_name, entry_type]
+/// @return Comparison result for sortTim
+/proc/cmp_verb_entry_asc(list/a, list/b)
+	// Extract display names (element 2 of each entry)
+	var/display_a = a?[2] || ""
+	var/display_b = b?[2] || ""
+
+	// Use sorttext for case-insensitive alphabetical comparison
+	// sorttext(b, a) returns positive if b > a (ascending order)
+	return sorttext(display_b, display_a)
