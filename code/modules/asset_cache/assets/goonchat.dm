@@ -5,7 +5,14 @@
 		/datum/asset/simple/namespaced/goonchat,
 		/datum/asset/simple/namespaced/fontawesome,
 		/datum/asset/simple/namespaced/chatsovl,
-		/datum/asset/simple/namespaced/roguefonts
+		/datum/asset/simple/namespaced/roguefonts,
+		/datum/asset/simple/namespaced/fontawesome,
+		/datum/asset/simple/namespaced/tgfont,
+		/datum/asset/simple/namespaced/libre_baskerville,
+	    /datum/asset/simple/namespaced/jost,
+        /datum/asset/simple/namespaced/yrsa,
+		/datum/asset/spritesheet/chat,
+		/datum/asset/simple/namespaced/chat_icons,
 	)
 
 /datum/asset/spritesheet/goonchat
