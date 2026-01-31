@@ -128,8 +128,12 @@
 
 	if(!can_hit_with_hand(target, caster))
 		return NONE
-
-	return do_hand_hit(source, target, caster)
+	else
+		// INVOKE_ASYNC prevents sleeping in signal handler
+		// Note: spell invocations use forced="spell" which bypasses spam protection,
+		// so cmd_admin_mute is never actually called despite what the linter thinks
+		INVOKE_ASYNC(src, PROC_REF(do_hand_hit), source, target, caster)
+		return ITEM_INTERACT_SUCCESS
 
 /**
  * Signal proc for [COMSIG_ITEM_INTERACTING_WITH_ATOM_SECONDARY] from our attached hand.
@@ -142,8 +146,9 @@
 
 	if(!can_hit_with_hand(target, caster))
 		return NONE
-
-	return do_secondary_hand_hit(source, target, caster)
+	else
+		INVOKE_ASYNC(src, PROC_REF(do_secondary_hand_hit), source, target, caster)
+		return ITEM_INTERACT_SUCCESS
 
 /**
  * Calls cast_on_hand_hit() from the caster onto the victim.

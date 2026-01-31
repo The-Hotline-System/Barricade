@@ -67,29 +67,29 @@
 		if(RUNE_FAIL_TARGET_MOB_MOVED, RUNE_FAIL_TARGET_STOOD_UP)
 			switch(rand(1,10))
 				if(1 to 6)
-					rip_out_target_heart()
+					INVOKE_ASYNC(src, PROC_REF(rip_out_target_heart))
 				if(6 to 8)
-					dismember_mob(failure_source)
+					INVOKE_ASYNC(src, PROC_REF(dismember_mob), failure_source)
 				if(9 to 10)
-					rip_out_organs(failure_source)
+					INVOKE_ASYNC(src, PROC_REF(rip_out_organs), failure_source)
 
 		if(RUNE_FAIL_HELPER_REMOVED_HAND)
 			if(prob(50))
-				dismember_mob(failure_source)
+				INVOKE_ASYNC(src, PROC_REF(dismember_mob), failure_source)
 			else
-				rip_out_organs(failure_source)
+				INVOKE_ASYNC(src, PROC_REF(rip_out_organs), failure_source)
 
 		if(RUNE_FAIL_INVOKER_INCAP)
 			if(length(touching_rune))
 				var/victim = pick(touching_rune)
 				if(prob(50))
-					dismember_mob(victim)
+					INVOKE_ASYNC(src, PROC_REF(dismember_mob), victim)
 				else
-					rip_out_organs(victim)
+					INVOKE_ASYNC(src, PROC_REF(rip_out_organs), victim)
 			else
-				rip_out_target_heart()
+				INVOKE_ASYNC(src, PROC_REF(rip_out_target_heart))
 		else
-			rip_out_target_heart()
+			INVOKE_ASYNC(src, PROC_REF(rip_out_target_heart))
 
 	return ..()
 

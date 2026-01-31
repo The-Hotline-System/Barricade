@@ -133,7 +133,7 @@
 		stack_trace("Grab (\ref[src]) qdeleted while not having a grab datum.")
 
 	if(assailant)
-		assailant.after_grab_release(affecting)
+		INVOKE_ASYNC(assailant, TYPE_PROC_REF(/mob/living, after_grab_release), affecting)
 
 	if(ismob(affecting))
 		log_combat(assailant, affecting, "dropped a grab on")
