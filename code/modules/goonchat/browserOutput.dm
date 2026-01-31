@@ -216,22 +216,21 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 		if(!P || P.hidden)
 			continue
 
-		var/verb_name = "[verb_path]"
-		// Extract just the verb name from the path
-		var/last_slash = findlasttext(verb_name, "/")
-		if(last_slash)
-			verb_name = copytext(verb_name, last_slash + 1)
+		// Skip admin-only verbs if user is not an admin
+		if(P.category && (findtext(P.category, "Admin") || findtext(P.category, "Debug")) && !owner.holder)
+			continue
+
+		// Use the verb's actual name, not the path
+		var/verb_name = P.name
+		if(!verb_name)
+			continue
 
 		// Check if the mob can actually call this verb
 		if(!hascall(owner.mob, verb_name))
 			continue
 
-		// Skip admin-only verbs if user is not an admin
-		if(P.category && (findtext(P.category, "Admin") || findtext(P.category, "Debug")) && !owner.holder)
-			continue
-
-		// Clean up the name (remove _verb suffix if present)
-		verb_name = replacetext(verb_name, "_verb", "")
+		// Replace spaces with hyphens for command-line compatibility
+		verb_name = replacetext(verb_name, " ", "-")
 		verb_name = lowertext(verb_name)
 		if(verb_name && !(verb_name in commands))
 			commands += verb_name
@@ -242,20 +241,21 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 		if(!P || P.hidden)
 			continue
 
-		var/verb_name = "[verb_path]"
-		var/last_slash = findlasttext(verb_name, "/")
-		if(last_slash)
-			verb_name = copytext(verb_name, last_slash + 1)
+		// Skip admin-only verbs if user is not an admin
+		if(P.category && (findtext(P.category, "Admin") || findtext(P.category, "Debug")) && !owner.holder)
+			continue
+
+		// Use the verb's actual name, not the path
+		var/verb_name = P.name
+		if(!verb_name)
+			continue
 
 		// Check if the client can actually call this verb
 		if(!hascall(owner, verb_name))
 			continue
 
-		// Skip admin-only verbs if user is not an admin
-		if(P.category && (findtext(P.category, "Admin") || findtext(P.category, "Debug")) && !owner.holder)
-			continue
-
-		verb_name = replacetext(verb_name, "_verb", "")
+		// Replace spaces with hyphens for command-line compatibility
+		verb_name = replacetext(verb_name, " ", "-")
 		verb_name = lowertext(verb_name)
 		if(verb_name && !(verb_name in commands))
 			commands += verb_name
