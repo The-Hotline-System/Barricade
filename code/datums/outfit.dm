@@ -182,7 +182,6 @@
 		EQUIP_OUTFIT_ITEM(shirt, ITEM_SLOT_SHIRT)
 	if(pants)
 		EQUIP_OUTFIT_ITEM(pants, ITEM_SLOT_PANTS)
-		to_chat(world, "Equipping pants in outfit")
 	if(suit)
 		EQUIP_OUTFIT_ITEM(suit, ITEM_SLOT_OCLOTHING)
 	if(belt)

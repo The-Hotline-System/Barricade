@@ -462,7 +462,6 @@
 		return FALSE
 
 	var/static/list/exclude_from_unequip_delay = list(null, ITEM_SLOT_RPOCKET, ITEM_SLOT_LPOCKET, ITEM_SLOT_SUITSTORE, ITEM_SLOT_BACKPACK, ITEM_SLOT_HANDS)
-	to_chat(world, "calling unequip delay with [I] and [use_unequip_delay], slot is [slot]")
 	if(use_unequip_delay && !(slot in exclude_from_unequip_delay) && !unequip_delay_self_check(I))
 		return FALSE
 
@@ -711,8 +710,6 @@
 		span_notice("You start to put on [I]...")
 	)
 
-	to_chat(world, "trying [I] with [bypass_delay]")
-
 	. = I.do_equip_wait(src)
 
 	if(.)
@@ -732,8 +729,6 @@
 		span_notice("[src] starts to take off [I]..."),
 		span_notice("You start to take off [I]..."),
 	)
-
-	to_chat(world, "trying [I]")
 
 	. = I.do_equip_wait(src)
 
