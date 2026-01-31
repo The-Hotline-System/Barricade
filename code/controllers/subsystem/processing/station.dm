@@ -7,7 +7,7 @@ PROCESSING_SUBSYSTEM_DEF(station)
 
 	///Currently active announcer. Starts as a type but gets initialized after traits are selected
 	//var/datum/centcom_announcer/announcer = /datum/centcom_announcer/default
-	var/datum/centcom_announcer/announcer = /datum/centcom_announcer/baystation //PARIAH EDIT - ANNOUNCER
+	var/datum/centcom_announcer/announcer = /datum/centcom_announcer/coach
 
 /datum/controller/subsystem/processing/station/Initialize(timeofday)
 
