@@ -1,0 +1,332 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			body {
+				font-family: Arial, sans-serif;
+				background-color: #1a1a1a;
+				height: 100vh;
+				width: 100vw;
+				min-width: 100vw;
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				padding: 2px;
+				margin: 0;
+				overflow: hidden;
+				box-sizing: border-box;
+				position: relative;
+			}
+			#command-bar-container {
+				display: flex;
+				position: absolute;
+				left: 2px;
+				width: 444px;
+				max-width: calc(100% - 126px);
+				height: calc(100% - 4px);
+				gap: 2px;
+				align-items: stretch;
+				box-sizing: border-box;
+			}
+			#mode-button {
+				background-color: #2d2d2d;
+				color: #fff;
+				border: 1px solid #444;
+				padding: 0 8px;
+				cursor: pointer;
+				font-size: 10px;
+				font-weight: 700;
+				width: 55px;
+				min-width: 55px;
+				text-align: center;
+				transition: background-color 0.1s;
+				user-select: none;
+				flex-shrink: 0;
+			}
+			#mode-button:hover {
+				background-color: #3d3d3d;
+			}
+			#mode-button:active {
+				background-color: #1d1d1d;
+			}
+			#mode-button.say {
+				background-color: #2d5d2d;
+				border-color: #3d7d3d;
+			}
+			#mode-button.whisper {
+				background-color: #2d4d4d;
+				border-color: #3d6d6d;
+			}
+			#mode-button.me {
+				background-color: #5d2d5d;
+				border-color: #7d3d7d;
+			}
+			#mode-button.ooc {
+				background-color: #2d2d5d;
+				border-color: #3d3d7d;
+			}
+			#mode-button.cmd {
+				background-color: #5d5d2d;
+				border-color: #7d7d3d;
+			}
+			#input-wrapper {
+				flex: 1;
+				position: relative;
+				display: flex;
+				min-width: 0;
+				overflow: hidden;
+			}
+			#command-input {
+				width: 100%;
+				height: 100%;
+				background-color: #2d2d2d;
+				color: #fff;
+				border: 1px solid #444;
+				padding: 0 6px;
+				font-size: 11px;
+				font-family: "Courier New", monospace;
+				overflow-x: auto;
+				overflow-y: hidden;
+				white-space: nowrap;
+				min-width: 0;
+				box-sizing: border-box;
+				position: relative;
+				z-index: 1;
+			}
+			#command-input:focus {
+				outline: 0;
+				border-color: #666;
+				background-color: #333;
+			}
+			#autocomplete-hint {
+				position: absolute;
+				left: 6px;
+				top: 50%;
+				transform: translateY(-50%);
+				color: #666;
+				font-size: 11px;
+				font-family: "Courier New", monospace;
+				pointer-events: none;
+				white-space: nowrap;
+				overflow: visible;
+				z-index: 2;
+				line-height: 1;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="command-bar-container">
+			<button id="mode-button" class="say">SAY</button>
+			<div id="input-wrapper">
+				<div id="autocomplete-hint"></div>
+				<input
+					type="text"
+					id="command-input"
+					placeholder="Type your message..."
+					autocomplete="off"
+					autofocus
+				/>
+			</div>
+		</div>
+		<script>
+			const modes = ["say", "whisper", "me", "ooc", "cmd"];
+			let currentModeIndex = 0;
+			const modeButton = document.getElementById("mode-button");
+			const commandInput = document.getElementById("command-input");
+			const autocompleteHint =
+				document.getElementById("autocomplete-hint");
+
+			// Common commands for autocomplete - will be populated by BYOND
+			let commonCommands = [
+				"say",
+				"me",
+				"ooc",
+				"whisper",
+				"examine",
+				"help",
+			];
+
+			// Function to receive commands from BYOND
+			window.setCommands = function (params) {
+				try {
+					var paramsList = params.split("&");
+					for (var i = 0; i < paramsList.length; i++) {
+						var pair = paramsList[i].split("=");
+						if (pair[0] === "commands") {
+							var commandsJson = decodeURIComponent(pair[1]);
+							commonCommands = JSON.parse(commandsJson);
+							commonCommands.sort(); // Keep them sorted
+							break;
+						}
+					}
+				} catch (e) {
+					console.error("Error parsing commands:", e);
+				}
+			};
+
+			let currentMatches = [];
+			let justAutocompleted = false;
+
+			function updateMode() {
+				const mode = modes[currentModeIndex];
+				const displayNames = {
+					say: "SAY",
+					whisper: "WSPR",
+					me: "ME",
+					ooc: "OOC",
+					cmd: "CMD",
+				};
+				modeButton.textContent = displayNames[mode];
+				modeButton.className = mode;
+
+				const placeholders = {
+					say: "Say something...",
+					whisper: "Whisper something...",
+					me: "Describe an action...",
+					ooc: "Out of character...",
+					cmd: "Enter command...",
+				};
+				commandInput.placeholder = placeholders[mode];
+
+				// Clear autocomplete when switching modes
+				updateAutocomplete();
+
+				// Notify BYOND of mode change
+				window.location = `byond://?_src_=chat;modeChange=${mode}`;
+			}
+
+			function updateAutocomplete() {
+				const mode = modes[currentModeIndex];
+				const input = commandInput.value;
+
+				// Only show autocomplete in CMD mode
+				if (mode !== "cmd" || !input || justAutocompleted) {
+					autocompleteHint.innerHTML = "";
+					currentMatches = [];
+					return;
+				}
+
+				// Find matching commands, sort by length (shorter first)
+				const matches = commonCommands
+					.filter((cmd) =>
+						cmd.toLowerCase().startsWith(input.toLowerCase()),
+					)
+					.sort((a, b) => a.length - b.length)
+					.slice(0, 3); // Show top 3 matches
+
+				currentMatches = matches;
+
+				if (matches.length > 0) {
+					// Show matches as: (match1, match2, match3)
+					// Use invisible span for the input text to position the hint correctly
+					autocompleteHint.innerHTML = `<span style="opacity: 0;">${input}</span><span style="color: #666;"> (${matches.join(", ")})</span>`;
+				} else {
+					autocompleteHint.innerHTML = "";
+				}
+			}
+
+			function cycleMode() {
+				currentModeIndex = (currentModeIndex + 1) % modes.length;
+				updateMode();
+				// Blur the input to return focus to main window
+				commandInput.blur();
+			}
+
+			// Expose cycleMode globally for keybinding
+			window.cycleMode = cycleMode;
+
+			// Function to focus the input
+			window.focusInput = function () {
+				commandInput.focus();
+			};
+
+			function sendCommand() {
+				const text = commandInput.value.trim();
+				if (!text) return;
+				const mode = modes[currentModeIndex];
+				let command = mode === "cmd" ? text : `${mode} "${text}"`;
+				window.location = `byond://?_src_=chat;command=${encodeURIComponent(command)}`;
+				commandInput.value = "";
+				commandInput.focus();
+			}
+
+			// Expose sendCommand to be called from BYOND
+			window.triggerSend = function () {
+				sendCommand();
+			};
+
+			modeButton.addEventListener("click", (e) => {
+				e.preventDefault();
+				cycleMode();
+			});
+
+			commandInput.addEventListener("keydown", (e) => {
+				if (e.key === "Enter") {
+					e.preventDefault();
+					sendCommand();
+				}
+				if (e.key === "Tab") {
+					e.preventDefault();
+					commandInput.blur();
+					// Immediately refocus the map window
+					window.location = "byond://?_src_=chat;refocusMap=1";
+				}
+				// Backtick key cycles modes when input is focused
+				if (e.key === "`") {
+					e.preventDefault();
+					cycleMode();
+					// Keep focus on input after mode change
+					commandInput.focus();
+				}
+				// Space key autocompletes with first match in CMD mode
+				if (
+					e.key === " " &&
+					modes[currentModeIndex] === "cmd" &&
+					currentMatches.length > 0
+				) {
+					e.preventDefault();
+					commandInput.value = currentMatches[0];
+					justAutocompleted = true;
+					updateAutocomplete();
+					// Add a space after the completed command
+					commandInput.value += " ";
+					commandInput.scrollLeft = commandInput.scrollWidth;
+				}
+				// Clear autocomplete flag on any letter or backspace
+				if (e.key.length === 1 || e.key === "Backspace") {
+					justAutocompleted = false;
+				}
+			});
+
+			// Auto-scroll input to show cursor position as user types
+			commandInput.addEventListener("input", (e) => {
+				// Force the input to scroll to the end to show the cursor
+				commandInput.scrollLeft = commandInput.scrollWidth;
+				// Update autocomplete suggestions
+				updateAutocomplete();
+			});
+
+			commandInput.addEventListener("keyup", (e) => {
+				// Also handle cursor movement keys
+				commandInput.scrollLeft = commandInput.scrollWidth;
+			});
+
+			commandInput.addEventListener("click", (e) => {
+				// Handle clicks that move cursor
+				commandInput.scrollLeft = commandInput.scrollWidth;
+			});
+
+			document.addEventListener("click", (e) => {
+				if (e.target !== modeButton) commandInput.focus();
+			});
+
+			updateMode();
+		</script>
+	</body>
+</html>

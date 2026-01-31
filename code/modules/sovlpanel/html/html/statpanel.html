@@ -210,7 +210,7 @@
 			#buttonpanel {
 				position: absolute;
 				top: 18px;
-				left: -7px;
+				left: 0px;
 				height: 75px;
 				width: 473px;
 				display: flex;
@@ -218,10 +218,72 @@
 				overflow-x: auto;
 				white-space: nowrap;
 				gap: 6px;
-				padding: 0 6px;
+				padding: 0 6px 0 8px;
 				z-index: 5;
 				scrollbar-width: thin;
 				overflow-y: hidden;
+			}
+
+			#buttonpanel::-webkit-scrollbar {
+				background-color: transparent;
+				height: 16px;
+				background-image:
+					url("chatscrollbar-bg-t.png"),
+					url("chatscrollbar-bg-b.png"), url("chatscrollbar-bg.png");
+				background-position:
+					left center,
+					right center,
+					center center;
+				background-size:
+					auto 100%,
+					auto 100%,
+					contain;
+				background-repeat: no-repeat, no-repeat, round;
+				-ms-interpolation-mode: nearest-neighbor;
+				image-rendering: pixelated;
+			}
+
+			#buttonpanel::-webkit-scrollbar-button:single-button:horizontal:decrement {
+				background-color: transparent;
+				background-image: url("chatscrollbar-scrollup.png");
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: left;
+				-ms-interpolation-mode: nearest-neighbor;
+				image-rendering: pixelated;
+				width: 100%;
+				transform: rotate(-90deg);
+			}
+
+			#buttonpanel::-webkit-scrollbar-button:single-button:horizontal:increment {
+				background-color: transparent;
+				background-image: url("chatscrollbar-scrolldown.png");
+				background-size: contain;
+				background-repeat: no-repeat;
+				background-position: right;
+				-ms-interpolation-mode: nearest-neighbor;
+				image-rendering: pixelated;
+				width: 100%;
+				transform: rotate(-90deg);
+			}
+
+			#buttonpanel::-webkit-scrollbar-thumb {
+				background-color: transparent;
+				background-image:
+					url("chatscroller-t.png"), url("chatscroller-b.png"),
+					url("chatscroller-m.png");
+				background-position:
+					left center,
+					right center,
+					center center;
+				background-size:
+					auto 100%,
+					auto 100%,
+					contain;
+				background-repeat: no-repeat, no-repeat, round;
+				-ms-interpolation-mode: nearest-neighbor;
+				image-rendering: pixelated;
+				min-width: 32px;
 			}
 
 			.button {

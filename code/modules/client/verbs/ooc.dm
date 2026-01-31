@@ -439,14 +439,14 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		pct += delta
 		winset(src, "mainwindow.split", "splitter=[pct]")
 
-/// Attempt to automatically fit the viewport, assuming the user wants it
+/// Attempt to automatically fit the viewport, assuming the user wants it - Don't do this.
 /client/proc/attempt_auto_fit_viewport()
-	if (!prefs.read_preference(/datum/preference/toggle/auto_fit_viewport))
-		return
-	if(fully_created)
-		fit_viewport()
-	else //Delayed to avoid wingets from Login calls.
-		addtimer(CALLBACK(src, .verb/fit_viewport, 1 SECONDS))
+	// if (!prefs.read_preference(/datum/preference/toggle/auto_fit_viewport))
+	return
+	// if(fully_created)
+	//	fit_viewport()
+	// else //Delayed to avoid wingets from Login calls.
+	//	addtimer(CALLBACK(src, .verb/fit_viewport, 1 SECONDS))
 
 /client/verb/policy()
 	set name = "Show Policy"

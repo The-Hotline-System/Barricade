@@ -34,6 +34,8 @@
 #define COMSIG_KB_CLIENT_GETHELP_DOWN "keybinding_client_gethelp_down"
 #define COMSIG_KB_CLIENT_SCREENSHOT_DOWN "keybinding_client_screenshot_down"
 #define COMSIG_KB_CLIENT_MINIMALHUD_DOWN "keybinding_client_minimalhud_down"
+#define COMSIG_KB_CLIENT_FOCUSCHAT_DOWN "keybinding_client_focuschat_down"
+#define COMSIG_KB_CLIENT_CYCLECHATMODE_DOWN "keybinding_client_cyclechatmode_down"
 
 //Communication
 #define COMSIG_KB_CLIENT_OOC_DOWN "keybinding_client_ooc_down"

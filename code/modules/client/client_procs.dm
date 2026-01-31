@@ -43,6 +43,21 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 		return
 #endif
 
+	// Handle chat command bar topics
+	if(href_list["_src_"] == "chat")
+		if(href_list["command"])
+			chatOutput?.executeCommand(href_list["command"])
+			return
+		if(href_list["modeChange"])
+			chatOutput?.handleModeChange(href_list["modeChange"])
+			return
+		if(href_list["sendButtonClick"])
+			chatOutput?.handleSendButtonClick()
+			return
+		if(href_list["refocusMap"])
+			winset(src, "mapwindow.map", "focus=true")
+			return
+
 	// asset_cache
 	var/asset_cache_job
 	if(href_list["asset_cache_confirm_arrival"])

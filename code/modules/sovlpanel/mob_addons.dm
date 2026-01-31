@@ -208,6 +208,10 @@ and set its desc to what you want the verb to appear as in the statpanel.
 
 	client.addbutton(buttonHTML, "#dynamicpanel")
 
+	// Update command bar autocomplete when verbs change
+	if(client.chatOutput && client.chatOutput.loaded)
+		client.chatOutput.sendAvailableCommands()
+
 
 
 #define ISHTML 2

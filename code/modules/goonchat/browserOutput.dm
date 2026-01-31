@@ -67,8 +67,13 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	var/datum/asset/stat_stuff = get_asset_datum(/datum/asset/group/statpanel)
 	stat_stuff.send(owner)
 
+	// var/datum/asset/command_bar_stuff = get_asset_datum(/datum/asset/simple/command_bar)
+	// command_bar_stuff.send(owner)
+
 	owner << browse(file('code/modules/goonchat/browserassets/html/browserOutput.html'), "window=output_browser.browseroutput")
 	owner << browse(file('code/modules/sovlpanel/html/html/statpanel.html'), "window=statwindow.browser;")
+	owner << browse(file('code/modules/goonchat/browserassets/html/command_bar.html'), "window=inputwindow.command_bar_browser;size=805x20")
+	owner << browse(file('code/modules/goonchat/browserassets/html/send_button.html'), "window=inputbuttons.send_button_browser;size=120x20")
 
 	if (load_attempts < 5) //To a max of 5 load attempts
 		spawn(20 SECONDS)
@@ -78,42 +83,51 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	else
 		return
 
+/client/verb/focus_chat_input()
+	set name = "focus-chat-input"
+	set hidden = TRUE
+	set instant = TRUE
+
+	// Focus the browser window
+	winset(src, "inputwindow.command_bar_browser", "focus=true")
+	// Focus the input element inside it
+	src << output(null, "inputwindow.command_bar_browser:focusInput")
+
+/datum/keybinding/client/chat/cycle_chat_mode
+	hotkey_keys = list("`")
+	name = "cycle_chat_mode"
+	full_name = "Cycle Chat Mode"
+	description = "Cycle through chat modes (SAY/WHSPR/ME/OOC/CMD)"
+	keybind_signal = COMSIG_KB_CLIENT_CYCLECHATMODE_DOWN
+
+/datum/keybinding/client/chat/cycle_chat_mode/down(client/user)
+	. = ..()
+	if(.)
+		return
+	user << output(null, "inputwindow.command_bar_browser:cycleMode")
+	return TRUE
+
+
 /datum/chatOutput/Topic(href, list/href_list)
 	if(usr.client != owner)
 		return TRUE
-	/*
-	if(href_list["admin_command"])
-		if(!owner.holder)
-			return
-		owner.holder.admin_command(href_list["admin_command"], href_list["target"])
-		return
-	*/
-	// Build arguments.
-	// Arguments are in the form "param[paramname]=thing"
-	var/list/params = list()
-	for(var/key in href_list)
-		if(length(key) > 7 && findtext(key, "param")) // 7 is the amount of characters in the basic param key template.
-			var/param_name = copytext(key, 7, -1)
-			var/item       = href_list[key]
-
-			params[param_name] = item
 
 	var/data // Data to be sent back to the chat.
 	switch(href_list["proc"])
 		if("doneLoading")
-			data = doneLoading(arglist(params))
+			data = doneLoading()
 
 		if("debug")
-			data = debug(arglist(params))
+			data = debug(href_list["error"])
 
 		if("ping")
-			data = ping(arglist(params))
+			data = ping()
 
 		if("analyzeClientData")
-			data = analyzeClientData(arglist(params))
+			data = analyzeClientData(href_list["cookie"])
 
 		if("setMusicVolume")
-			data = setMusicVolume(arglist(params))
+			data = setMusicVolume(href_list["volume"])
 		if("swaptodarkmode")
 			swaptodarkmode()
 		if("swaptolightmode")
@@ -121,6 +135,50 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 
 	if(data)
 		ehjax_send(data = data)
+
+/datum/chatOutput/proc/executeCommand(command)
+	if(!owner || !owner.mob || !command)
+		return
+
+	// Parse the command to determine the type and extract the message
+	// Commands come in formats: say "text", whisper "text", me "text", ooc "text", or raw commands
+
+	if(findtext(command, "say \"") == 1)
+		// Extract the message from say "message"
+		var/message = copytext(command, 6, -1) // Remove 'say "' and trailing '"'
+		owner.mob.say_verb(message)
+
+	else if(findtext(command, "whisper \"") == 1)
+		// Extract the message from whisper "message"
+		var/message = copytext(command, 10, -1) // Remove 'whisper "' and trailing '"'
+		owner.mob.whisper_verb(message)
+
+	else if(findtext(command, "me \"") == 1)
+		// Extract the message from me "message"
+		var/message = copytext(command, 5, -1) // Remove 'me "' and trailing '"'
+		owner.mob.me_verb(message)
+
+	else if(findtext(command, "ooc \"") == 1)
+		// Extract the message from ooc "message"
+		var/message = copytext(command, 6, -1) // Remove 'ooc "' and trailing '"'
+		owner.ooc(message)
+
+	else
+		// Raw command - try to execute it as a verb or command
+		// Use winset to execute the command as if typed in the command bar
+		winset(owner, null, "command=[command]")
+
+/datum/chatOutput/proc/handleModeChange(mode)
+	if(!owner || !mode)
+		return
+	// Update the send button's mode
+	owner << output(list2params(list(mode)), "inputbuttons.send_button_browser:updateButtonMode")
+
+/datum/chatOutput/proc/handleSendButtonClick()
+	if(!owner)
+		return
+	// Trigger the send command in the command bar
+	owner << output("triggerSend()", "inputwindow.command_bar_browser:triggerSend")
 
 
 //Called on chat output done-loading by JS.
@@ -141,7 +199,71 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 
 	syncRegex()
 
+	// Send available commands to command bar
+	sendAvailableCommands()
+
 	// Debug message removed - chat is loading correctly now that tgui_panel is disabled
+
+/datum/chatOutput/proc/sendAvailableCommands()
+	if(!owner || !owner.mob)
+		return
+
+	var/list/commands = list()
+
+	// Gather all verbs from the mob that are actually accessible
+	for(var/verb_path in owner.mob.verbs)
+		var/procpath/P = verb_path
+		if(!P || P.hidden)
+			continue
+
+		var/verb_name = "[verb_path]"
+		// Extract just the verb name from the path
+		var/last_slash = findlasttext(verb_name, "/")
+		if(last_slash)
+			verb_name = copytext(verb_name, last_slash + 1)
+
+		// Check if the mob can actually call this verb
+		if(!hascall(owner.mob, verb_name))
+			continue
+
+		// Skip admin-only verbs if user is not an admin
+		if(P.category && (findtext(P.category, "Admin") || findtext(P.category, "Debug")) && !owner.holder)
+			continue
+
+		// Clean up the name (remove _verb suffix if present)
+		verb_name = replacetext(verb_name, "_verb", "")
+		verb_name = lowertext(verb_name)
+		if(verb_name && !(verb_name in commands))
+			commands += verb_name
+
+	// Gather client verbs that are accessible
+	for(var/verb_path in owner.verbs)
+		var/procpath/P = verb_path
+		if(!P || P.hidden)
+			continue
+
+		var/verb_name = "[verb_path]"
+		var/last_slash = findlasttext(verb_name, "/")
+		if(last_slash)
+			verb_name = copytext(verb_name, last_slash + 1)
+
+		// Check if the client can actually call this verb
+		if(!hascall(owner, verb_name))
+			continue
+
+		// Skip admin-only verbs if user is not an admin
+		if(P.category && (findtext(P.category, "Admin") || findtext(P.category, "Debug")) && !owner.holder)
+			continue
+
+		verb_name = replacetext(verb_name, "_verb", "")
+		verb_name = lowertext(verb_name)
+		if(verb_name && !(verb_name in commands))
+			commands += verb_name
+
+	// Send the commands list to the command bar
+	var/commands_json = json_encode(commands)
+	owner << output(list2params(list("commands" = commands_json)), "inputwindow.command_bar_browser:setCommands")
+
 
 /proc/syncChatRegexes()
 	for (var/user in GLOB.clients)

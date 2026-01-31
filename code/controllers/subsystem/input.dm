@@ -40,7 +40,7 @@ VERB_MANAGER_SUBSYSTEM_DEF(input)
 	macro_set = list(
 		// These could probably just be put in the skin. I actually don't 	understand WHY they aren't just in the skin. Besides the use of defines for Tab.
 		"Back" = "\".winset \\\"input.text=\\\"\\\"\\\"\"",
-		"Tab" = "\".winset \\\"input.focus=true?map.focus=true input.background-color=[COLOR_INPUT_DISABLED]:input.focus=true input.background-color=[COLOR_INPUT_ENABLED]\\\"\"",
+		"Tab" = "\"focus-chat-input\"",
 		"Escape" = "Reset-Held-Keys",
 	)
 	hotkey_only_set = list(
