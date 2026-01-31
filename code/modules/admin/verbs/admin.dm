@@ -188,7 +188,25 @@
 
 /proc/cmd_admin_mute(whom, mute_type, automute = 0)
 	if(!whom)
-		return
+		if(!check_rights())
+			return
+		whom = input(usr, "Choose a player to mute/unmute", "Admin Mute") as null|anything in GLOB.player_list
+		if(!whom)
+			return
+
+	if(isnull(mute_type))
+		if(!check_rights())
+			return
+		mute_type = input(usr, "Choose mute type", "Admin Mute") as null|anything in list(
+			"IC (say and emote)" = MUTE_IC,
+			"OOC" = MUTE_OOC,
+			"Pray" = MUTE_PRAY,
+			"Adminhelp, Admin PM and ASAY" = MUTE_ADMINHELP,
+			"Deadchat and DSAY" = MUTE_DEADCHAT,
+			"Everything" = MUTE_ALL
+		)
+		if(isnull(mute_type))
+			return
 
 	var/muteunmute
 	var/mute_string

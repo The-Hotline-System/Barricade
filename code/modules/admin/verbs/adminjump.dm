@@ -1,4 +1,4 @@
-/client/proc/jumptoarea(area/A in get_sorted_areas())
+/client/proc/jumptoarea(area/A)
 	set name = "Jump to Area"
 	set desc = "Area to jump to"
 	set category = "Admin.Game"
@@ -7,7 +7,10 @@
 		return
 
 	if(!A)
-		return
+		var/list/sorted_areas = get_sorted_areas()
+		A = input("Pick an area to jump to", "Jump to Area") as null|anything in sorted_areas
+		if(!A)
+			return
 
 	var/list/turfs = list()
 	for(var/turf/T in A.get_contained_turfs())
@@ -26,12 +29,17 @@
 		return
 
 
-/client/proc/jumptoturf(turf/T in world)
+/client/proc/jumptoturf(turf/T)
 	set name = "Jump to Turf"
 	set category = "Admin.Game"
 	if(!src.holder)
 		to_chat(src, "Only administrators may use this command.", confidential = TRUE)
 		return
+
+	if(!T)
+		T = input("Pick a turf to jump to", "Jump to Turf") as null|turf in world
+		if(!T)
+			return
 
 	log_admin("[key_name(usr)] jumped to [AREACOORD(T)]")
 	message_admins("[key_name_admin(usr)] jumped to [AREACOORD(T)]")
@@ -39,13 +47,18 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Jump To Turf") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 	return
 
-/client/proc/jumptomob(mob/M in GLOB.mob_list)
+/client/proc/jumptomob(mob/M)
 	set category = "Admin.Game"
 	set name = "Jump to Mob"
 
 	if(!src.holder)
 		to_chat(src, "Only administrators may use this command.", confidential = TRUE)
 		return
+
+	if(!M)
+		M = input("Pick a mob to jump to", "Jump to Mob") as null|mob in GLOB.mob_list
+		if(!M)
+			return
 
 	log_admin("[key_name(usr)] jumped to [key_name(M)]")
 	message_admins("[key_name_admin(usr)] jumped to [ADMIN_LOOKUPFLW(M)] at [AREACOORD(M)]")
@@ -58,7 +71,7 @@
 		else
 			to_chat(A, "This mob is not located in the game world.", confidential = TRUE)
 
-/client/proc/jumptocoord(tx as num, ty as num, tz as num)
+/client/proc/jumptocoord(tx, ty, tz)
 	set category = "Admin.Game"
 	set name = "Jump to Coordinate"
 
@@ -66,12 +79,27 @@
 		to_chat(src, "Only administrators may use this command.", confidential = TRUE)
 		return
 
+	if(isnull(tx) || isnull(ty) || isnull(tz))
+		tx = input("X coordinate", "Jump to Coordinate") as null|num
+		if(isnull(tx))
+			return
+		ty = input("Y coordinate", "Jump to Coordinate") as null|num
+		if(isnull(ty))
+			return
+		tz = input("Z coordinate", "Jump to Coordinate") as null|num
+		if(isnull(tz))
+			return
+
 	if(src.mob)
 		var/mob/A = src.mob
 		var/turf/T = locate(tx,ty,tz)
+		if(!T)
+			to_chat(src, "Invalid coordinates.", confidential = TRUE)
+			return
 		A.forceMove(T)
+		log_admin("[key_name(usr)] jumped to coordinates [tx], [ty], [tz]")
+		message_admins("[key_name_admin(usr)] jumped to coordinates [tx], [ty], [tz]")
 		SSblackbox.record_feedback("tally", "admin_verb", 1, "Jump To Coordiate") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-	message_admins("[key_name_admin(usr)] jumped to coordinates [tx], [ty], [tz]")
 
 /client/proc/jumptokey()
 	set category = "Admin.Game"
@@ -96,13 +124,18 @@
 
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Jump To Key") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
-/client/proc/Getmob(mob/M in GLOB.mob_list - GLOB.dummy_mob_list)
+/client/proc/Getmob(mob/M)
 	set category = "Admin.Game"
 	set name = "Get Mob"
 	set desc = "Mob to teleport"
 	if(!src.holder)
 		to_chat(src, "Only administrators may use this command.", confidential = TRUE)
 		return
+
+	if(!M)
+		M = input("Pick a mob to teleport", "Get Mob") as null|mob in GLOB.mob_list - GLOB.dummy_mob_list
+		if(!M)
+			return
 
 	var/atom/loc = get_turf(usr)
 	M.admin_teleport(loc)
@@ -153,12 +186,18 @@
 		usr.forceMove(M.loc)
 		SSblackbox.record_feedback("tally", "admin_verb", 1, "Get Key") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
-/client/proc/sendmob(mob/jumper in sort_mobs())
+/client/proc/sendmob(mob/jumper)
 	set category = "Admin.Game"
 	set name = "Send Mob"
 	if(!src.holder)
 		to_chat(src, "Only administrators may use this command.", confidential = TRUE)
 		return
+
+	if(!jumper)
+		jumper = input("Pick a mob to send", "Send Mob") as null|mob in sort_mobs()
+		if(!jumper)
+			return
+
 	var/list/sorted_areas = get_sorted_areas()
 	if(!length(sorted_areas))
 		to_chat(src, "No areas found.", confidential = TRUE)

@@ -3,11 +3,16 @@
 #define SHELLEO_STDOUT 2
 #define SHELLEO_STDERR 3
 
-/client/proc/play_sound(S as sound)
+/client/proc/play_sound(S)
 	set category = "Admin.Fun"
 	set name = "Play Global Sound"
 	if(!check_rights(R_SOUND))
 		return
+
+	if(!S)
+		S = input("Pick a sound file to play globally", "Play Global Sound") as null|sound
+		if(!S)
+			return
 
 	var/freq = 1
 	var/vol = input(usr, "What volume would you like the sound to play at?",, 100) as null|num
@@ -44,22 +49,32 @@
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Play Global Sound") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 
-/client/proc/play_local_sound(S as sound)
+/client/proc/play_local_sound(S)
 	set category = "Admin.Fun"
 	set name = "Play Local Sound"
 	if(!check_rights(R_SOUND))
 		return
+
+	if(!S)
+		S = input("Pick a sound file to play locally", "Play Local Sound") as null|sound
+		if(!S)
+			return
 
 	log_admin("[key_name(src)] played a local sound [S]")
 	message_admins("[key_name_admin(src)] played a local sound [S]")
 	playsound(get_turf(src.mob), S, 50, FALSE, FALSE)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Play Local Sound") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
-/client/proc/play_direct_mob_sound(S as sound, mob/M)
+/client/proc/play_direct_mob_sound(S, mob/M)
 	set category = "Admin.Fun"
 	set name = "Play Direct Mob Sound"
 	if(!check_rights(R_SOUND))
 		return
+
+	if(!S)
+		S = input("Pick a sound file to play", "Play Direct Mob Sound") as null|sound
+		if(!S)
+			return
 
 	if(!M)
 		M = input(usr, "Choose a mob to play the sound to. Only they will hear it.", "Play Mob Sound") as null|anything in sort_names(GLOB.player_list)
@@ -158,11 +173,16 @@
 
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Play Internet Sound")
 
-/client/proc/set_round_end_sound(S as sound)
+/client/proc/set_round_end_sound(S)
 	set category = "Admin.Fun"
 	set name = "Set Round End Sound"
 	if(!check_rights(R_SOUND))
 		return
+
+	if(!S)
+		S = input("Pick a sound file for round end", "Set Round End Sound") as null|sound
+		if(!S)
+			return
 
 	SSticker.SetRoundEndSound(S)
 

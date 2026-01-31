@@ -1,9 +1,14 @@
-/client/proc/cmd_loud_admin_say(msg as text)
+/client/proc/cmd_loud_admin_say(msg)
 	set category = "Admin"
 	set name = "loudAsay"
 	set hidden = TRUE
 	if(!check_rights(0))
 		return
+
+	if(!msg)
+		msg = input(src, null, "loudAsay \"text\"") as text|null
+		if(!msg)
+			return
 
 	msg = emoji_parse(copytext_char(sanitize(msg), 1, MAX_MESSAGE_LEN))
 	if(!msg)

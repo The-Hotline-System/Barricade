@@ -78,20 +78,28 @@
 	message_admins(span_adminnotice("[key_name_admin(usr)] Sent a global narrate"))
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Global Narrate") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
-/client/proc/cmd_admin_local_narrate(atom/A)
+/client/proc/cmd_admin_local_narrate(atom/A, range, msg)
 	set category = "Admin.Events"
 	set name = "Local Narrate"
 
 	if(!check_rights(R_ADMIN))
 		return
+
 	if(!A)
-		return
-	var/range = input("Range:", "Narrate to mobs within how many tiles:", 7) as num|null
-	if(!range)
-		return
-	var/msg = input("Message:", "Enter the text you wish to appear to everyone within view:") as text|null
-	if (!msg)
-		return
+		A = input("Select an atom to narrate around", "Local Narrate") as null|atom in world
+		if(!A)
+			return
+
+	if(isnull(range))
+		range = input("Range:", "Narrate to mobs within how many tiles:", 7) as num|null
+		if(isnull(range))
+			return
+
+	if(!msg)
+		msg = input("Message:", "Enter the text you wish to appear to everyone within view:") as text|null
+		if(!msg)
+			return
+
 	for(var/mob/M in view(range,A))
 		to_chat(M, msg, confidential = TRUE)
 
