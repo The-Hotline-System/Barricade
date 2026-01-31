@@ -36,6 +36,56 @@
 	M.try_swap_hand()
 	return TRUE
 
+/datum/keybinding/mob/select_left_hand
+	hotkey_keys = list("Unbound")
+	name = "select_left_hand"
+	full_name = "Select left hand"
+	description = "Select your left hand as the active hand. Press again to wield/unwield items."
+	keybind_signal = COMSIG_KB_MOB_SELECTLEFTHAND_DOWN
+
+/datum/keybinding/mob/select_left_hand/down(client/user)
+	. = ..()
+	if(.)
+		return
+	var/mob/M = user.mob
+
+	// If left hand is already active, try to wield/unwield
+	if(M.active_hand_index == LEFT_HANDS)
+		var/obj/item/held_item = M.get_active_held_item()
+		if(held_item)
+			if(held_item.wielded)
+				held_item.unwield(M)
+			else
+				held_item.wield(M)
+	else
+		M.try_swap_hand(LEFT_HANDS)
+	return TRUE
+
+/datum/keybinding/mob/select_right_hand
+	hotkey_keys = list("Unbound")
+	name = "select_right_hand"
+	full_name = "Select right hand"
+	description = "Select your right hand as the active hand. Press again to wield/unwield items."
+	keybind_signal = COMSIG_KB_MOB_SELECTRIGHTHAND_DOWN
+
+/datum/keybinding/mob/select_right_hand/down(client/user)
+	. = ..()
+	if(.)
+		return
+	var/mob/M = user.mob
+
+	// If right hand is already active, try to wield/unwield
+	if(M.active_hand_index == RIGHT_HANDS)
+		var/obj/item/held_item = M.get_active_held_item()
+		if(held_item)
+			if(held_item.wielded)
+				held_item.unwield(M)
+			else
+				held_item.wield(M)
+	else
+		M.try_swap_hand(RIGHT_HANDS)
+	return TRUE
+
 /datum/keybinding/mob/activate_inhand
 	hotkey_keys = list("Z")
 	name = "activate_inhand"
