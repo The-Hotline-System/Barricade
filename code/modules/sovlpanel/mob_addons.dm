@@ -90,17 +90,19 @@ and set its desc to what you want the verb to appear as in the statpanel.
 
 /client/verb/debug_panel()
 	init_panel()
-
+/*
 /mob/dead/new_player/Login()
 	. = ..()
 	sleep(35)
 	if(client)
 		client.init_panel()
 	return npp.open()
-
+*/
 /mob/Login()
-	..()
-	client.init_panel()
+	. = ..()
+	if(client)
+		client.init_panel()
+	return .
 
 /mob/living/carbon/human/proc/updateSmalltext()
 	if(!client)
