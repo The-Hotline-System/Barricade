@@ -487,10 +487,24 @@
 	// Clear storage-specific maptext (numerical stacking display)
 	removed.maptext = ""
 
-	// Note: We don't clear overlays here because:
-	// 1. orient_item_boxes() clears overlays before adding storage-specific ones when displaying
-	// 2. Items should retain their original overlays when outside storage
-	// 3. Storage-specific overlays (numerical stacking) are managed by orient_item_boxes()
+	// Remove only the maptext overlay (numerical stacking display) while preserving other overlays
+	// The maptext overlay is identifiable by having maptext set and being on ABOVE_HUD_PLANE
+	if(removed.overlays && length(removed.overlays))
+		var/list/overlays_to_keep = list()
+		for(var/image/overlay in removed.overlays)
+			// Keep overlays that aren't the maptext overlay
+			// Maptext overlays have: maptext set, ABOVE_HUD_PLANE, and RESET_TRANSFORM flag
+			if(!overlay.maptext || overlay.plane != ABOVE_HUD_PLANE)
+				overlays_to_keep += overlay
+
+		// Only update overlays if we actually removed something
+		if(length(overlays_to_keep) != length(removed.overlays))
+			removed.overlays.Cut()
+			if(length(overlays_to_keep))
+				removed.overlays += overlays_to_keep
+
+	// Note: We selectively remove storage-specific overlays (maptext) while preserving original overlays
+	// orient_item_boxes() will clear and re-add storage overlays when the item is displayed again
 
 	// Reset the visual transform (but keep grid_storage_transform and grid_storage_rotation_angle for reuse)
 	removed.transform = null
