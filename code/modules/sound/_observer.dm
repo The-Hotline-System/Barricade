@@ -38,42 +38,42 @@
 //			/atom/new_loc: The loc after the move.
 
 // SOUND UPDATED OBSERVER
-GLOBAL_DATUM_INIT(sound_updated_event, /decl/observ/sound_updated, new)
+GLOBAL_DATUM_INIT(sound_updated_event, /datum/observ/sound_updated, new)
 
 /// Raised when a sound emitter's sound was updated.
 /// Arguments:
 ///   /datum/sound_emitter/emitter: The emitter whose sound was updated.
-/decl/observ/sound_updated
+/datum/observ/sound_updated
     name = "Sound Updated"
     expected_type = /datum/sound_emitter
 
 // SOUND STARTED OBSERVER
-GLOBAL_DATUM_INIT(sound_started_event, /decl/observ/sound_started, new)
+GLOBAL_DATUM_INIT(sound_started_event, /datum/observ/sound_started, new)
 
 /// Raised when a sound emitter started playing a sound.
 /// Arguments:
 ///   /datum/sound_emitter/emitter: The emitter that started playing a sound.
-/decl/observ/sound_started
+/datum/observ/sound_started
     name = "Sound Started"
     expected_type = /datum/sound_emitter
 
 // SOUND STOPPED OBSERVER
-GLOBAL_DATUM_INIT(sound_stopped_event, /decl/observ/sound_stopped, new)
+GLOBAL_DATUM_INIT(sound_stopped_event, /datum/observ/sound_stopped, new)
 
 /// Raised when a sound emitter stopped playing a sound.
 /// Arguments:
 ///   /datum/sound_emitter/emitter: The emitter that stopped playing a sound.
-/decl/observ/sound_stopped
+/datum/observ/sound_stopped
     name = "Sound Stopped"
     expected_type = /datum/sound_emitter
 
 // SOUND PUSHED OBSERVER
-GLOBAL_DATUM_INIT(sound_pushed_event, /decl/observ/sound_pushed, new)
+GLOBAL_DATUM_INIT(sound_pushed_event, /datum/observ/sound_pushed, new)
 
 /// Raised when a sound was pushed.
 /// Arguments:
 ///   /sound/S: The sound that was pushed.
 ///   /datum/sound_emitter/emitter: The emitter that played the sound.
-/decl/observ/sound_pushed
+/datum/observ/sound_pushed
     name = "Sound Pushed"
     expected_type = /datum/sound_emitter

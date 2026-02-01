@@ -19,7 +19,7 @@
 	COOLDOWN_DECLARE(upgrade_cd)
 	/// Indicates if the current grab has special interactions applied to the target organ (eyes and mouth at time of writing)
 	var/special_target_functional = TRUE
-	/// Used to avoid stacking interactions that sleep during /decl/grab/proc/on_hit_foo() (ie. do_after() is used)
+	/// Used to avoid stacking interactions that sleep during - (ie. do_after() is used)
 	var/is_currently_resolving_hit = FALSE
 	/// Records a specific bodypart that was targetted by this grab.
 	var/target_zone
