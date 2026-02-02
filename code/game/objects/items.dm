@@ -1405,7 +1405,7 @@ DEFINE_INTERACTABLE(/obj/item)
 
 /obj/item/proc/openTip(location, control, params, user)
 	var/content = jointext(tooltipContent(), "")
-	openToolTip(user,src,params,title = name,content = content,theme = "")
+	// openToolTip(user,src,params,title = name,content = content,theme = "")
 
 
 /// Called when a mob tries to use the item as a tool. Handles most checks.

@@ -176,13 +176,13 @@ DEFINE_INTERACTABLE(/atom/movable/screen/alert)
 
 /atom/movable/screen/alert/MouseEntered(location,control,params)
 	. = ..()
-	if(!QDELETED(src))
-		openToolTip(usr,src,params,title = name,content = desc,theme = alerttooltipstyle)
+	// if(!QDELETED(src))
+	//	openToolTip(usr,src,params,title = name,content = desc,theme = alerttooltipstyle)
 
 
 /atom/movable/screen/alert/MouseExited()
 	. = ..()
-	closeToolTip(usr)
+	// closeToolTip(usr)
 
 
 //Gas alerts

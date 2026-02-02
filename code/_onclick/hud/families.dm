@@ -16,11 +16,11 @@
 
 /atom/movable/screen/wanted/MouseEntered(location,control,params)
 	. = ..()
-	openToolTip(usr,src,params,title = name,content = desc, theme = "alerttooltipstyle")
+	// openToolTip(usr,src,params,title = name,content = desc, theme = "alerttooltipstyle")
 
 /atom/movable/screen/wanted/MouseExited()
 	. = ..()
-	closeToolTip(usr)
+	// closeToolTip(usr)
 
 /atom/movable/screen/wanted/update_icon_state()
 	icon_state = "[base_icon_state]_[level][cops_arrived ? "_active" : null]"

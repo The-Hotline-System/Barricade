@@ -30,7 +30,7 @@ Notes:
 	- After testing and discussion (Wire, Remie, MrPerson, AnturK) ToolTips are ok and work for /tg/station13
 */
 
-
+// BARRICADED - TAKEN OUT OF DME INCLUDE. RE-ADD IF YOU WISH TO TWEAK IT.
 /datum/tooltip
 	var/client/owner
 	var/control = "mainwindow.tooltip"

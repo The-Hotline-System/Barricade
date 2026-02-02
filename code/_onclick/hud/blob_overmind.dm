@@ -4,11 +4,11 @@
 
 /atom/movable/screen/blob/MouseEntered(location,control,params)
 	. = ..()
-	openToolTip(usr,src,params,title = name,content = desc, theme = "blob")
+	// openToolTip(usr,src,params,title = name,content = desc, theme = "blob")
 
 /atom/movable/screen/blob/MouseExited()
 	. = ..()
-	closeToolTip(usr)
+	// closeToolTip(usr)
 
 /atom/movable/screen/blob/blob_help
 	icon_state = "ui_help"

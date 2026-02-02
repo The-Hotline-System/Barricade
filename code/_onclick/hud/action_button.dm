@@ -85,11 +85,11 @@ DEFINE_INTERACTABLE(/atom/movable/screen/movable/action_button)
 
 /atom/movable/screen/movable/action_button/MouseEntered(location, control, params)
 	. = ..()
-	if(!QDELETED(src))
-		openToolTip(usr, src, params, title = name, content = desc, theme = actiontooltipstyle)
+	// if(!QDELETED(src))
+	//	openToolTip(usr, src, params, title = name, content = desc, theme = actiontooltipstyle)
 
 /atom/movable/screen/movable/action_button/MouseExited(location, control, params)
-	closeToolTip(usr)
+	// closeToolTip(usr)
 	return ..()
 
 /atom/movable/screen/movable/action_button/MouseDrop(over_object)
@@ -292,11 +292,11 @@ DEFINE_INTERACTABLE(/atom/movable/screen/movable/action_button)
 	show_tooltip(params)
 
 /atom/movable/screen/button_palette/MouseExited()
-	closeToolTip(usr)
+	// closeToolTip(usr)
 	return ..()
 
 /atom/movable/screen/button_palette/proc/show_tooltip(params)
-	openToolTip(usr, src, params, title = name, content = desc)
+	// openToolTip(usr, src, params, title = name, content = desc)
 
 GLOBAL_LIST_INIT(palette_added_matrix, list(0.4,0.5,0.2,0, 0,1.4,0,0, 0,0.4,0.6,0, 0,0,0,1, 0,0,0,0))
 GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,0, 0,0,0,1, 0,0,0,0))
@@ -360,7 +360,7 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 	else
 		UnregisterSignal(usr.client, COMSIG_CLIENT_CLICK)
 
-	closeToolTip(usr) //Our tooltips are now invalid, can't seem to update them in one frame, so here, just close them
+	// closeToolTip(usr) //Our tooltips are now invalid, can't seem to update them in one frame, so here, just close them
 
 /atom/movable/screen/palette_scroll
 	icon = 'icons/hud/screen_gen.dmi'
@@ -398,12 +398,12 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 
 /atom/movable/screen/palette_scroll/MouseEntered(location, control, params)
 	. = ..()
-	if(QDELETED(src))
-		return
-	openToolTip(usr, src, params, title = name, content = desc)
+	// if(QDELETED(src))
+	//	return
+	// openToolTip(usr, src, params, title = name, content = desc)
 
 /atom/movable/screen/palette_scroll/MouseExited()
-	closeToolTip(usr)
+	// closeToolTip(usr)
 	return ..()
 
 /atom/movable/screen/palette_scroll/down

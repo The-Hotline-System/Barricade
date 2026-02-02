@@ -39,8 +39,8 @@ GLOBAL_LIST_EMPTY(radial_menus)
 		icon_state = "radial_slice_focus"
 	else
 		icon_state = "[parent.radial_slice_icon]_focus"
-	if(tooltips)
-		openToolTip(usr, src, params, title = name)
+	// if(tooltips)
+	//	openToolTip(usr, src, params, title = name)
 
 /atom/movable/screen/radial/slice/MouseExited(location, control, params)
 	. = ..()
@@ -48,8 +48,8 @@ GLOBAL_LIST_EMPTY(radial_menus)
 		icon_state = "radial_slice"
 	else
 		icon_state = parent.radial_slice_icon
-	if(tooltips)
-		closeToolTip(usr)
+	// if(tooltips)
+	//	closeToolTip(usr)
 
 /atom/movable/screen/radial/slice/Click(location, control, params)
 	. = ..()

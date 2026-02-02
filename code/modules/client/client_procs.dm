@@ -555,8 +555,8 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	update_ambience_pref()
 
 	//This is down here because of the browse() calls in tooltip/New()
-	if(!tooltips)
-		tooltips = new /datum/tooltip(src)
+	// if(!tooltips)
+	//	tooltips = new /datum/tooltip(src)
 
 	if (!restricted_mode)
 		initialize_menus()
@@ -640,7 +640,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	SSmouse_entered.sustained_hovers -= src
 	QDEL_NULL(view_size)
 	QDEL_NULL(void)
-	QDEL_NULL(tooltips)
+	// QDEL_NULL(tooltips)
 	QDEL_NULL(parallax_master)
 	QDEL_LIST(parallax_layers_cached)
 	parallax_layers = null

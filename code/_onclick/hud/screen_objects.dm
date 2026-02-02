@@ -905,16 +905,16 @@
 	if(QDELETED(src))
 		return
 
-	var/mob/living/L = hud.mymob
-	var/_content = {"
-		Stamina: [L.stamina.current]/[L.stamina.maximum]<br>
-		Regen: [L.stamina.regen_rate]
-	"}
-	openToolTip(usr, src, params, title = "Stamina", content = _content)
+	// var/mob/living/L = hud.mymob
+	// var/_content = {"
+	//	Stamina: [L.stamina.current]/[L.stamina.maximum]<br>
+	//	Regen: [L.stamina.regen_rate]
+	// "}
+	// (usr, src, params, title = "Stamina", content = _content)
 
 /atom/movable/screen/stamina/MouseExited(location, control, params)
 	. = ..()
-	closeToolTip(usr)
+	// closeToolTip(usr)
 
 /atom/movable/screen/gun_mode
 	name = "Toggle Gun Mode"
