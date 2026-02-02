@@ -997,6 +997,9 @@ TYPEINFO_DEF(/atom)
 	SEND_SIGNAL(src, COMSIG_ATOM_FIRE_ACT, exposed_temperature, exposed_volume)
 	return
 
+/atom/proc/CheckExit() // ??? CHECK EXIT I GUESS???
+	return 1
+
 /**
  * React to being hit by a thrown object
  *

@@ -98,6 +98,8 @@
 	init_crafting_recipes(GLOB.crafting_recipes)
 
 	init_loadout_references()
+
+	init_soundscapes()
 	init_augment_references()
 
 	init_magnet_error_codes()

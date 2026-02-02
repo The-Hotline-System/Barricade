@@ -210,6 +210,12 @@
 	var/list/alerts = list()
 	var/list/screens = list()
 	var/list/client_colours = list()
+	/// Associative list mapping source_entity -> client_colour for fast O(1) lookup
+	var/list/client_colours_by_source = null
+	/// Timer ID for pending global color correction restoration (used by replaceglobal brushes)
+	var/pending_global_cc_restore_timer = null
+	/// List of global color correction datums that are suppressed by replaceglobal brushes
+	var/list/suppressed_global_ccs = null
 	var/hud_type = /datum/hud
 
 	var/datum/h_sandbox/sandbox = null
