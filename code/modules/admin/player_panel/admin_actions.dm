@@ -83,6 +83,31 @@
 		pt_info = PP_R_ADMIN(REQUIRE_CLIENT("?_src_=holder;[HrefToken()];getplaytimewindow=[REF(target)]", "Job XP"), "Job XP")
 	else
 		pt_info = "<span><span class='disabled' title='XP System Disabled'>Job XP</span></span>"
+
+	// Whitelist flags section
+	var/wl_flags_display = ""
+	var/wl_manage_link = ""
+	if(target.client)
+		// Display current flags
+		if(LAZYLEN(target.client.flags))
+			var/list/flag_list = list()
+			for(var/i in 1 to length(target.client.flags))
+				var/flag = target.client.flags[i]
+				if(flag)
+					flag_list += "<span style='color: #4a9eff;'>[flag]</span>"
+			if(length(flag_list))
+				wl_flags_display = jointext(flag_list, " ")
+			else
+				wl_flags_display = "<span style='color: #888;'>None</span>"
+		else
+			wl_flags_display = "<span style='color: #888;'>None</span>"
+
+		// Manage link
+		wl_manage_link = PP_R_ADMIN("<span><a href='?_src_=holder;[HrefToken()];manage_wl_flags=[REF(target)]'>Manage Flags</a></span>", "Manage Flags")
+	else
+		wl_flags_display = "<span class='disabled' title='No client to target'>N/A</span>"
+		wl_manage_link = "<span><span class='disabled' title='No client to target'>Manage Flags</span></span>"
+
 	. = {"
 	<div class='container'>
 		<div class='header player_info'>
@@ -104,6 +129,14 @@
 		<div class='options'>
 		[PP_R_ADMIN("<span><A href='?_src_=holder;[HrefToken()];languagemenu=[REF(target)]'>Languages</A></span>", "Languages")]
 		[PP_R_ADMIN(REQUIRE_MIND("?_src_=holder;[HrefToken()];traitor=[REF(target)]", "Traitor Panel"), "Traitor Panel")]
+		</div>
+
+		<div class='label'>
+		Whitelist Flags
+		</div>
+		<div class='options'>
+		[wl_flags_display]<br>
+		[wl_manage_link]
 		</div>
 	</div>
 	"}

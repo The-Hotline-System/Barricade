@@ -2104,6 +2104,7 @@
 #include "code\modules\admin\player_panel\admin_actions.dm"
 #include "code\modules\admin\player_panel\header_bar.dm"
 #include "code\modules\admin\player_panel\player_info.dm"
+#include "code\modules\admin\whitelist_flags_panel.dm"
 #include "code\modules\admin\smites\bad_luck.dm"
 #include "code\modules\admin\smites\berforate.dm"
 #include "code\modules\admin\smites\bloodless.dm"

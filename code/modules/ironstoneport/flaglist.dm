@@ -155,44 +155,6 @@
 	WRITE_FILE(file_path, json_encode(new_flags))
 	load_client_flags(C)
 
-/proc/check_flag_menu(ckey)
-
-	if(!usr || !usr.client || !usr.client.holder)
-		return
-
-	var/file_path = get_flag_path(ckey)
-	if(!fexists(file_path))
-		to_chat(usr, "<span class='boldwarning'>User does not have a flag file.</span>")
-		create_flag_file(ckey)
-	var/popup_window_data = "<font size=4><center><b>[ckey]</b></center></font>"
-	var/list/flags = json_decode(file2text(file_path))
-
-	if(!islist(flags))
-		to_chat(usr, "<span class='boldwarning'>Failed to parse JSON into list.</span>")
-		return
-
-	if(!length(flags))
-		to_chat(usr, "<span class='boldwarning'>flag is empty.</span>")
-		return
-
-	popup_window_data += "<center><font size=3>The user has the following flags:</font></center><hr>"
-	for(var/i = 1 to flags.len)
-		var/entry = flags[i]
-		if(islist(entry))
-			if(!entry["value"])
-				popup_window_data += "-- <font size=3><b>#[i]</b></font> --<br><span>Has been skipped. <br>Missing value.</span><br><br>"
-				continue // Skip the template and fucked up
-			else
-				if(entry["value"] == "WL_EXAMPLE" || entry["added_by"] == "TEMPLATE")
-					continue
-				popup_window_data += "-- <font size=3><b>#[i]</b></font> --<br>- <b>String:</b> [entry["value"]],<br>- <b>Added by:</b> [entry["added_by"]]<br>- <b>Reason:</b> [entry["reason"]]<br>- <b>Date:</b> [entry["date"]]</span><br><br>"
-		else
-			popup_window_data += "-- Ough.. [i] has an issue in the json file.. --"
-
-	var/datum/browser/popup = new(usr, "flags", "FLAG LIST", 390, 320)
-	popup.set_content(popup_window_data)
-	popup.open()
-
 /client/New(TopicData)
 	. = ..()
 	load_client_flags(src)

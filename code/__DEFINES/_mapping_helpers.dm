@@ -1,11 +1,3 @@
-
-/// Usage: MAPPING_DIRECTIONAL_HELPERS(obj/structure/window, 32)
-#define MAPPING_DIRECTIONAL_HELPERS(path, offset) \
-/##path/directional/north { dir = NORTH; pixel_y = offset; } \
-/##path/directional/south { dir = SOUTH; pixel_y = -offset; } \
-/##path/directional/east { dir = EAST; pixel_x = offset; } \
-/##path/directional/west { dir = WEST; pixel_x = -offset; }
-
 /// Usage: MAPPING_RANDOM_OFFSET(obj/item/prop/trash, 8, 8)
 #define MAPPING_RANDOM_OFFSET(path, xrange, yrange) \
 /##path/Initialize(mapload, ...) \
