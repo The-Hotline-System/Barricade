@@ -213,6 +213,7 @@ Apply - Applies color. (Input mode: to activator. Manual_brush mode: into brush.
 Remove - Removes color. (Input mode: from activator. Manual_brush mode: from brush. Area mode: from all in area)
 SetTime - Sets transition time (param: value)
 SetArea - Sets target area (param: area type path or area instance)
+SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manual_brush", or "area")
 */
 /obj/effect/map_entity/color_correction/receive_input(input_name, atom/activator, atom/caller, list/params)
 	. = ..()
@@ -272,6 +273,11 @@ SetArea - Sets target area (param: area type path or area instance)
 				if(enabled)
 					remove_area()
 					apply_area()
+			return TRUE
+		if("setmode")
+			var/new_mode = params["value"]
+			if(new_mode in list("global", "input", "brush", "manual_brush", "area"))
+				set_mode(new_mode)
 			return TRUE
 	return FALSE
 
@@ -667,3 +673,173 @@ SetArea - Sets target area (param: area type path or area instance)
 		// Exited the area
 		remove_from(M)
 
+
+// ============================================
+// DEVELOPER PROCS
+// ============================================
+
+/// Change the mode of this color correction at runtime
+/// Properly cleans up old mode and sets up new mode
+/obj/effect/map_entity/color_correction/proc/set_mode(new_mode)
+	if(mode == new_mode)
+		return // Already in this mode
+
+	var/was_enabled = enabled
+	var/old_mode = mode
+
+	// Disable and clean up old mode
+	if(was_enabled)
+		enabled = FALSE
+		switch(old_mode)
+			if("global")
+				remove_global()
+				GLOB.global_color_corrections -= src
+			if("area")
+				remove_area()
+			if("brush", "manual_brush")
+				// Remove from all entities inside
+				if(LAZYLEN(entities_inside))
+					for(var/mob/M in entities_inside)
+						remove_from(M)
+					entities_inside = null
+				// Remove connect_loc element
+				RemoveElement(/datum/element/connect_loc)
+
+	// Always clear is_brush when changing modes, will be set again if needed
+	is_brush = FALSE
+
+	// Set new mode
+	mode = new_mode
+
+	// Set up new mode
+	switch(new_mode)
+		if("global")
+			GLOB.global_color_corrections += src
+		if("area")
+			if(!target_area)
+				var/turf/T = get_turf(src)
+				if(T)
+					target_area = T.loc
+		if("brush", "manual_brush")
+			is_brush = TRUE
+			var/static/list/loc_connections = list(
+				COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+				COMSIG_ATOM_EXITED = PROC_REF(on_exited),
+			)
+			AddElement(/datum/element/connect_loc, loc_connections)
+			if(new_mode == "brush")
+				spawn(1)
+					connect_brush_neighbors()
+		if("input")
+			// Input mode doesn't need special setup, but ensure is_brush is false
+			is_brush = FALSE
+
+	// Re-enable if it was enabled before
+	if(was_enabled)
+		enabled = TRUE
+		switch(new_mode)
+			if("global")
+				apply_global()
+			if("area")
+				apply_area()
+
+	return TRUE
+
+/// Developer verb to change mode at runtime
+/obj/effect/map_entity/color_correction/verb/dev_change_mode()
+	set name = "Change Color Correction Mode"
+	set category = "Debug"
+	set src in view(7)
+
+	if(!check_rights(R_DEBUG))
+		return
+
+	var/list/mode_options = list("global", "input", "brush", "manual_brush", "area")
+	var/new_mode = input(usr, "Select new mode for this color correction:", "Change Mode", mode) as null|anything in mode_options
+
+	if(!new_mode)
+		return
+
+	if(new_mode == mode)
+		to_chat(usr, span_notice("Already in [mode] mode."))
+		return
+
+	// Special handling for area mode
+	if(new_mode == "area" && !target_area)
+		var/area_choice = input(usr, "Select target area (or leave blank to use current area):", "Target Area") as null|anything in typesof(/area)
+		if(area_choice)
+			target_area = area_choice
+
+	var/old_mode = mode
+	if(set_mode(new_mode))
+		to_chat(usr, span_notice("Changed color correction mode from [old_mode] to [new_mode]."))
+		log_admin("[key_name(usr)] changed color correction [src] at [AREACOORD(src)] from [old_mode] to [new_mode] mode.")
+		message_admins("[key_name_admin(usr)] changed color correction [src] at [AREACOORD(src)] from [old_mode] to [new_mode] mode.")
+	else
+		to_chat(usr, span_warning("Failed to change mode."))
+
+/// Developer verb to view current settings
+/obj/effect/map_entity/color_correction/verb/dev_view_settings()
+	set name = "View Color Correction Settings"
+	set category = "Debug"
+	set src in view(7)
+
+	if(!check_rights(R_DEBUG))
+		return
+
+	var/list/info = list()
+	info += "=== Color Correction Settings ==="
+	info += "Mode: [mode]"
+	info += "Enabled: [enabled ? "Yes" : "No"]"
+	info += "Color: [color_val]"
+	info += "Transition Time: [transition_time]"
+	info += "Priority: [priority]"
+	info += "Replace Global: [replaceglobal ? "Yes" : "No"]"
+
+	if(mode == "area")
+		info += "Target Area: [target_area ? target_area : "None"]"
+
+	if(mode == "brush" || mode == "manual_brush")
+		info += "Entities Inside: [LAZYLEN(entities_inside)]"
+		if(brush_neighbors)
+			info += "Brush Neighbors: [brush_neighbors.len]"
+
+	if(mode == "global")
+		var/count = 0
+		for(var/client/C in GLOB.clients)
+			if(C.mob && C.mob.client_colours_by_source?[src])
+				count++
+		info += "Applied to: [count] clients"
+
+	to_chat(usr, span_notice(jointext(info, "\n")))
+
+/// Developer verb to test mode switching and verify is_brush state
+/obj/effect/map_entity/color_correction/verb/dev_test_mode_switching()
+	set name = "Test Mode Switching"
+	set category = "Debug"
+	set src in view(7)
+
+	if(!check_rights(R_DEBUG))
+		return
+
+	to_chat(usr, span_notice("=== Testing Mode Switching ==="))
+	to_chat(usr, span_notice("Initial state: mode=[mode], is_brush=[is_brush]"))
+
+	var/list/test_modes = list("global", "input", "brush", "manual_brush", "area")
+	var/list/expected_brush_states = list(
+		"global" = FALSE,
+		"input" = FALSE,
+		"brush" = TRUE,
+		"manual_brush" = TRUE,
+		"area" = FALSE
+	)
+
+	for(var/test_mode in test_modes)
+		set_mode(test_mode)
+		var/expected = expected_brush_states[test_mode]
+		var/actual = is_brush
+		var/status = (expected == actual) ? "PASS" : "FAIL"
+		var/color = (expected == actual) ? "green" : "red"
+		to_chat(usr, "<span style='color:[color]'>[status]: mode=[test_mode], is_brush=[actual] (expected [expected])</span>")
+
+	to_chat(usr, span_notice("=== Test Complete ==="))
