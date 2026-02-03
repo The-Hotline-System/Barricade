@@ -81,6 +81,9 @@
 	blend_mode = BLEND_MULTIPLY
 	color = SHADOWER_DARKENING_COLOR
 
+/atom/movable/openspace/multiplier/New(loc)
+	. = ..()
+
 /atom/movable/openspace/multiplier/Destroy(force)
 	if(!force)
 		stack_trace("Turf shadower improperly qdel'd.")

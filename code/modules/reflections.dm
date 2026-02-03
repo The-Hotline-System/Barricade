@@ -4,6 +4,7 @@
 	plane = REFLECTION_PLANE
 	mouse_opacity = 0
 	pixel_y = -44
+	zmm_flags = ZMM_IGNORE
 
 /obj/reflection/New(loc,mob/owner)
 	owner.vis_contents += src
@@ -25,8 +26,21 @@
 	var/shine = SHINE_MATTE
 
 /mob/living
-	var/mutable_appearance/reflective_mask
-	var/mutable_appearance/reflective_icon
+	var/obj/effect/reflection_visual/reflective_mask
+	var/obj/effect/reflection_visual/reflective_icon
+
+/obj/effect/reflection_visual
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	anchored = TRUE
+	zmm_flags = ZMM_IGNORE
+	// Explicitly do NOT inherit plane - we want to stay on our assigned plane
+	vis_flags = VIS_INHERIT_ID | VIS_INHERIT_DIR
+
+/obj/effect/reflection_visual/mask
+	plane = MANUAL_REFLECTIVE_MASK_PLANE
+
+/obj/effect/reflection_visual/reflection
+	plane = MANUAL_REFLECTIVE_PLANE
 
 /mob/living/update_overlays()
 	. = ..()
@@ -41,34 +55,21 @@
 	create_reflection()
 
 /mob/living/proc/create_reflection()
-	//Add custom reflection mask
-	var/mutable_appearance/MA = new()
-	//appearance stuff
-	MA.appearance = appearance
-	if(render_target)
-		MA.render_source = render_target
-	MA.plane = MANUAL_REFLECTIVE_MASK_PLANE
-	reflective_mask = MA
-	add_overlay(MA)
-
-	//Add custom reflection image
-	var/mutable_appearance/MAM = new()
-	//appearance stuff
-	MAM.appearance = appearance
-	if(render_target)
-		MAM.render_source = render_target
-	MAM.plane = MANUAL_REFLECTIVE_PLANE
+	//Add custom reflection image - this should copy full appearance
+	reflective_icon = new /obj/effect/reflection_visual/reflection(src)
+	reflective_icon.appearance = appearance
+	reflective_icon.dir = dir
 	//transform stuff
-	var/matrix/n_transform = MAM.transform
+	var/matrix/n_transform = reflective_icon.transform
 	n_transform.Scale(1, -1)
-	MAM.transform = n_transform
-	MAM.vis_flags = VIS_INHERIT_DIR
+	reflective_icon.transform = n_transform
 	//filters
 	var/icon/I = icon('icons/turf/overlays.dmi', "partialOverlay")
 	I.Flip(NORTH)
-	MAM.filters += filter(type = "alpha", icon = I)
-	reflective_icon = MAM
-	add_overlay(reflective_icon)
+	reflective_icon.filters += filter(type = "alpha", icon = I)
+	vis_contents += reflective_icon
+	reflective_icon.vis_flags = VIS_INHERIT_DIR
+	reflective_icon.plane = MANUAL_REFLECTIVE_PLANE
 	// update_vision_cone()
 
 /mob/living/carbon/human/dummy/update_reflection()
@@ -77,20 +78,21 @@
 /mob/living/proc/update_reflection()
 	if(!reflective_icon)
 		create_reflection()
-	cut_overlay(reflective_icon)
+		return
+
+	// Update reflection icon with full appearance
 	reflective_icon.appearance = appearance
-	if(render_target)
-		reflective_icon.render_source = render_target
+	reflective_icon.vis_flags = VIS_INHERIT_DIR
 	reflective_icon.plane = MANUAL_REFLECTIVE_PLANE
-	reflective_icon.pixel_y -= 32
+	reflective_icon.pixel_y = -32
 	//transform stuff
 	var/matrix/n_transform = reflective_icon.transform
 	n_transform.Scale(1, -1)
 	reflective_icon.transform = n_transform
-	reflective_icon.vis_flags = VIS_INHERIT_DIR
 	//filters
 	var/icon/I = icon('icons/turf/overlays.dmi', "partialOverlay")
 	I.Flip(NORTH)
+	reflective_icon.filters = list()
 	reflective_icon.filters += filter(type = "alpha", icon = I)
-	add_overlay(reflective_icon)
 	// update_vision_cone()
+

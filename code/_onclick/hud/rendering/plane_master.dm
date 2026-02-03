@@ -441,6 +441,11 @@
 	render_source = MANUAL_REFLECTIVE_PLANE_RENDER_TARGET
 	render_target = DEFILTER_MANUAL_REFLECTIVE_PLANE_RENDER_TARGET
 
+/atom/movable/screen/plane_master/manual_reflection/defilter/Initialize(mapload)
+	. = ..()
+	// Mask manual reflections to only show on shiny tiles
+	add_filter("mask_to_shiny", 1, alpha_mask_filter(render_source = REFLECTIVE_ALL_PLANE_RENDER_TARGET))
+
 /atom/movable/screen/plane_master/manual_reflection_mask
 	name = "manual reflection mask plane master"
 	plane = MANUAL_REFLECTIVE_MASK_PLANE

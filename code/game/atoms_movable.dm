@@ -309,6 +309,9 @@
 	for(var/mob/buckled_mob as anything in buckled_mobs)
 		buckled_mob.set_glide_size(target)
 
+/atom/movable/proc/fire_glide_finished()
+	SEND_SIGNAL(src, COMSIG_MOVABLE_GLIDE_FINISHED)
+
 /**
  * meant for movement with zero side effects. only use for objects that are supposed to move "invisibly" (like camera mobs or ghosts)
  * if you want something to move onto a tile with a beartrap or recycler or tripmine or mouse without that object knowing about it at all, use this
@@ -549,6 +552,10 @@
 		update_parallax_contents()
 
 	SEND_SIGNAL(src, COMSIG_MOVABLE_MOVED, old_loc, movement_dir, forced, old_locs, momentum_change)
+
+	// Schedule half-glide completion signal
+	if(glide_size > 0)
+		addtimer(CALLBACK(src, PROC_REF(fire_glide_finished)), glide_size/3, TIMER_UNIQUE | TIMER_OVERRIDE | TIMER_DELETE_ME)
 
 	if(old_loc)
 		SEND_SIGNAL(old_loc, COMSIG_ATOM_ABSTRACT_EXITED, src, movement_dir)

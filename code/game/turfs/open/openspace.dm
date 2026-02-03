@@ -27,6 +27,54 @@
 	if(istype(our_area, /area/space))
 		force_no_gravity = TRUE
 
+	// Register signals on the turf to our north to hide reflections when mobs enter
+	var/turf/north_turf = get_step(src, NORTH)
+	if(north_turf)
+		RegisterSignal(north_turf, COMSIG_ATOM_ENTERED, PROC_REF(on_north_tile_entered))
+		RegisterSignal(north_turf, COMSIG_ATOM_EXITED, PROC_REF(on_north_tile_exited))
+
+/turf/open/openspace/proc/on_north_tile_entered(datum/source, atom/movable/arrived, atom/old_loc, list/atom/old_locs)
+	SIGNAL_HANDLER
+	if(!isliving(arrived))
+		return
+	var/mob/living/L = arrived
+	if(L.reflective_icon)
+		L.reflective_icon.alpha = 0
+
+/turf/open/openspace/proc/on_north_tile_exited(datum/source, atom/movable/gone, direction)
+	SIGNAL_HANDLER
+	if(!isliving(gone))
+		return
+	var/mob/living/L = gone
+	if(!L.reflective_icon)
+		return
+
+	// Register to check when the mob finishes gliding to its new position
+	RegisterSignal(L, COMSIG_MOVABLE_GLIDE_FINISHED, PROC_REF(check_show_reflection_after_glide), TRUE)
+
+/turf/open/openspace/proc/check_show_reflection_after_glide(mob/living/L)
+	SIGNAL_HANDLER
+
+	// Unregister immediately - we only want to check once
+	UnregisterSignal(L, COMSIG_MOVABLE_GLIDE_FINISHED)
+
+	if(!L || QDELETED(L) || !L.reflective_icon)
+		return
+
+	// Check if the mob is still not on a tile north of openspace
+	var/turf/current_turf = get_turf(L)
+	if(!current_turf)
+		return
+
+	var/turf/south_of_current = get_step(current_turf, SOUTH)
+	if(south_of_current && isopenspaceturf(south_of_current))
+		// Still north of openspace, keep hidden
+		return
+
+	// Safe to show reflection now
+	L.reflective_icon.alpha = 255
+
+
 /turf/open/openspace/examine(mob/user)
 	SHOULD_CALL_PARENT(FALSE)
 	return below.examine(user)
