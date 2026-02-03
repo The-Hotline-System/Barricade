@@ -71,6 +71,10 @@
 				background-color: #2d2d5d;
 				border-color: #3d3d7d;
 			}
+			#mode-button.asay {
+				background-color: #5d2d2d;
+				border-color: #7d3d3d;
+			}
 			#mode-button.cmd {
 				background-color: #5d5d2d;
 				border-color: #7d7d3d;
@@ -136,11 +140,59 @@
 		</div>
 		<script>
 			const modes = ["say", "whisper", "me", "ooc", "cmd"];
+			let hasAsayAccess = false; // Will be set by BYOND
 			let currentModeIndex = 0;
 			const modeButton = document.getElementById("mode-button");
 			const commandInput = document.getElementById("command-input");
 			const autocompleteHint =
 				document.getElementById("autocomplete-hint");
+
+			// Function to set admin access from BYOND
+			window.setAdminAccess = function (params) {
+				try {
+					var paramsList = params.split("&");
+					for (var i = 0; i < paramsList.length; i++) {
+						var pair = paramsList[i].split("=");
+						if (pair[0] === "hasAsay") {
+							var newAccess = pair[1] === "1";
+
+							// If gaining admin access
+							if (newAccess && !hasAsayAccess) {
+								hasAsayAccess = true;
+								// Add asay to modes if not already present
+								if (!modes.includes("asay")) {
+									modes.splice(
+										modes.indexOf("ooc") + 1,
+										0,
+										"asay",
+									);
+								}
+							}
+							// If losing admin access
+							else if (!newAccess && hasAsayAccess) {
+								hasAsayAccess = false;
+								// Remove asay from modes
+								var asayIndex = modes.indexOf("asay");
+								if (asayIndex !== -1) {
+									modes.splice(asayIndex, 1);
+									// If currently on asay mode, switch to say
+									if (currentModeIndex === asayIndex) {
+										currentModeIndex = 0; // Switch to say
+										updateMode();
+									}
+									// If current mode index is after asay, adjust it
+									else if (currentModeIndex > asayIndex) {
+										currentModeIndex--;
+									}
+								}
+							}
+							break;
+						}
+					}
+				} catch (e) {
+					console.error("Error setting admin access:", e);
+				}
+			};
 
 			// Common commands for autocomplete - will be populated by BYOND
 			let commonCommands = [
@@ -180,6 +232,7 @@
 					whisper: "WSPR",
 					me: "ME",
 					ooc: "OOC",
+					asay: "ASAY",
 					cmd: "CMD",
 				};
 				modeButton.textContent = displayNames[mode];
@@ -190,6 +243,7 @@
 					whisper: "Whisper something...",
 					me: "Describe an action...",
 					ooc: "Out of character...",
+					asay: "Admin say...",
 					cmd: "Enter command...",
 				};
 				commandInput.placeholder = placeholders[mode];
@@ -232,7 +286,14 @@
 			}
 
 			function cycleMode() {
+				const oldIndex = currentModeIndex;
 				currentModeIndex = (currentModeIndex + 1) % modes.length;
+
+				// Skip asay if user doesn't have access
+				if (modes[currentModeIndex] === "asay" && !hasAsayAccess) {
+					currentModeIndex = (currentModeIndex + 1) % modes.length;
+				}
+
 				updateMode();
 				// Blur the input to return focus to main window
 				commandInput.blur();

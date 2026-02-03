@@ -196,7 +196,7 @@ DEFINE_INTERACTABLE(/atom/movable/screen/movable/action_button)
 	if(reload_screen)
 		hud_used.update_our_owner()
 	// This holds the logic for the palette buttons
-	hud_used.palette_actions.refresh_actions()
+//	hud_used.palette_actions.refresh_actions()
 
 /**
  * Show (most) of the another mob's action buttons to this mob
@@ -253,7 +253,7 @@ DEFINE_INTERACTABLE(/atom/movable/screen/movable/action_button)
 /atom/movable/screen/button_palette/Destroy()
 	if(our_hud)
 		our_hud.mymob?.canon_client?.screen -= src
-		our_hud.toggle_palette = null
+//		our_hud.toggle_palette = null
 		our_hud = null
 	return ..()
 
@@ -316,7 +316,7 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 /atom/movable/screen/button_palette/proc/remove_color(list/to_remove)
 	color_timer_id = null
 	remove_atom_colour(TEMPORARY_COLOUR_PRIORITY, to_remove)
-
+/*
 /atom/movable/screen/button_palette/Click(location, control, params)
 	. = ..()
 	if(.)
@@ -340,16 +340,17 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 	set_expanded(FALSE)
 	if(source)
 		UnregisterSignal(source, COMSIG_CLIENT_CLICK)
-
+*/
+/*
 /atom/movable/screen/button_palette/proc/set_expanded(new_expanded)
-	var/datum/action_group/our_group = our_hud.palette_actions
+//	var/datum/action_group/our_group = our_hud.palette_actions
 	if(!length(our_group.actions)) //Looks dumb, trust me lad
 		new_expanded = FALSE
 	if(expanded == new_expanded)
 		return
 
 	expanded = new_expanded
-	our_group.refresh_actions()
+//	our_group.refresh_actions()
 	update_appearance()
 
 	if(!usr.client)
@@ -361,7 +362,7 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 		UnregisterSignal(usr.client, COMSIG_CLIENT_CLICK)
 
 	// closeToolTip(usr) //Our tooltips are now invalid, can't seem to update them in one frame, so here, just close them
-
+*/
 /atom/movable/screen/palette_scroll
 	icon = 'icons/hud/screen_gen.dmi'
 	screen_loc = ui_palette_scroll
@@ -394,7 +395,7 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 	if(.)
 		return FALSE
 
-	our_hud.palette_actions.scroll(scroll_direction)
+//	our_hud.palette_actions.scroll(scroll_direction)
 
 /atom/movable/screen/palette_scroll/MouseEntered(location, control, params)
 	. = ..()
@@ -415,7 +416,7 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 /atom/movable/screen/palette_scroll/down/Destroy()
 	if(our_hud)
 		our_hud.mymob?.canon_client?.screen -= src
-		our_hud.palette_down = null
+//		our_hud.palette_down = null
 		our_hud = null
 	return ..()
 
@@ -428,7 +429,7 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 /atom/movable/screen/palette_scroll/up/Destroy()
 	if(our_hud)
 		our_hud.mymob?.canon_client?.screen -= src
-		our_hud.palette_up = null
+//		our_hud.palette_up = null
 		our_hud = null
 	return ..()
 

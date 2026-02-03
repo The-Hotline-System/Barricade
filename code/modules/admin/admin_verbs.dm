@@ -812,6 +812,10 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	message_admins("[src] deadminned themselves.")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Deadmin")
 
+	// Update command bar to remove asay access
+	if(chatOutput && chatOutput.loaded)
+		chatOutput.sendAvailableCommands()
+
 /client/proc/readmin()
 	set name = "Readmin"
 	set category = "Admin"
@@ -836,6 +840,10 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 	message_admins("[src] re-adminned themselves.")
 	log_admin("[src] re-adminned themselves.")
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Readmin")
+
+	// Update command bar to add asay access
+	if(chatOutput && chatOutput.loaded)
+		chatOutput.sendAvailableCommands()
 
 /client/proc/populate_world(amount = 50 as num)
 	set name = "Populate World"

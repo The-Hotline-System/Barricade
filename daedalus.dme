@@ -2482,7 +2482,6 @@
 #include "code\modules\asset_cache\assets\chat.dm"
 #include "code\modules\asset_cache\assets\chat_icons.dm"
 #include "code\modules\asset_cache\assets\circuits.dm"
-#include "code\modules\asset_cache\assets\command_bar.dm"
 #include "code\modules\asset_cache\assets\common.dm"
 #include "code\modules\asset_cache\assets\condiments.dm"
 #include "code\modules\asset_cache\assets\contracts.dm"

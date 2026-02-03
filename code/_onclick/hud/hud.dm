@@ -74,11 +74,11 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	/// game (MouseEntered).
 	var/screentip_color
 
-	var/atom/movable/screen/button_palette/toggle_palette
-	var/atom/movable/screen/palette_scroll/down/palette_down
-	var/atom/movable/screen/palette_scroll/up/palette_up
+//	var/atom/movable/screen/button_palette/toggle_palette
+//	var/atom/movable/screen/palette_scroll/down/palette_down
+//	var/atom/movable/screen/palette_scroll/up/palette_up
 
-	var/datum/action_group/palette/palette_actions
+//	var/datum/action_group/palette/palette_actions
 	var/datum/action_group/listed/listed_actions
 	var/list/floating_actions
 
@@ -102,14 +102,14 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	if (!ui_style)
 		// will fall back to the default if any of these are null
 		ui_style = ui_style2icon(owner.client?.prefs?.read_preference(/datum/preference/choiced/ui_style))
-
+/*
 	toggle_palette = new()
 	toggle_palette.set_hud(src)
 	palette_down = new()
 	palette_down.set_hud(src)
 	palette_up = new()
 	palette_up.set_hud(src)
-
+*/
 	hand_slots = list()
 
 	for(var/mytype in subtypesof(/atom/movable/screen/plane_master) - list(/atom/movable/screen/plane_master/rendering_plate, /atom/movable/screen/plane_master/wall_fov))
@@ -141,10 +141,10 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 
 	QDEL_LIST_ASSOC_VAL(hand_slots)
 	QDEL_NULL(rest_icon)
-	QDEL_NULL(toggle_palette)
-	QDEL_NULL(palette_down)
-	QDEL_NULL(palette_up)
-	QDEL_NULL(palette_actions)
+//	QDEL_NULL(toggle_palette)
+//	QDEL_NULL(palette_down)
+//	QDEL_NULL(palette_up)
+//	QDEL_NULL(palette_actions)
 	QDEL_NULL(listed_actions)
 	QDEL_LIST(floating_actions)
 
@@ -236,7 +236,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 			if(infodisplay.len)
 				screenmob.client.screen += infodisplay
 
-			screenmob.client.screen += toggle_palette
+//			screenmob.client.screen += toggle_palette
 
 			if(action_intent)
 				action_intent.screen_loc = initial(action_intent.screen_loc) //Restore intent selection to the original position
@@ -418,8 +418,8 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 			return
 		if(SCRN_OBJ_IN_LIST)
 			listed_actions.insert_action(button)
-		if(SCRN_OBJ_IN_PALETTE)
-			palette_actions.insert_action(button)
+//		if(SCRN_OBJ_IN_PALETTE)
+//			palette_actions.insert_action(button)
 		if(SCRN_OBJ_INSERT_FIRST)
 			listed_actions.insert_action(button, index = 1)
 			position = SCRN_OBJ_IN_LIST
@@ -436,8 +436,8 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	switch(relative_to.location)
 		if(SCRN_OBJ_IN_LIST)
 			listed_actions.insert_action(button, listed_actions.index_of(relative_to))
-		if(SCRN_OBJ_IN_PALETTE)
-			palette_actions.insert_action(button, palette_actions.index_of(relative_to))
+//		if(SCRN_OBJ_IN_PALETTE)
+//			palette_actions.insert_action(button, palette_actions.index_of(relative_to))
 		if(SCRN_OBJ_FLOATING) // If we don't have it as a define, this is a screen_loc, and we should be floating
 			floating_actions += button
 			var/client/our_client = mymob.canon_client
@@ -457,27 +457,27 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 			floating_actions -= button
 		if(SCRN_OBJ_IN_LIST)
 			listed_actions.remove_action(button)
-		if(SCRN_OBJ_IN_PALETTE)
-			palette_actions.remove_action(button)
+//		if(SCRN_OBJ_IN_PALETTE)
+//			palette_actions.remove_action(button)
 	button.screen_loc = null
 
 /// Generates visual landings for all groups that the button is not a memeber of
 /datum/hud/proc/generate_landings(atom/movable/screen/movable/action_button/button)
 	listed_actions.generate_landing()
-	palette_actions.generate_landing()
+//	palette_actions.generate_landing()
 
 /// Clears all currently visible landings
 /datum/hud/proc/hide_landings()
 	listed_actions.clear_landing()
-	palette_actions.clear_landing()
+//	palette_actions.clear_landing()
 
 // Updates any existing "owned" visuals, ensures they continue to be visible
 /datum/hud/proc/update_our_owner()
-	toggle_palette.refresh_owner()
-	palette_down.refresh_owner()
-	palette_up.refresh_owner()
+//	toggle_palette.refresh_owner()
+//	palette_down.refresh_owner()
+//	palette_up.refresh_owner()
 	listed_actions.update_landing()
-	palette_actions.update_landing()
+//	palette_actions.update_landing()
 
 /// Ensures all of our buttons are properly within the bounds of our client's view, moves them if they're not
 /datum/hud/proc/view_audit_buttons()
@@ -485,7 +485,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	if(!our_view)
 		return
 	listed_actions.check_against_view()
-	palette_actions.check_against_view()
+//	palette_actions.check_against_view()
 	for(var/atom/movable/screen/movable/action_button/floating_button as anything in floating_actions)
 		var/list/current_offsets = screen_loc_to_offset(floating_button.screen_loc, our_view)
 		// We set the view arg here, so the output will be properly hemm'd in by our new view
@@ -494,7 +494,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 /// Generates and fills new action groups with our mob's current actions
 /datum/hud/proc/build_action_groups()
 	listed_actions = new(src)
-	palette_actions = new(src)
+//	palette_actions = new(src)
 	floating_actions = list()
 	for(var/datum/action/action as anything in mymob.actions)
 		var/atom/movable/screen/movable/action_button/button = action.viewers[src]
@@ -650,7 +650,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 /datum/action_group/proc/scroll(amount)
 	row_offset += amount
 	refresh_actions()
-
+/*
 /datum/action_group/palette
 	north_offset = 2
 	column_max = 3
@@ -703,13 +703,13 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 	// We only render the landing in this case, so we force it to be the second item displayed (Second rather then first since it looks nicer)
 	// Remember the number var indexes at 0
 	return ..(1 + (row_offset * column_max), landing)
-
+*/
 
 /datum/action_group/listed
 	pixel_north_offset = 6
-	column_max = 10
+	column_max = 14
 	location = SCRN_OBJ_IN_LIST
 
 /datum/action_group/listed/refresh_actions()
 	. = ..()
-	owner.palette_actions.refresh_actions() // We effect them, so we gotta refresh em
+//	owner.palette_actions.refresh_actions() // We effect them, so we gotta refresh em

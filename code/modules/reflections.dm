@@ -46,7 +46,7 @@
 	. = ..()
 	update_reflection()
 
-/mob/living/update_icon()
+/mob/living/update_icons()
 	. = ..()
 	update_reflection()
 

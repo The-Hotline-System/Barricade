@@ -163,6 +163,12 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 		var/message = copytext(command, 6, -1) // Remove 'ooc "' and trailing '"'
 		owner.ooc(message)
 
+	else if(findtext(command, "asay \"") == 1)
+		// Extract the message from asay "message"
+		if(owner.holder) // Check if user has admin access
+			var/message = copytext(command, 7, -1) // Remove 'asay "' and trailing '"'
+			owner.cmd_admin_say(message)
+
 	else
 		// Raw command - try to execute it as a verb or command
 		// Use winset to execute the command as if typed in the command bar
@@ -263,6 +269,10 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	// Send the commands list to the command bar
 	var/commands_json = json_encode(commands)
 	owner << output(list2params(list("commands" = commands_json)), "inputwindow.command_bar_browser:setCommands")
+
+	// Send admin access status
+	var/has_asay = owner.holder ? "1" : "0"
+	owner << output(list2params(list("hasAsay" = has_asay)), "inputwindow.command_bar_browser:setAdminAccess")
 
 
 /proc/syncChatRegexes()
