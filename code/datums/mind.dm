@@ -33,7 +33,11 @@
 	var/key
 	var/name //replaces mob/var/original_name
 	var/ghostname //replaces name for observers name if set
+	/// the current mob this mind is residing in
 	var/mob/living/current
+	///the ghost we currently have
+	var/mob/dead/observer/current_ghost
+
 	var/active = FALSE
 
 	/// A copy of a corpse appearance, set when transferring a mind to a brainmob.

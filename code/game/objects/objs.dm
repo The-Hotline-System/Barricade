@@ -83,6 +83,9 @@
 	else
 		return null
 
+/obj/proc/hide(h)
+	return
+
 /obj/proc/updateUsrDialog()
 	if((obj_flags & IN_USE))
 		var/is_in_use = FALSE

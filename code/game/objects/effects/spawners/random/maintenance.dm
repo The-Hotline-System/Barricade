@@ -13,7 +13,8 @@
 	loot = GLOB.maintenance_loot
 	return ..()
 
-/obj/effect/spawner/random/maintenance/proc/hide()
+/obj/effect/spawner/random/maintenance/hide()
+	. = ..()
 	invisibility = INVISIBILITY_OBSERVER
 	alpha = 100
 

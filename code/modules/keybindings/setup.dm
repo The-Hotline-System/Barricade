@@ -22,7 +22,7 @@
 	winset(src, null, erase_output)
 
 /// Apply client macros. Has a system to prevent infighting bullshit. There's probably a cleaner way to do this but I'm tired.
-/client/proc/set_macros()
+/client/proc/set_macros(skip_macro_mode = FALSE)
 	set waitfor = FALSE //We're going to sleep here even more than TG.
 
 	updating_macros++ // Queue (0 - Not running, Not waiting, 1 - Running, Not Waiting, 2 - Running, Waiting. 3 - Running, Waiting, Overqueued.)
@@ -78,18 +78,18 @@
 			winset(src, "personal-[REF(keycode)]", "parent=default;name=[keycode];command=\"KeyDown [keycode]\"")
 			winset(src, "personal-[REF("[keycode]")]-UP", "parent=default;name=[keycode]+UP;command=\"KeyUp [keycode]\"")
 
+	if(!skip_macro_mode)
+		if(hotkeys)
+			winset(src, null, "input.background-color=[COLOR_INPUT_ENABLED]")
+		else
+			winset(src, null, "input.background-color=[COLOR_INPUT_DISABLED]")
 
-	if(hotkeys)
-		winset(src, null, "input.background-color=[COLOR_INPUT_ENABLED]")
-	else
-		winset(src, null, "input.background-color=[COLOR_INPUT_DISABLED]")
-
-	//Do we have bad bindings at all, and if so, do we actually care?
-	if(printables?.len && !prefs.read_preference(/datum/preference/toggle/hotkeys_silence))
-		to_chat(src, "[span_boldnotice("Hey, you might have some bad keybinds!")]\n\
-		[span_notice("The following keys are bound despite Classic Hotkeys being enabled. These binds are not applied.\n\
-		The code used to generate this list is imperfect, You can silence this warning in your Game Preferences.")]\n\
-		Keys: [jointext(printables, ", ")]\
-		")
-	update_special_keybinds()
-	updating_macros-- //Decrement, Let the next thread through.
+		//Do we have bad bindings at all, and if so, do we actually care?
+		if(printables?.len && !prefs.read_preference(/datum/preference/toggle/hotkeys_silence))
+			to_chat(src, "[span_boldnotice("Hey, you might have some bad keybinds!")]\n\
+			[span_notice("The following keys are bound despite Classic Hotkeys being enabled. These binds are not applied.\n\
+			The code used to generate this list is imperfect, You can silence this warning in your Game Preferences.")]\n\
+			Keys: [jointext(printables, ", ")]\
+			")
+		update_special_keybinds()
+		updating_macros-- //Decrement, Let the next thread through.

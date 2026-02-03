@@ -118,6 +118,8 @@ GLOBAL_VAR_INIT(fresh_ghost_adjectives, __fresh_ghost_adjectives())
 		mind_or_body_name = name_gen.Generate()
 
 	set_real_name(mind_or_body_name)
+	mind = body.mind	//we don't transfer the mind but we keep a reference to it.
+	mind?.current_ghost = src
 
 	if(!T || is_secret_level(T.z))
 		var/list/turfs = get_area_turfs(/area/shuttle/arrival)
@@ -170,7 +172,7 @@ GLOBAL_VAR_INIT(fresh_ghost_adjectives, __fresh_ghost_adjectives())
 	// Update our old body's medhud since we're abandoning it
 	if(isliving(mind?.current))
 		mind.current.med_hud_set_status()
-
+	mind?.current_ghost = null
 	QDEL_NULL(spawners_menu)
 	QDEL_NULL(minigames_menu)
 	return ..()
@@ -447,6 +449,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
 	if(mind.current.stat == DEAD && SSlag_switch.measures[DISABLE_DEAD_KEYLOOP])
 		to_chat(src, span_warning("To leave your body again use the Ghost verb."))
+	mind.current_ghost = null
 	mind.current.key = key
 	mind.current.client.init_verbs()
 	return TRUE
