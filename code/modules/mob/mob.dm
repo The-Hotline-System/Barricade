@@ -459,6 +459,8 @@
 			to_chat(src, span_warning("You are unable to equip that."))
 		return FALSE
 	equip_to_slot(W, slot, initial, redraw_mob) //This proc should not ever fail.
+	if(isliving(src))
+		src:update_reflection()
 	return TRUE
 
 /**

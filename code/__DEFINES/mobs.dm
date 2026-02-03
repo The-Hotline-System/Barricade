@@ -675,6 +675,8 @@
 // Mob Overlays Indexes
 /// Total number of layers for mob overlays
 #define TOTAL_LAYERS 36 //KEEP THIS UP-TO-DATE OR SHIT WILL BREAK ;_;
+/// Reflections Layer - You know what this is.
+#define REFLECTIONS_LAYER 36
 /// Mutations layer - Tk headglows, cold resistance glow, etc
 #define MUTATIONS_LAYER 35
 /// Mutantrace features (tail when looking south) that must appear behind the body parts
