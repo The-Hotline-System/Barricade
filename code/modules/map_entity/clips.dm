@@ -32,6 +32,31 @@ Disallow - Disables the entity
 	icon_state = "ghostclip"
 	flags_2 = FLAG_GHOSTCLIP
 
+/obj/effect/map_entity/clip/ghost/Initialize(mapload)
+	. = ..()
+	// Set the ghostclip flag on the turf for O(1) checking
+	var/turf/T = get_turf(src)
+	if(T)
+		T.flags_2 |= FLAG_GHOSTCLIP
+
+/obj/effect/map_entity/clip/ghost/Destroy()
+	// Remove the ghostclip flag from the turf
+	var/turf/T = get_turf(src)
+	if(T)
+		T.flags_2 &= ~FLAG_GHOSTCLIP
+	return ..()
+
+/obj/effect/map_entity/clip/ghost/Moved(atom/old_loc, movement_dir, forced, list/old_locs, momentum_change)
+	. = ..()
+	// Update flags on old and new turfs
+	if(old_loc && isturf(old_loc))
+		var/turf/old_turf = old_loc
+		old_turf.flags_2 &= ~FLAG_GHOSTCLIP
+
+	var/turf/new_turf = get_turf(src)
+	if(new_turf)
+		new_turf.flags_2 |= FLAG_GHOSTCLIP
+
 /obj/effect/map_entity/clip/bullet
 	name = "bullet_clip"
 	icon_state = "block_bullets"

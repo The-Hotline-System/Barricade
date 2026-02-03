@@ -373,6 +373,12 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(glide_size_override)
 		set_glide_size(glide_size_override)
 	if(NewLoc)
+		// Check for ghostclip in the destination (O(1) turf flag check)
+		var/turf/dest_turf = get_turf(NewLoc)
+		if(dest_turf && (dest_turf.flags_2 & FLAG_GHOSTCLIP))
+			// Only admins can pass through ghostclip
+			if(!client?.holder)
+				return FALSE
 		abstract_move(NewLoc)
 	else
 		var/turf/destination = get_turf(src)
@@ -389,13 +395,33 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		else if((direct & WEST) && x > 1)
 			destination = get_step(destination, WEST)
 
+		// Check for ghostclip in the destination (O(1) turf flag check)
+		if(destination && (destination.flags_2 & FLAG_GHOSTCLIP))
+			// Only admins can pass through ghostclip
+			if(!client?.holder)
+				return FALSE
+
 		abstract_move(destination)//Get out of closets and such as a ghost
 
 	return TRUE
 
 /mob/dead/observer/forceMove(atom/destination)
+	// Check for ghostclip before allowing forced movement (O(1) turf flag check)
+	var/turf/dest_turf = get_turf(destination)
+	if(dest_turf && !client?.holder && (dest_turf.flags_2 & FLAG_GHOSTCLIP))
+		return FALSE
 	abstract_move(destination) // move like the wind
 	return TRUE
+
+/mob/dead/observer/abstract_move(atom/new_loc)
+	// Check for ghostclip before allowing abstract movement (used by orbiting)
+	var/turf/dest_turf = get_turf(new_loc)
+	if(dest_turf && !client?.holder && (dest_turf.flags_2 & FLAG_GHOSTCLIP))
+		// Stop orbiting if we hit a ghostclip
+		if(orbiting)
+			stop_orbit()
+		return
+	return ..()
 
 /mob/dead/observer/Moved(atom/old_loc, movement_dir, forced, list/old_locs, momentum_change)
 	. = ..()
@@ -496,6 +522,19 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		to_chat(usr, span_warning("No area available."))
 		return
 
+	// Filter out turfs with ghostclip objects for non-admins
+	if(!usr.client?.holder)
+		var/list/valid_turfs = list()
+		for(var/turf/T in L)
+			// O(1) check using turf flag
+			if(!(T.flags_2 & FLAG_GHOSTCLIP))
+				valid_turfs += T
+
+		if(!length(valid_turfs))
+			to_chat(usr, span_warning("No accessible locations in that area."))
+			return
+		L = valid_turfs
+
 	usr.abstract_move(pick(L))
 
 /mob/dead/observer/verb/follow()
@@ -508,6 +547,11 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 // This is the ghost's follow verb with an argument
 /mob/dead/observer/proc/ManualFollow(atom/movable/target)
 	if (!istype(target) || !target.z || target == src || (is_secret_level(target.z) && !client?.holder))
+		return
+
+	// Check if ghost can reach the target (ghostclip LOS blocking)
+	if(!client?.holder && !ghost_can_reach(src, target))
+		to_chat(src, span_warning("You cannot reach that through the barrier!"))
 		return
 
 	var/icon/I = icon(target.icon,target.icon_state,target.dir)
@@ -570,6 +614,17 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	var/turf/destination_turf = get_turf(destination_mob) //Turf of the destination mob
 
 	if(isturf(destination_turf))
+		// Check for ghostclip before jumping (both destination and line of sight)
+		if(!client?.holder)
+			// O(1) check if destination has ghostclip
+			if(destination_turf.flags_2 & FLAG_GHOSTCLIP)
+				to_chat(source_mob, span_warning("You cannot jump to that location!"))
+				return
+			// Check if line of sight is blocked by ghostclip
+			var/turf/source_turf = get_turf(source_mob)
+			if(ghostclip_blocks_los(source_turf, destination_turf))
+				to_chat(source_mob, span_warning("You cannot jump through the barrier!"))
+				return
 		source_mob.abstract_move(destination_turf)
 	else
 		to_chat(source_mob, span_danger("This mob is not located in the game world."))
@@ -650,7 +705,19 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		see_invisible = SEE_INVISIBLE_LIVING
 	else
 		see_invisible = SEE_INVISIBLE_OBSERVER
+
+	// Apply ghostclip vision blocking for non-admins
+	if(!client?.holder && ghostvision)
+		apply_ghostclip_vision()
+
 	..()
+
+/mob/dead/observer/proc/apply_ghostclip_vision()
+	// This proc sets up vision blocking for ghostclip objects
+	// Ghosts should not be able to see through FLAG_GHOSTCLIP objects
+	// Note: BYOND doesn't support per-mob opacity, so we handle this through
+	// the ghost_can_reach() helper function and by preventing interaction
+	return
 
 /mob/dead/observer/verb/possess()
 	set category = "Ghost"
@@ -720,6 +787,17 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			var/tz = text2num(href_list["z"])
 			var/turf/target = locate(tx, ty, tz)
 			if(istype(target))
+				// Check for ghostclip before jumping (both destination and line of sight)
+				if(!client?.holder)
+					// O(1) check if destination has ghostclip
+					if(target.flags_2 & FLAG_GHOSTCLIP)
+						to_chat(src, span_warning("You cannot jump to that location!"))
+						return
+					// Check if line of sight is blocked by ghostclip
+					var/turf/source_turf = get_turf(src)
+					if(ghostclip_blocks_los(source_turf, target))
+						to_chat(src, span_warning("You cannot jump through the barrier!"))
+						return
 				abstract_move(target)
 				return
 		if(href_list["reenter"])

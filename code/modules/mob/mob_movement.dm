@@ -202,8 +202,14 @@
 	var/mob/living/L = mob
 	switch(L.incorporeal_move)
 		if(INCORPOREAL_MOVE_BASIC)
-			var/T = get_step(L,direct)
+			var/turf/T = get_step(L, direct)
 			if(T)
+				// Check for ghostclip objects in the destination
+				for(var/obj/O in T)
+					if(O.flags_2 & FLAG_GHOSTCLIP)
+						// Only admins can pass through ghostclip
+						if(!mob.client?.holder)
+							return
 				L.forceMove(T)
 			L.setDir(direct)
 		if(INCORPOREAL_MOVE_SHADOW)

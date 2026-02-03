@@ -13,7 +13,20 @@
 
 	// Otherwise jump
 	else if(A.loc)
-		abstract_move(get_turf(A))
+		var/turf/target_turf = get_turf(A)
+		if(target_turf)
+			// Check for ghostclip before jumping (both destination and line of sight)
+			if(!client?.holder)
+				// O(1) check if destination has ghostclip
+				if(target_turf.flags_2 & FLAG_GHOSTCLIP)
+					to_chat(src, span_warning("You cannot jump to that location!"))
+					return
+				// Check if line of sight is blocked by ghostclip
+				var/turf/source_turf = get_turf(src)
+				if(ghostclip_blocks_los(source_turf, target_turf))
+					to_chat(src, span_warning("You cannot jump through the barrier!"))
+					return
+			abstract_move(target_turf)
 
 /mob/dead/observer/ClickOn(atom/A, params)
 	if(check_click_intercept(params,A))
@@ -53,6 +66,11 @@
 	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_GHOST, user) & COMPONENT_CANCEL_ATTACK_CHAIN)
 		return TRUE
 	if(user.client)
+		// Check if ghost can reach this atom (ghostclip blocking)
+		if(!user.client.holder && !ghost_can_reach(user, src))
+			to_chat(user, span_warning("You cannot reach that through the barrier!"))
+			return TRUE
+
 		if(user.gas_scan && atmos_scan(user=user, target=src, tool=null, silent=TRUE))
 			return TRUE
 		else if(isAdminGhostAI(user))
@@ -86,4 +104,17 @@
 		power_station.teleporter_console.target_ref = null
 		return ..()
 
-	user.abstract_move(get_turf(target))
+	var/turf/target_turf = get_turf(target)
+	if(target_turf)
+		// Check for ghostclip before teleporting (both destination and line of sight)
+		if(!user.client?.holder)
+			// O(1) check if destination has ghostclip
+			if(target_turf.flags_2 & FLAG_GHOSTCLIP)
+				to_chat(user, span_warning("You cannot teleport to that location!"))
+				return ..()
+			// Check if line of sight is blocked by ghostclip
+			var/turf/source_turf = get_turf(user)
+			if(ghostclip_blocks_los(source_turf, target_turf))
+				to_chat(user, span_warning("You cannot teleport through the barrier!"))
+				return ..()
+		user.abstract_move(target_turf)

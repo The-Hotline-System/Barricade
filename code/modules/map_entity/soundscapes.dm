@@ -115,7 +115,7 @@ GLOBAL_VAR_INIT(soundscape_channel_counter, 200)
 		return TRUE
 
 
-	var/list/line = getline(player_turf, soundscape_turf)
+	var/list/line = get_line(player_turf, soundscape_turf)
 	for(var/turf/T in line)
 		if(T == player_turf || T == soundscape_turf)
 			continue
