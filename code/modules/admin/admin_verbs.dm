@@ -149,6 +149,12 @@ GLOBAL_LIST_INIT(admin_verbs_debug, world.AVerbsDebug())
 GLOBAL_PROTECT(admin_verbs_debug)
 /world/proc/AVerbsDebug()
 	return list(
+	/client/proc/campaign_reset,
+	/client/proc/campaign_set_id,
+	/client/proc/campaign_manual_save,
+	/client/proc/campaign_permakill_slot,
+	/client/proc/campaign_toggle_global_permakill,
+	/client/proc/campaign_mark_persistent,
 	/client/proc/restart_controller,
 	/client/proc/debug_controller,
 	/client/proc/cmd_admin_list_open_jobs,

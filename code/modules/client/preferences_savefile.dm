@@ -146,6 +146,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	chat_toggles = savefile.get_entry("chat_toggles", chat_toggles)
 	toggles = savefile.get_entry("toggles", toggles)
 	ignoring = savefile.get_entry("ignoring", ignoring)
+	slot_locked = savefile.get_entry("slot_locked", slot_locked)
 
 
 	// OOC commendations
@@ -227,6 +228,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	savefile.set_entry("toggles", toggles)
 	savefile.set_entry("chat_toggles", chat_toggles)
 	savefile.set_entry("ignoring", ignoring)
+	savefile.set_entry("slot_locked", slot_locked)
 	savefile.set_entry("key_bindings", key_bindings)
 	savefile.set_entry("hearted_until", (hearted_until > world.realtime ? hearted_until : null))
 	savefile.set_entry("favorite_outfits", favorite_outfits)

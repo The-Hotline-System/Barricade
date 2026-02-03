@@ -9,7 +9,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	/// Ensures that we always load the last used save, QOL
 	var/default_slot = 1
 	/// The maximum number of slots we're allowed to contain
-	var/max_save_slots = 10
+	var/max_save_slots = MAX_CHARACTER_SLOTS
+
+	/// Tracks which character slots are locked (already played)
+	var/list/slot_locked = list()
 
 	/// Bitflags for communications that are muted
 	var/muted = NONE
@@ -248,6 +251,11 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			for (var/datum/preference_middleware/preference_middleware as anything in middleware)
 				if (preference_middleware.pre_set_preference(usr, requested_preference_key, value))
 					return TRUE
+
+			// Block editing for locked character slots
+			if(should_block_editing())
+				show_locked_message()
+				return FALSE
 
 			var/datum/preference/requested_preference = GLOB.preference_entries_by_key[requested_preference_key]
 			if (isnull(requested_preference))
@@ -554,3 +562,25 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/subscreen)
 			LAZYADD(output[key], action)
 
 	return output
+
+/// Check if the current slot is locked (already played)
+/datum/preferences/proc/is_slot_locked(slot)
+	if(!slot)
+		slot = default_slot
+	return ("[slot]" in slot_locked) && slot_locked["[slot]"]
+
+/// Lock the current character slot (called after first join)
+/datum/preferences/proc/lock_current_slot()
+	slot_locked["[default_slot]"] = TRUE
+	save_preferences()
+
+/// Check if preference editing should be blocked for current slot
+/datum/preferences/proc/should_block_editing()
+	if(!is_slot_locked())
+		return FALSE
+	return TRUE
+
+/// Display the locked slot message
+/datum/preferences/proc/show_locked_message()
+	if(parent)
+		to_chat(parent, span_warning("Editing of this character is disallowed after creation. Please choose another character to edit their preferences."))

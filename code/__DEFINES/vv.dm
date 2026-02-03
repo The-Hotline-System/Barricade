@@ -97,6 +97,8 @@
 #define VV_HK_EDIT_PARTICLES "edit_particles"
 #define VV_HK_EDIT_COLOR_MATRIX "edit_color_matrix"
 #define VV_HK_ADD_AI "add_ai"
+#define VV_HK_CAMPAIGN_MARK "campaign_mark"
+#define VV_HK_CAMPAIGN_UNMARK "campaign_unmark"
 
 // /atom/movable
 #define VV_HK_DEADCHAT_PLAYS "deadchat_plays"

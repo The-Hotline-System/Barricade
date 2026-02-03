@@ -164,6 +164,17 @@
 	var/mob/living/character = create_character(destination)
 	if(!character)
 		CRASH("Failed to create a character for latejoin.")
+
+	// Campaign persistence: Check if this slot is locked (returning character)
+	var/slot_is_locked = client.prefs.is_slot_locked()
+	if(slot_is_locked)
+		// Load existing persistence data for this character
+		if(ishuman(character))
+			SScampaign.load_player_data(character, client.ckey, client.prefs.default_slot)
+	else
+		// First time joining with this slot - lock it
+		client.prefs.lock_current_slot()
+
 	transfer_character()
 
 	SSjob.EquipRank(character, job, character.client)

@@ -98,6 +98,11 @@ TYPEINFO_DEF(/atom)
 	///Second atom flags var
 	var/flags_2 = NONE
 
+	/// Campaign persistence flags (NO_PERSIST, PERSIST_BY_DEFAULT, etc.)
+	var/persistence_flags = NONE
+	/// CKey of player who created/placed this atom (for player structures)
+	var/made_by
+
 	///Intearaction flags
 	var/interaction_flags_atom = NONE
 
@@ -201,6 +206,90 @@ TYPEINFO_DEF(/atom)
  * result is that the Intialize proc is called.
  *
  */
+
+/**
+ * Returns a list of data to save for campaign persistence.
+ * Override this in subtypes to add custom data. Call ..() to include base vars.
+ * Default implementation saves all non-const, non-default vars that aren't in skip list.
+ */
+
+/atom/proc/get_campaign_save_data()
+	var/list/data = list()
+
+	// Get prototype for default comparison - use null loc to avoid side effects
+	var/atom/prototype = new type(null)
+	if(!prototype)
+		return data
+
+	// Get skip list
+	var/list/skip_list = GLOB.campaign_skip_vars
+
+	// Iterate all vars
+	for(var/varname in vars)
+		// Skip system vars
+		if(varname in skip_list)
+			continue
+
+		// Skip tmp_ prefixed vars
+		if(length(varname) >= 4 && copytext(varname, 1, 5) == "tmp_")
+			continue
+
+		// Skip if var doesn't exist on prototype (shouldn't happen, but safety)
+		if(!(varname in prototype.vars))
+			continue
+
+		var/current_val = vars[varname]
+		var/default_val = prototype.vars[varname]
+
+		// Skip if matches default
+		if(current_val == default_val)
+			continue
+
+		// Skip object references (can't serialize)
+		if(isatom(current_val) || isdatum(current_val))
+			continue
+
+		// Skip lists containing references (simple check)
+		if(islist(current_val))
+			var/has_refs = FALSE
+			for(var/item in current_val)
+				if(isatom(item) || isdatum(item))
+					has_refs = TRUE
+					break
+			if(has_refs)
+				continue
+
+		// Save the var
+		data[varname] = current_val
+
+	qdel(prototype)
+	return data
+
+/**
+ * Applies saved campaign data to this atom.
+ * This proc should NOT be overridden - it automatically handles all saved vars.
+ * Data comes from get_campaign_save_data() during save.
+ */
+/atom/proc/apply_campaign_save_data(list/data)
+	if(!islist(data))
+		return
+
+	// Get skip list for const/system var protection
+	var/list/skip_list = GLOB.campaign_skip_vars
+
+	for(var/varname in data)
+		// Double-check we're not setting system vars
+		if(varname in skip_list)
+			continue
+
+		// Check var exists on this atom before setting
+		if(!(varname in vars))
+			continue
+
+		// Set the var directly
+		vars[varname] = data[varname]
+
+
 /atom/New(loc, ...)
 	//atom creation method that preloads variables at creation
 	if(use_preloader && (type == global._preloader_path))//in case the instanciated atom is creating other atoms in New()
@@ -1387,6 +1476,8 @@ TYPEINFO_DEF(/atom)
 	VV_DROPDOWN_OPTION(VV_HK_ADD_AI, "Add AI controller")
 	if(greyscale_colors)
 		VV_DROPDOWN_OPTION(VV_HK_MODIFY_GREYSCALE, "Modify greyscale colors")
+	VV_DROPDOWN_OPTION(VV_HK_CAMPAIGN_MARK, "Campaign: Mark Persistent")
+	VV_DROPDOWN_OPTION(VV_HK_CAMPAIGN_UNMARK, "Campaign: Unmark Persistent")
 
 /atom/vv_do_topic(list/href_list)
 	. = ..()
@@ -1432,6 +1523,17 @@ TYPEINFO_DEF(/atom)
 
 	if(href_list[VV_HK_SHOW_HIDDENPRINTS] && check_rights(R_ADMIN))
 		usr.client.cmd_show_hiddenprints(src)
+
+	if(href_list[VV_HK_CAMPAIGN_MARK] && check_rights(R_ADMIN))
+		persistence_flags |= PERSISTENCE_STAFF_MARKED
+		made_by = usr.ckey
+		to_chat(usr, span_notice("Marked [src] as persistent. Made by: [made_by]"))
+		log_admin("[key_name(usr)] marked [src] ([type]) as persistent via VV.")
+
+	if(href_list[VV_HK_CAMPAIGN_UNMARK] && check_rights(R_ADMIN))
+		persistence_flags &= ~PERSISTENCE_STAFF_MARKED
+		to_chat(usr, span_notice("Removed staff-marked persistence from [src]."))
+		log_admin("[key_name(usr)] unmarked [src] ([type]) from persistence via VV.")
 
 
 	if(href_list[VV_HK_ADD_AI])
