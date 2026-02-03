@@ -139,6 +139,7 @@
 #define INIT_ORDER_AI_CONTROLLERS 62 //So the controller can get the ref
 #define INIT_ORDER_TICKER 61
 #define INIT_ORDER_TCG 55
+#define INIT_ORDER_CAMPAIGN 51 // campaign loads before mapping to prepare persistent seed
 #define INIT_ORDER_MAPPING 50
 #define INIT_ORDER_EARLY_ASSETS 49
 #define INIT_ORDER_RESEARCH 47

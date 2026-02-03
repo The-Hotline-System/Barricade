@@ -675,3 +675,7 @@
 /// Unique slug for the webmap
 /datum/config_entry/string/webmap_community
 	default = "DaedalusDock"
+
+/// Enable campaign persistence system (saves/loads player data and map state)
+/datum/config_entry/flag/campaign_enabled
+	default = TRUE // Campaign enabled by default

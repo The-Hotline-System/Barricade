@@ -293,9 +293,16 @@
 	"}
 
 	if(SSticker.current_state > GAME_STATE_PREGAME)
+		// Check if player has a saved character in the campaign
+		var/has_save = FALSE
+		var/slot = parent.client?.prefs?.default_slot
+		if(parent.ckey && slot)
+			has_save = SScampaign.has_save(parent.ckey, slot)
+
+		var/join_text = has_save ? "Load Character" : "Join Game"
 		output += {"
 			<div class='flexRow' style='justify-content: center;align-items: center;width:100%;margin-top: 4px;'>
-				<div class='flexItem'>[button_element(src, "Join Game", "late_join=1")]</div>
+				<div class='flexItem'>[button_element(src, join_text, "late_join=1")]</div>
 				<div class='flexItem'>[LINKIFY_READY("Observe", PLAYER_READY_TO_OBSERVE)]</div>
 			</div>
 		"}
@@ -303,11 +310,11 @@
 	else
 		switch(parent.ready)
 			if(PLAYER_NOT_READY)
-				output += "<div>\[ [LINKIFY_READY("Ready", PLAYER_READY_TO_PLAY)] | <span class='linkOn'>Not Ready</span> | [LINKIFY_READY("Observe", PLAYER_READY_TO_OBSERVE)] \]</div>"
+				output += "<div>\[ " + LINKIFY_READY("Ready", PLAYER_READY_TO_PLAY) + " | <span class='linkOn'>Not Ready</span> | " + LINKIFY_READY("Observe", PLAYER_READY_TO_OBSERVE) + " \]</div>"
 			if(PLAYER_READY_TO_PLAY)
-				output += "<div>\[ <span class='linkOn'>Ready</span> | [LINKIFY_READY("Not Ready", PLAYER_NOT_READY)] | [LINKIFY_READY("Observe", PLAYER_READY_TO_OBSERVE)] \]</div>"
+				output += "<div>\[ <span class='linkOn'>Ready</span> | " + LINKIFY_READY("Not Ready", PLAYER_NOT_READY) + " | " + LINKIFY_READY("Observe", PLAYER_READY_TO_OBSERVE) + " \]</div>"
 			if(PLAYER_READY_TO_OBSERVE)
-				output += "<div>\[ [LINKIFY_READY("Ready", PLAYER_READY_TO_PLAY)] | [LINKIFY_READY("Not Ready", PLAYER_NOT_READY)] | <span class='linkOn'>Observe</span> \]</div>"
+				output += "<div>\[ " + LINKIFY_READY("Ready", PLAYER_READY_TO_PLAY) + " | " + LINKIFY_READY("Not Ready", PLAYER_NOT_READY) + " | <span class='linkOn'>Observe</span> \]</div>"
 		output += "</div>"
 
 	output += "</div>"

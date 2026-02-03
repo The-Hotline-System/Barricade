@@ -102,6 +102,8 @@ TYPEINFO_DEF(/atom)
 	var/persistence_flags = NONE
 	/// CKey of player who created/placed this atom (for player structures)
 	var/made_by
+	/// Unique ID for campaign persistence tracking - prevents duplicates when items move
+	var/campaign_id
 
 	///Intearaction flags
 	var/interaction_flags_atom = NONE
@@ -216,8 +218,8 @@ TYPEINFO_DEF(/atom)
 /atom/proc/get_campaign_save_data()
 	var/list/data = list()
 
-	// Get prototype for default comparison - use null loc to avoid side effects
-	var/atom/prototype = new type(null)
+	// Get prototype for default comparison - use a global cache to avoid massive overhead
+	var/atom/prototype = SScampaign.get_prototype(type)
 	if(!prototype)
 		return data
 
@@ -262,7 +264,6 @@ TYPEINFO_DEF(/atom)
 		// Save the var
 		data[varname] = current_val
 
-	qdel(prototype)
 	return data
 
 /**
@@ -404,6 +405,11 @@ TYPEINFO_DEF(/atom)
  * * clears the light object
  */
 /atom/Destroy(force)
+	if(campaign_id)
+		if(persistence_flags & (PERSIST_BY_DEFAULT | PERSISTENCE_STAFF_MARKED))
+			SScampaign.mark_deleted(campaign_id)
+		SScampaign.unregister_campaign_atom(src)
+
 	if(alternate_appearances)
 		for(var/current_alternate_appearance in alternate_appearances)
 			var/datum/atom_hud/alternate_appearance/selected_alternate_appearance = alternate_appearances[current_alternate_appearance]

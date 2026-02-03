@@ -635,6 +635,11 @@ PR_ANNOUNCEMENTS_PER_ROUND 5
 ## Uncomment to block granting profiling privileges to users with R_DEBUG, for performance purposes
 #FORBID_ADMIN_PROFILING
 
+## Campaign Persistence System
+## Enables persistent campaign saves (player data, map state, items, structures)
+## Comment out to disable all campaign persistence functionality
+CAMPAIGN_ENABLED
+
 #Included last to allow developers have stable test configs
 #this file is gitignored.
 $include _config_nogit.txt

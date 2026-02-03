@@ -114,6 +114,7 @@ SUBSYSTEM_DEF(mapping)
 	generate_station_area_list()
 	initialize_reserved_level(base_transit.z_value)
 	calculate_default_z_level_gravities()
+	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_MAPPING_INITIALIZED)
 
 	return ..()
 
@@ -342,6 +343,8 @@ Used by the AI doomsday and the self-destruct nuke.
 
 	if(!silent)
 		INIT_ANNOUNCE("Loaded [name] in [(REALTIMEOFDAY - start_time)/10]s!")
+	
+	SEND_SIGNAL(src, COMSIG_MAPPING_GROUP_LOADED, parsed_maps, name)
 	return parsed_maps
 
 /datum/controller/subsystem/mapping/proc/loadWorld()

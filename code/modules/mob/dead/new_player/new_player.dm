@@ -153,6 +153,15 @@
 
 	var/datum/job/job = SSjob.GetJob(rank)
 
+	// Campaign persistence: If this slot is locked, force the saved job assignment
+	var/slot_is_locked = client.prefs.is_slot_locked()
+	if(slot_is_locked)
+		var/saved_job_type = SScampaign.get_saved_job_type(client.ckey, client.prefs.default_slot)
+		if(saved_job_type)
+			var/datum/job/saved_job = SSjob.GetJobType(saved_job_type)
+			if(saved_job)
+				job = saved_job // Override with saved job
+
 	if(!SSjob.AssignRole(src, job, TRUE))
 		tgui_alert(usr, "There was an unexpected error putting you into your requested job. If you cannot join with any job, you should contact an admin.")
 		return FALSE
@@ -165,20 +174,29 @@
 	if(!character)
 		CRASH("Failed to create a character for latejoin.")
 
-	// Campaign persistence: Check if this slot is locked (returning character)
-	var/slot_is_locked = client.prefs.is_slot_locked()
+	// Campaign persistence joining logic
 	if(slot_is_locked)
 		// Load existing persistence data for this character
+		var/loaded_persistence = FALSE
 		if(ishuman(character))
-			SScampaign.load_player_data(character, client.ckey, client.prefs.default_slot)
+			loaded_persistence = SScampaign.load_player_data(character, client.ckey, client.prefs.default_slot)
+
+		transfer_character()
+
+		if(loaded_persistence)
+			// Skip EquipRank - returning characters have their items restored from save
+			job.after_latejoin_spawn(character)
+		else
+			// FALLBACK: If persistence load failed (missing/broken save?), give starting gear
+			SSjob.EquipRank(character, job, character.client)
+			job.after_latejoin_spawn(character)
 	else
-		// First time joining with this slot - lock it
+		// First time joining with this slot - lock it and give starting gear
 		client.prefs.lock_current_slot()
+		transfer_character()
+		SSjob.EquipRank(character, job, character.client)
+		job.after_latejoin_spawn(character)
 
-	transfer_character()
-
-	SSjob.EquipRank(character, job, character.client)
-	job.after_latejoin_spawn(character)
 
 	#define IS_NOT_CAPTAIN 0
 	#define IS_ACTING_CAPTAIN 1
