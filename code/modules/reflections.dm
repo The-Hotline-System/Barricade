@@ -53,6 +53,9 @@
 /mob/living/Initialize()
 	. = ..()
 	create_reflection()
+	// Update reflection when items are equipped or unequipped (includes picking up/dropping from hands)
+	RegisterSignal(src, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(on_item_equipped))
+	RegisterSignal(src, COMSIG_MOB_UNEQUIPPED_ITEM, PROC_REF(on_item_unequipped))
 
 /mob/living/proc/create_reflection()
 	//Add custom reflection image - this should copy full appearance
@@ -74,6 +77,16 @@
 
 /mob/living/carbon/human/dummy/update_reflection()
 	return
+
+/mob/living/proc/on_item_equipped(datum/source, obj/item/equipped_item, slot)
+	SIGNAL_HANDLER
+	// Defer the update to next tick to ensure appearance is fully updated
+	addtimer(CALLBACK(src, PROC_REF(update_reflection)), 0, TIMER_UNIQUE | TIMER_OVERRIDE)
+
+/mob/living/proc/on_item_unequipped(datum/source, obj/item/unequipped_item, force, atom/newloc, no_move, invdrop, silent)
+	SIGNAL_HANDLER
+	// Defer the update to next tick to ensure appearance is fully updated
+	addtimer(CALLBACK(src, PROC_REF(update_reflection)), 0, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 /mob/living/proc/update_reflection()
 	if(!reflective_icon)

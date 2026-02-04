@@ -459,10 +459,6 @@
 			to_chat(src, span_warning("You are unable to equip that."))
 		return FALSE
 	equip_to_slot(W, slot, initial, redraw_mob) //This proc should not ever fail.
-	if(isliving(src))
-		var/mob/living/catcher = src
-		if(redraw_mob)
-			catcher.update_reflection()
 	return TRUE
 
 /**
