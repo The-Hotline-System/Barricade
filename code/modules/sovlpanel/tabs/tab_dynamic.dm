@@ -70,7 +70,9 @@
 		var/entry_type = findtext("[P]", "/proc/") ? ISPROC : ISVERB
 
 		// Replace spaces with dashes in verb names so BYOND can process them properly
-		var/verb_command = replacetext(P.name, " ", "-")
+		var/verb_command = P.name
+		if(entry_type == ISVERB)
+			verb_command = replacetext(verb_command, " ", "-")
 
 		if(subcategory)
 			if(!sub_verbs[subcategory])
