@@ -453,3 +453,41 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 /datum/chatOutput/proc/swaptodarkmode()
 	owner.force_dark_theme()
 
+// Font size control verbs
+/client/verb/set_chat_font(size as num)
+	set name = "Set Chat Font Size"
+	set category = "OOC"
+	set desc = "Set the font size in the chat window (10-30px)"
+
+	if(!chatOutput || chatOutput.broken)
+		to_chat(src, span_warning("Your chat output is not loaded or is broken."))
+		return
+
+	// Clamp the size between 10 and 30
+	size = clamp(size, 10, 30)
+
+	src << output("[size]", "output_browser.browseroutput:setFontSize")
+
+/client/verb/reset_chat_font()
+	set name = "Reset Chat Font"
+	set category = "OOC"
+	set desc = "Reset the chat font size to default (13px)"
+
+	if(!chatOutput || chatOutput.broken)
+		to_chat(src, span_warning("Your chat output is not loaded or is broken."))
+		return
+
+	src << output(null, "output_browser.browseroutput:resetFontSize")
+
+// Message combining toggle verb
+/client/verb/toggle_message_combining()
+	set name = "Toggle Message Combining"
+	set category = "OOC"
+	set desc = "Toggle whether similar consecutive messages are combined"
+
+	if(!chatOutput || chatOutput.broken)
+		to_chat(src, span_warning("Your chat output is not loaded or is broken."))
+		return
+
+	src << output(null, "output_browser.browseroutput:toggleMessageCombining")
+

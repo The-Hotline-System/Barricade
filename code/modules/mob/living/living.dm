@@ -344,7 +344,7 @@
 	if(istype(AM) && Adjacent(AM))
 		try_make_grab(AM)
 
-/mob/living/verb/stop_pulling1()
+/mob/living/verb/stop_pulling()
 	set name = "Stop Pulling"
 	set category = "IC"
 	release_all_grabs()

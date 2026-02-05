@@ -68,12 +68,16 @@
 
 		var/subcategory = get_subcategory(P.category)
 		var/entry_type = findtext("[P]", "/proc/") ? ISPROC : ISVERB
+
+		// Replace spaces with dashes in verb names so BYOND can process them properly
+		var/verb_command = replacetext(P.name, " ", "-")
+
 		if(subcategory)
 			if(!sub_verbs[subcategory])
 				sub_verbs[subcategory] = list()
-			sub_verbs[subcategory] += list(list(P.name, P.name, entry_type))
+			sub_verbs[subcategory] += list(list(verb_command, P.name, entry_type))
 		else
-			main_verbs += list(list(P.name, P.name, entry_type))
+			main_verbs += list(list(verb_command, P.name, entry_type))
 
 	if(!length(main_verbs) && !length(sub_verbs))
 		return ""

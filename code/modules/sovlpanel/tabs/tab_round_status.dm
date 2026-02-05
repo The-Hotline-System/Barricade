@@ -98,10 +98,4 @@
 		else
 			. += "<span class='verb'>Map:</span> <span class='verb dim'>Loading...</span><br>"
 
-		// CPU Usage
-		. += "<span class='verb'>CPU:</span> <span class='verb dim'>[world.cpu]%</span><br>"
-
-		// Tick Rate
-		. += "<span class='verb'>Tick Rate:</span> <span class='verb dim'>[world.fps] FPS</span><br>"
-
 		. += "<br>"
