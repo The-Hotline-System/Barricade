@@ -13,7 +13,7 @@
 /// Associative list: category name -> priority value
 /// Set priorities here for categories that should have non-default ordering
 GLOBAL_LIST_INIT(verb_category_priorities, list(
-	"Admin" = 70
+	"Admin" = 70,
 ))
 
 /datum/statpanel_tab/dynamic/placeholder
