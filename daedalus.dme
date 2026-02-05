@@ -4590,6 +4590,7 @@
 #include "code\modules\sovlpanel\tabs\tab_dynamic.dm"
 #include "code\modules\sovlpanel\tabs\tab_mc.dm"
 #include "code\modules\sovlpanel\tabs\tab_placeholder.dm"
+#include "code\modules\sovlpanel\tabs\tab_round_status.dm"
 #include "code\modules\sovlpanel\tabs\tab_tickets.dm"
 #include "code\modules\spatial_grid\cell_tracker.dm"
 #include "code\modules\spells\spell.dm"
