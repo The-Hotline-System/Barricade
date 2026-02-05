@@ -417,8 +417,8 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 	// Calculate and apply a best estimate
 	// +4 pixels are for the width of the splitter's handle
 	var/pct = 100 * (desired_width + 4) / split_width
-	winset(src, "mainwindow.split", "splitter=70.59") // default value, in case the loop below fails for some reason
-
+	winset(src, "mainwindow.split", "splitter=70.6") // default value, in case the loop below fails for some reason
+/*
 	// Apply an ever-lowering offset until we finish or fail
 	var/delta
 	for(var/safety in 1 to 10)
@@ -437,8 +437,8 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 			delta = -delta/2
 
 		pct += delta
-		winset(src, "mainwindow.split", "splitter=[pct]")
-
+		winset(src, "mainwindow.split", "splitter=70.6")
+*/
 /// Attempt to automatically fit the viewport, assuming the user wants it.
 /client/proc/attempt_auto_fit_viewport()
 	if (!prefs.read_preference(/datum/preference/toggle/auto_fit_viewport))

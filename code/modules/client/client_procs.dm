@@ -1075,6 +1075,7 @@ GLOBAL_LIST_INIT(blacklisted_builds, list(
 	else
 		winset(src, "mainwindow", "is-maximized=false;can-resize=true;titlebar=true;menu=menu")
 	winset(src, "mainwindow", "is-maximized=true")
+	fit_viewport()
 
 //Hook, override it to run code when dir changes
 //Like for /atoms, but clients are their own snowflake FUCK
