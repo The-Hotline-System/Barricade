@@ -30,7 +30,7 @@ window "mainwindow"
 		is-vert = true
 		lock = left
 		show-splitter = false
-		splitter = 70.6
+		splitter = 70.59
 	elem "asset_cache_browser"
 		type = BROWSER
 		pos = 0,0

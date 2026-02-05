@@ -355,6 +355,11 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 	to_chat(src, span_interface("Almost all of your adminverbs have been hidden."), confidential = TRUE)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Hide All Adminverbs") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+	// Reload sovlpanel to reflect verb changes
+	if(mob)
+		mob.updateStatPanel()
+
 	return
 
 /client/proc/show_verbs()
@@ -366,6 +371,10 @@ GLOBAL_PROTECT(admin_verbs_hideable)
 
 	to_chat(src, span_interface("All of your adminverbs are now visible."), confidential = TRUE)
 	SSblackbox.record_feedback("tally", "admin_verb", 1, "Show Adminverbs") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+	// Reload sovlpanel to reflect verb changes
+	if(mob)
+		mob.updateStatPanel()
 
 
 

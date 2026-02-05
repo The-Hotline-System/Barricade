@@ -417,7 +417,7 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 	// Calculate and apply a best estimate
 	// +4 pixels are for the width of the splitter's handle
 	var/pct = 100 * (desired_width + 4) / split_width
-	winset(src, "mainwindow.split", "splitter=[pct]")
+	winset(src, "mainwindow.split", "splitter=70.59") // default value, in case the loop below fails for some reason
 
 	// Apply an ever-lowering offset until we finish or fail
 	var/delta
@@ -439,14 +439,13 @@ GLOBAL_VAR_INIT(normal_ooc_colour, "#002eb8")
 		pct += delta
 		winset(src, "mainwindow.split", "splitter=[pct]")
 
-/// Attempt to automatically fit the viewport, assuming the user wants it - Don't do this.
+/// Attempt to automatically fit the viewport, assuming the user wants it.
 /client/proc/attempt_auto_fit_viewport()
-	// if (!prefs.read_preference(/datum/preference/toggle/auto_fit_viewport))
-	return
-	// if(fully_created)
-	//	fit_viewport()
-	// else //Delayed to avoid wingets from Login calls.
-	//	addtimer(CALLBACK(src, .verb/fit_viewport, 1 SECONDS))
+	if (!prefs.read_preference(/datum/preference/toggle/auto_fit_viewport))
+		if(fully_created)
+			fit_viewport()
+		else //Delayed to avoid wingets from Login calls.
+			addtimer(CALLBACK(src, .verb/fit_viewport, 1 SECONDS))
 
 /client/verb/policy()
 	set name = "Show Policy"
