@@ -208,17 +208,14 @@ window "input_and_buttons"
 		anchor2 = -1,-1
 		saved-params = "pos;size;is-minimized;is-maximized"
 		is-pane = true
-	elem "input_buttons_child"
-		type = CHILD
+	elem "command_bar_browser"
+		type = BROWSER
 		pos = 0,0
 		size = 640x20
 		anchor1 = 0,0
 		anchor2 = 100,100
-		background-color = #ffc41f
-		left = "inputwindow"
-		right = "inputbuttons"
-		is-vert = true
-		show-splitter = false
+		is-visible = true
+		saved-params = ""
 
 window "inputwindow"
 	elem "inputwindow"
@@ -240,34 +237,6 @@ window "inputwindow"
 		is-visible = false
 		border = sunken
 		saved-params = "command"
-	elem "command_bar_browser"
-		type = BROWSER
-		pos = 0,0
-		size = 685x20
-		anchor1 = 0,0
-		anchor2 = 50,100
-		is-visible = true
-		saved-params = ""
-
-window "inputbuttons"
-	elem "inputbuttons"
-		type = MAIN
-		pos = 291,0
-		size = 120x25
-		anchor1 = 0,0
-		anchor2 = 100,100
-		saved-params = "pos;size;is-minimized;is-maximized"
-		is-pane = true
-		is-visible = true
-		background-color = #000000
-	elem "send_button_browser"
-		type = BROWSER
-		pos = 0,0
-		size = 120x20
-		anchor1 = 0,0
-		anchor2 = 100,100
-		is-visible = true
-		saved-params = ""
 
 window "output_browser"
 	elem "output_browser"

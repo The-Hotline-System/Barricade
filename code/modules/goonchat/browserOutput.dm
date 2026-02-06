@@ -72,8 +72,7 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 
 	owner << browse(file('code/modules/goonchat/browserassets/html/browserOutput.html'), "window=output_browser.browseroutput")
 	owner << browse(file('code/modules/sovlpanel/html/html/statpanel.html'), "window=statwindow.browser;")
-	owner << browse(file('code/modules/goonchat/browserassets/html/command_bar.html'), "window=inputwindow.command_bar_browser;size=805x20")
-	owner << browse(file('code/modules/goonchat/browserassets/html/send_button.html'), "window=inputbuttons.send_button_browser;size=120x20")
+	owner << browse(file('code/modules/goonchat/browserassets/html/command_bar.html'), "window=input_and_buttons.command_bar_browser;size=805x25")
 
 	if (load_attempts < 5) //To a max of 5 load attempts
 		spawn(20 SECONDS)
@@ -89,9 +88,9 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	set instant = TRUE
 
 	// Focus the browser window
-	winset(src, "inputwindow.command_bar_browser", "focus=true")
+	winset(src, "input_and_buttons.command_bar_browser", "focus=true")
 	// Focus the input element inside it
-	src << output(null, "inputwindow.command_bar_browser:focusInput")
+	src << output(null, "input_and_buttons.command_bar_browser:focusInput")
 
 /datum/keybinding/client/chat/cycle_chat_mode
 	hotkey_keys = list("`")
@@ -104,7 +103,7 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 	. = ..()
 	if(.)
 		return
-	user << output(null, "inputwindow.command_bar_browser:cycleMode")
+	user << output(null, "input_and_buttons.command_bar_browser:cycleMode")
 	return TRUE
 
 
@@ -177,14 +176,13 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 /datum/chatOutput/proc/handleModeChange(mode)
 	if(!owner || !mode)
 		return
-	// Update the send button's mode
-	owner << output(list2params(list(mode)), "inputbuttons.send_button_browser:updateButtonMode")
+	// Mode change is now handled within the command bar itself
 
 /datum/chatOutput/proc/handleSendButtonClick()
 	if(!owner)
 		return
 	// Trigger the send command in the command bar
-	owner << output("triggerSend()", "inputwindow.command_bar_browser:triggerSend")
+	owner << output("triggerSend()", "input_and_buttons.command_bar_browser:triggerSend")
 
 
 //Called on chat output done-loading by JS.
@@ -268,11 +266,11 @@ GLOBAL_DATUM_INIT(iconCache, /savefile, new("tmp/iconCache.sav")) //Cache of ico
 
 	// Send the commands list to the command bar
 	var/commands_json = json_encode(commands)
-	owner << output(list2params(list("commands" = commands_json)), "inputwindow.command_bar_browser:setCommands")
+	owner << output(list2params(list("commands" = commands_json)), "input_and_buttons.command_bar_browser:setCommands")
 
 	// Send admin access status
 	var/has_asay = owner.holder ? "1" : "0"
-	owner << output(list2params(list("hasAsay" = has_asay)), "inputwindow.command_bar_browser:setAdminAccess")
+	owner << output(list2params(list("hasAsay" = has_asay)), "input_and_buttons.command_bar_browser:setAdminAccess")
 
 
 /proc/syncChatRegexes()

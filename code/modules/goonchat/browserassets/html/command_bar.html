@@ -27,8 +27,7 @@
 				display: flex;
 				position: absolute;
 				left: 2px;
-				width: 444px;
-				max-width: calc(100% - 126px);
+				width: calc(100% - 4px);
 				height: calc(100% - 4px);
 				gap: 2px;
 				align-items: stretch;
@@ -122,6 +121,51 @@
 				z-index: 2;
 				line-height: 1;
 			}
+			#send-button {
+				background-color: #2d5d2d;
+				color: #fff;
+				border: 1px solid #3d7d3d;
+				padding: 0 8px;
+				cursor: pointer;
+				font-size: 10px;
+				font-weight: 700;
+				width: 55px;
+				min-width: 55px;
+				text-align: center;
+				transition: background-color 0.1s;
+				user-select: none;
+				flex-shrink: 0;
+			}
+			#send-button.say {
+				background-color: #2d5d2d;
+				border-color: #3d7d3d;
+			}
+			#send-button.whisper {
+				background-color: #2d4d4d;
+				border-color: #3d6d6d;
+			}
+			#send-button.me {
+				background-color: #5d2d5d;
+				border-color: #7d3d7d;
+			}
+			#send-button.ooc {
+				background-color: #2d2d5d;
+				border-color: #3d3d7d;
+			}
+			#send-button.asay {
+				background-color: #5d2d2d;
+				border-color: #7d3d3d;
+			}
+			#send-button.cmd {
+				background-color: #5d5d2d;
+				border-color: #7d7d3d;
+			}
+			#send-button:hover {
+				filter: brightness(1.2);
+			}
+			#send-button:active {
+				filter: brightness(0.8);
+			}
 		</style>
 	</head>
 	<body>
@@ -137,6 +181,7 @@
 					autofocus
 				/>
 			</div>
+			<button id="send-button" class="say">SEND</button>
 		</div>
 		<script>
 			const modes = ["say", "whisper", "me", "ooc", "cmd"];
@@ -225,6 +270,8 @@
 			let currentMatches = [];
 			let justAutocompleted = false;
 
+			const sendButton = document.getElementById("send-button");
+
 			function updateMode() {
 				const mode = modes[currentModeIndex];
 				const displayNames = {
@@ -237,6 +284,7 @@
 				};
 				modeButton.textContent = displayNames[mode];
 				modeButton.className = mode;
+				sendButton.className = mode;
 
 				const placeholders = {
 					say: "Say something...",
@@ -314,6 +362,8 @@
 				let command = mode === "cmd" ? text : `${mode} "${text}"`;
 				window.location = `byond://?_src_=chat;command=${encodeURIComponent(command)}`;
 				commandInput.value = "";
+				justAutocompleted = true; // Clear autocomplete hints
+				updateAutocomplete(); // This will clear the hints since justAutocompleted is true
 				commandInput.focus();
 			}
 
@@ -325,6 +375,11 @@
 			modeButton.addEventListener("click", (e) => {
 				e.preventDefault();
 				cycleMode();
+			});
+
+			sendButton.addEventListener("click", (e) => {
+				e.preventDefault();
+				sendCommand();
 			});
 
 			commandInput.addEventListener("keydown", (e) => {
