@@ -118,7 +118,10 @@ GLOBAL_VAR_INIT(fresh_ghost_adjectives, __fresh_ghost_adjectives())
 		mind_or_body_name = name_gen.Generate()
 
 	set_real_name(mind_or_body_name)
-	mind = body.mind	//we don't transfer the mind but we keep a reference to it.
+	if(body)
+		mind = body.mind	//we don't transfer the mind but we keep a reference to it.
+	else
+		mind = src.mind //if we don't have a body, we'll just reference ourselves for the mind. This is used for admin ghosts and observers.
 	mind?.current_ghost = src
 
 	if(!T || is_secret_level(T.z))
