@@ -79,7 +79,7 @@ window "hudwindow"
 		anchor1 = -1,-1
 		anchor2 = -1,-1
 		border = none
-		saved-params = "pos;size;"
+		saved-params = "pos;is-minimized;is-maximized"
 		is-pane = true
 	elem "hud"
 		type = MAP
@@ -136,7 +136,7 @@ window "info_and_buttons"
 	elem "info_button_child"
 		type = CHILD
 		pos = 0,0
-		size = 640x477
+		size = 640x480
 		anchor1 = 0,0
 		anchor2 = 100,100
 		background-color = #ffc41f
@@ -149,15 +149,15 @@ window "infowindow"
 	elem "infowindow"
 		type = MAIN
 		pos = 291,0
-		size = 640x475
+		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
 		saved-params = "pos;size;is-minimized;is-maximized"
 		is-pane = true
 	elem "info"
 		type = CHILD
-		pos = 0,5
-		size = 640x475
+		pos = 0,0
+		size = 640x480
 		anchor1 = 0,0
 		anchor2 = 100,100
 		saved-params = "splitter"
@@ -171,7 +171,7 @@ window "outputwindow"
 	elem "outputwindow"
 		type = MAIN
 		pos = 0,0
-		size = 640x475
+		size = 640x480
 		anchor1 = -1,-1
 		anchor2 = -1,-1
 		saved-params = "pos;size;is-minimized;is-maximized"
@@ -188,7 +188,7 @@ window "outputwindow"
 	elem "output_input_child"
 		type = CHILD
 		pos = 0,0
-		size = 640x475
+		size = 640x480
 		anchor1 = 0,0
 		anchor2 = 100,100
 		background-color = #ffc41f
@@ -203,7 +203,7 @@ window "input_and_buttons"
 	elem "input_and_buttons"
 		type = MAIN
 		pos = 291,0
-		size = 640x20
+		size = 640x25
 		anchor1 = -1,-1
 		anchor2 = -1,-1
 		saved-params = "pos;size;is-minimized;is-maximized"
@@ -211,7 +211,7 @@ window "input_and_buttons"
 	elem "command_bar_browser"
 		type = BROWSER
 		pos = 0,0
-		size = 640x20
+		size = 640x25
 		anchor1 = 0,0
 		anchor2 = 100,100
 		is-visible = true
@@ -313,9 +313,9 @@ window "statwindow"
 	elem "browser"
 		type = BROWSER
 		pos = 0,0
-		size = 1872x312
-		anchor1 = -1,-1
-		anchor2 = -1,-1
+		size = 640x480
+		anchor1 = 0,0
+		anchor2 = 100,100
 		background-color = #060606
 		saved-params = ""
 
