@@ -188,10 +188,17 @@ TYPEINFO_DEF(/obj/machinery/button)
 	if(device)
 		device.pulsed()
 
+	IO_fire_output("OnPressed", user)
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_BUTTON_PRESSED, src)
 
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_appearance)), 15)
 	return TRUE
+
+/obj/machinery/button/IO_receive_input(input_name, atom/activator, atom/caller, list/params)
+	switch(lowertext(input_name))
+		if("press", "trigger")
+			return try_activate_button(activator)
+	return ..()
 
 /obj/machinery/button/door
 	name = "door button"

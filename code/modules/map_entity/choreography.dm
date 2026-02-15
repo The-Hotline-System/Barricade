@@ -41,7 +41,7 @@
 	fire_output("OnCancel", null, src)
 
 /obj/effect/map_entity/logic_choreographed_scene/proc/execute_event(target_name, input_name, param)
-	if(!running || !enabled)
+	if(!running || !io_enabled)
 		return
 
 	IO_output("[target_name]:[input_name]:[param]", null, src)
@@ -116,7 +116,7 @@ OnCancel - Fired when the scene is active and cancelled
 
 /obj/effect/map_entity/camera_trigger/proc/on_entered(datum/source, atom/movable/AM, oldloc)
 	SIGNAL_HANDLER
-	if(!enabled)
+	if(!io_enabled)
 		return
 	if(mode != "brush" && mode != "manual_brush")
 		return

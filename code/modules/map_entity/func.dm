@@ -17,7 +17,7 @@
 	return ..()
 
 /obj/effect/map_entity/func_conveyor/process()
-	if(!running || !enabled)
+	if(!running || !io_enabled)
 		return
 	var/list/turfs_to_check = list(get_turf(src))
 	if(brush_neighbors)

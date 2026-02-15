@@ -65,7 +65,7 @@ GLOBAL_VAR_INIT(soundscape_channel_counter, 200)
 	return ..()
 
 /obj/effect/map_entity/env_soundscape/process()
-	if(!enabled)
+	if(!io_enabled)
 		return
 
 	if(!position_atoms)
@@ -259,7 +259,7 @@ GLOBAL_VAR_INIT(soundscape_channel_counter, 200)
 
 /obj/effect/map_entity/env_soundscape/proc/on_entered(datum/source, atom/movable/AM, oldloc)
 	SIGNAL_HANDLER
-	if(mode != "brush" || !enabled || !isliving(AM))
+	if(mode != "brush" || !io_enabled || !isliving(AM))
 		return
 	var/mob/living/M = AM
 	if(!M.client)
@@ -356,7 +356,7 @@ OnSound - When a random sound plays
 
 /obj/effect/map_entity/env_soundscape_trigger/proc/on_entered(datum/source, atom/movable/AM, oldloc)
 	SIGNAL_HANDLER
-	if(!enabled || !isliving(AM))
+	if(!io_enabled || !isliving(AM))
 		return
 
 	var/mob/living/M = AM

@@ -77,7 +77,7 @@
 
 /obj/effect/map_entity/env_fade/proc/on_entered(datum/source, atom/movable/AM, oldloc)
 	SIGNAL_HANDLER
-	if(!enabled)
+	if(!io_enabled)
 		return
 	if(mode != "brush" && mode != "manual_brush")
 		return
@@ -264,21 +264,21 @@
 				update_particles()
 			return TRUE
 		if("seton", "start", "enable")
-			enabled = TRUE
+			io_enabled = TRUE
 			if(!particles)
 				update_particles()
 			return TRUE
 		if("setoff", "stop", "disable")
-			enabled = FALSE
+			io_enabled = FALSE
 			particles = null
 			return TRUE
 		if("toggle")
 			// Toggle particles existence based on current state (not just enabled var)
 			if(particles)
-				enabled = FALSE
+				io_enabled = FALSE
 				particles = null
 			else
-				enabled = TRUE
+				io_enabled = TRUE
 				update_particles()
 			return TRUE
 		if("delete")

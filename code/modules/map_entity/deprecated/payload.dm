@@ -6,7 +6,7 @@
 
 /obj/effect/map_entity/cart_detector/Crossed(atom/movable/AM)
 	. = ..()
-	if(!enabled)
+	if(!io_enabled)
 		return
 	if(!istype(AM, /obj/structure/payload))
 		return
@@ -20,7 +20,7 @@
 
 /obj/effect/map_entity/cart_detector/Uncrossed(atom/movable/AM)
 	. = ..()
-	if(!enabled)
+	if(!io_enabled)
 		return
 	if(!istype(AM, /obj/structure/payload))
 		return

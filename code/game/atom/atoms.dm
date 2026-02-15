@@ -196,6 +196,18 @@ TYPEINFO_DEF(/atom)
 	/// How this atom should react to having its astar blocking checked
 	var/can_astar_pass = CANASTARPASS_DENSITY
 
+	// --- IO & Map Scripting ---
+	/// The name used to target this object in the IO system.
+	var/targetname = ""
+	/// A list of raw connection strings: "output:target:input:delay:param"
+	var/list/io_connections = null
+	/// A list of raw connection strings from the map editor.
+	var/connections_string = ""
+	/// Parsed connections: list(output_name = list(list(target, input, delay, param)))
+	var/list/io_parsed_connections = null
+	/// Whether this object is currently processing IO inputs/outputs.
+	var/io_enabled = TRUE
+
 /**
  * Called when an atom is created in byond (built in engine proc)
  *
@@ -289,6 +301,9 @@ TYPEINFO_DEF(/atom)
 
 		atom_integrity = max_integrity
 
+	IO_register()
+	IO_parse_connections()
+
 	// Not typeinfo() for speed reasons. Hot ass code!
 	var/datum/typeinfo/atom/typeinfo = __typeinfo_cache[type] ||= new __typeinfo_path
 
@@ -362,6 +377,7 @@ TYPEINFO_DEF(/atom)
  * * clears the light object
  */
 /atom/Destroy(force)
+	IO_unregister()
 	if(alternate_appearances)
 		for(var/current_alternate_appearance in alternate_appearances)
 			var/datum/atom_hud/alternate_appearance/selected_alternate_appearance = alternate_appearances[current_alternate_appearance]
