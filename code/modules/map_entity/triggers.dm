@@ -24,7 +24,7 @@
 
 /obj/effect/map_entity/trigger/proc/on_entered(datum/source, atom/movable/AM, oldloc)
 	SIGNAL_HANDLER
-	if(!enabled)
+	if(!io_enabled)
 		return
 	if(!can_trigger(AM))
 		return
@@ -52,7 +52,7 @@
 
 /obj/effect/map_entity/trigger/proc/on_exited(datum/source, atom/movable/AM, direction)
 	SIGNAL_HANDLER
-	if(!enabled || !(AM in entities_inside))
+	if(!io_enabled || !(AM in entities_inside))
 		return
 
 	LAZYREMOVE(entities_inside, AM)
@@ -120,7 +120,7 @@ OnTriggerEnd - Fired when an entity leaves
 				qdel(src)
 			return TRUE
 		if("toggle")
-			enabled = !enabled
+			io_enabled = !io_enabled
 			return TRUE
 	return FALSE
 
@@ -171,7 +171,7 @@ Toggle - Toggles the required faction between RED and BLUE
 
 /obj/effect/map_entity/trigger/hurt/on_entered(datum/source, atom/movable/AM, oldloc)
 	. = ..()
-	if(!enabled || !isliving(AM))
+	if(!io_enabled || !isliving(AM))
 		return
 	var/mob/living/L = AM
 	switch(damage_type)
@@ -193,7 +193,7 @@ Toggle - Toggles the required faction between RED and BLUE
 
 /obj/effect/map_entity/trigger/push/on_entered(datum/source, atom/movable/AM, oldloc)
 	. = ..()
-	if(!enabled || !isliving(AM))
+	if(!io_enabled || !isliving(AM))
 		return
 	var/mob/living/L = AM
 	for(var/i = 1 to push_speed)

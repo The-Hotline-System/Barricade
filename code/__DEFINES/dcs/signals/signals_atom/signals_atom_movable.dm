@@ -103,3 +103,5 @@
 #define COMSIG_MOVABLE_UV_EXPOSE "atom_uv_expose"
 #define COMSIG_MOVABLE_UV_HIDE "atom_uv_hide"
 
+/// from /atom/movable/proc/IO_receive_input(): (input_name, activator, caller)
+#define COMSIG_MOVABLE_IO_RECEIVE "movable_io_receive"

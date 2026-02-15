@@ -72,7 +72,7 @@
 	start_time = 0
 
 /obj/effect/map_entity/game_round_timer/process()
-	if(!running || !enabled)
+	if(!running || !io_enabled)
 		return
 	var/elapsed = (world.time - start_time) / 10  // Convert to seconds
 	for(var/i = 1 to length(milestones))

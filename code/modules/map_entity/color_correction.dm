@@ -130,7 +130,7 @@ GLOBAL_LIST_EMPTY(global_color_corrections)
 				target_area = T.loc
 
 		// Register Entered/Exited on the target area
-		if(target_area && enabled)
+		if(target_area && io_enabled)
 			if(istype(target_area))
 				// Instance - register directly
 				RegisterSignal(target_area, list(COMSIG_AREA_ENTERED, COMSIG_AREA_EXITED), PROC_REF(on_area_crossed))
@@ -179,13 +179,13 @@ GLOBAL_LIST_EMPTY(global_color_corrections)
 				if(matrix_list.len == 20 || matrix_list.len == 16)
 					color_val = matrix_list
 
-	if(mode == "global" && enabled)
+	if(mode == "global" && io_enabled)
 		apply_global()
 
 /obj/effect/map_entity/color_correction/Destroy()
 	if(mode == "global")
 		GLOB.global_color_corrections -= src
-		if(enabled)
+		if(io_enabled)
 			remove_global()
 	else if(mode == "area")
 		// Unregister from areas
@@ -199,7 +199,7 @@ GLOBAL_LIST_EMPTY(global_color_corrections)
 		for(var/mob/M in GLOB.mob_list)
 			if(is_mob_in_target_area(M))
 				remove_from(M)
-	else if(enabled)
+	else if(io_enabled)
 		if(LAZYLEN(entities_inside))
 			for(var/mob/M in entities_inside)
 				remove_from(M)
@@ -222,7 +222,7 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 
 	switch(lowertext(input_name))
 		if("enable")
-			enabled = TRUE
+			io_enabled = TRUE
 			if(mode == "global")
 				apply_global()
 			else if(mode == "area")
@@ -230,7 +230,7 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 			fire_output("OnEnable", activator, caller)
 			return TRUE
 		if("disable")
-			enabled = FALSE
+			io_enabled = FALSE
 			if(mode == "global")
 				remove_global()
 			else if(mode == "area")
@@ -270,7 +270,7 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 				else if(isarea(params["value"]))
 					target_area = params["value"]
 				// Re-register signals if enabled
-				if(enabled)
+				if(io_enabled)
 					remove_area()
 					apply_area()
 			return TRUE
@@ -283,7 +283,7 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 
 /obj/effect/map_entity/color_correction/proc/on_entered(datum/source, atom/movable/AM, oldloc)
 	SIGNAL_HANDLER
-	if(!enabled)
+	if(!io_enabled)
 		return
 	if(mode != "brush" && mode != "manual_brush")
 		return
@@ -380,7 +380,7 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 		// Clean up any stale suppressed globals that are no longer valid
 		if(LAZYLEN(M.suppressed_global_ccs))
 			for(var/datum/client_colour/map_entity_color_correction/suppressed in M.suppressed_global_ccs)
-				if(QDELETED(suppressed) || !suppressed.source_entity || !suppressed.source_entity.enabled)
+				if(QDELETED(suppressed) || !suppressed.source_entity || !suppressed.source_entity.io_enabled)
 					M.suppressed_global_ccs -= suppressed
 					if(!QDELETED(suppressed))
 						qdel(suppressed)
@@ -485,7 +485,7 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 		var/list/restored_for_calc = list()
 		if(replaceglobal && LAZYLEN(M.suppressed_global_ccs))
 			for(var/datum/client_colour/map_entity_color_correction/suppressed in M.suppressed_global_ccs)
-				if(!QDELETED(suppressed) && suppressed.source_entity && suppressed.source_entity.enabled)
+				if(!QDELETED(suppressed) && suppressed.source_entity && suppressed.source_entity.io_enabled)
 					// Temporarily add back to list for calculation
 					BINARY_INSERT(suppressed, M.client_colours, /datum/client_colour, suppressed, priority, COMPARE_KEY)
 					restored_for_calc += suppressed
@@ -545,7 +545,7 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 
 		for(var/datum/client_colour/map_entity_color_correction/suppressed_cc in M.suppressed_global_ccs)
 			// Check if it's still valid and should be applied
-			if(!QDELETED(suppressed_cc) && suppressed_cc.source_entity && suppressed_cc.source_entity.mode == "global" && suppressed_cc.source_entity.enabled)
+			if(!QDELETED(suppressed_cc) && suppressed_cc.source_entity && suppressed_cc.source_entity.mode == "global" && suppressed_cc.source_entity.io_enabled)
 				// Check if not already in the list using O(1) lookup
 				if(!M.client_colours_by_source[suppressed_cc.source_entity])
 					// Restore to active list
@@ -572,7 +572,7 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 			M.client_colours_by_source = list()
 
 		for(var/obj/effect/map_entity/color_correction/global_cc in GLOB.global_color_corrections)
-			if(global_cc != src && global_cc.enabled)
+			if(global_cc != src && global_cc.io_enabled)
 				// Check if this mob should have this global CC using O(1) lookup
 				if(!M.client_colours_by_source[global_cc])
 					// Create and add the CC datum directly
@@ -655,7 +655,7 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 /// Handle when a mob enters or exits the target area
 /obj/effect/map_entity/color_correction/proc/on_area_crossed(area/source, atom/movable/AM)
 	SIGNAL_HANDLER
-	if(!enabled || mode != "area")
+	if(!io_enabled || mode != "area")
 		return
 
 	if(!isliving(AM))
@@ -684,12 +684,12 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 	if(mode == new_mode)
 		return // Already in this mode
 
-	var/was_enabled = enabled
+	var/was_enabled = io_enabled
 	var/old_mode = mode
 
 	// Disable and clean up old mode
 	if(was_enabled)
-		enabled = FALSE
+		io_enabled = FALSE
 		switch(old_mode)
 			if("global")
 				remove_global()
@@ -736,7 +736,7 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 
 	// Re-enable if it was enabled before
 	if(was_enabled)
-		enabled = TRUE
+		io_enabled = TRUE
 		switch(new_mode)
 			if("global")
 				apply_global()
@@ -790,7 +790,7 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 	var/list/info = list()
 	info += "=== Color Correction Settings ==="
 	info += "Mode: [mode]"
-	info += "Enabled: [enabled ? "Yes" : "No"]"
+	info += "Enabled: [io_enabled ? "Yes" : "No"]"
 	info += "Color: [color_val]"
 	info += "Transition Time: [transition_time]"
 	info += "Priority: [priority]"

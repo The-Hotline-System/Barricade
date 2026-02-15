@@ -865,3 +865,53 @@
 				if(!(sprite.icon_state in icon_states(actual_file_name)))
 					to_chat(src, span_warning("ERROR sprites for [sprite.type]. Suit Storage slot."), confidential = TRUE)
 #endif
+
+/client/proc/DebugScreenText()
+	set category = "Debug"
+	set name = "Debug Screen Text"
+
+	if(!check_rights(R_DEBUG))
+		return
+
+	var/list/types = subtypesof(/atom/movable/screen/text/screen_text)
+	var/list/fancy_types = list()
+	for(var/type in types)
+		fancy_types["[type]"] = type
+
+	var/picked_type = input(usr, "Select screen text type", "Debug Screen Text") as null|anything in sort_list(fancy_types)
+	if(!picked_type)
+		return
+	picked_type = fancy_types[picked_type]
+
+	var/text = input(usr, "Enter text to display", "Debug Screen Text") as text|null
+	if(!text)
+		return
+
+	var/atom/tracking_target = null
+	if(tgui_alert(usr, "Track an object?", "Debug", list("Yes", "No")) == "Yes")
+		tracking_target = tgui_input_list(usr, "Select target", "Debug", view(usr))
+
+	usr.play_screen_text(text, picked_type, tracking_target)
+
+/client/proc/DebugIO(var/atom/thing in world)
+	set category = "Debug"
+	set name = "Debug IO"
+
+	if(!check_rights(R_DEBUG))
+		return
+
+	var/input_name 
+	if(thing)
+		input_name = thing.targetname
+	if(!input_name)
+		input_name = input(usr, "Enter IO Input Name", "Debug IO") as text|null
+		if(!input_name)
+			return
+
+	var/param_value = input(usr, "Enter Value (Optional)", "Debug IO") as text|null
+	var/list/params = list()
+	if(param_value)
+		params["value"] = param_value
+
+	to_chat(usr, span_adminnotice("Sending IO Input \"[input_name]\" (value: [param_value]) to [thing]."))
+	send_io_input(thing, input_name, usr, usr, params)

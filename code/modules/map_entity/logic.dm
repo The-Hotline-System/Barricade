@@ -114,7 +114,7 @@ OnThreshold - Fired when threshold reached
 	timer_id = addtimer(CALLBACK(src, PROC_REF(timer_tick)), interval, TIMER_STOPPABLE)
 
 /obj/effect/map_entity/logic_timer/proc/timer_tick()
-	if(!running || !enabled)
+	if(!running || !io_enabled)
 		return
 	fire_output("OnTimer", null, src)
 	schedule_next()
@@ -372,7 +372,7 @@ OnFalse - Fired if value is FALSE
 
 /obj/effect/map_entity/teleporter/proc/on_entered(datum/source, atom/movable/AM, oldloc)
 	SIGNAL_HANDLER
-	if(!enabled || !auto_trigger)
+	if(!io_enabled || !auto_trigger)
 		return
 	if(!can_teleport(AM))
 		return

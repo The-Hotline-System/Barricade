@@ -134,7 +134,7 @@
 
 /obj/effect/map_entity/ambient_sound/trigger/proc/on_entered(datum/source, atom/movable/AM, oldloc)
 	SIGNAL_HANDLER
-	if(!enabled || !isliving(AM))
+	if(!io_enabled || !isliving(AM))
 		return
 	if(cooldown > 0 && (world.time - last_play_time) < cooldown)
 		return
@@ -171,7 +171,7 @@
 
 /obj/effect/map_entity/music_loop/proc/on_entered(datum/source, atom/movable/AM, oldloc)
 	SIGNAL_HANDLER
-	if(!enabled)
+	if(!io_enabled)
 		return
 	if(!ismob(AM))
 		return
@@ -205,10 +205,10 @@
 	if(.) return TRUE
 	switch(lowertext(input_name))
 		if("enable")
-			enabled = TRUE
+			io_enabled = TRUE
 			return TRUE
 		if("disable")
-			enabled = FALSE
+			io_enabled = FALSE
 			for(var/mob/M in listeners)
 				stop_music(M)
 			listeners.Cut()
@@ -299,13 +299,13 @@
 	return ..()
 
 /obj/effect/map_entity/soundscape/proc/schedule_next_sound()
-	if(!active || !enabled)
+	if(!active || !io_enabled)
 		return
 	var/delay = rand(min_interval, max_interval)
 	timer_id = addtimer(CALLBACK(src, PROC_REF(play_ambient_sound)), delay, TIMER_STOPPABLE)
 
 /obj/effect/map_entity/soundscape/proc/play_ambient_sound()
-	if(!active || !enabled)
+	if(!active || !io_enabled)
 		return
 	var/sound_to_play = sounds?.len ? pick(sounds) : sound_file
 	if(sound_to_play)
@@ -464,7 +464,7 @@
 
 /obj/effect/map_entity/audio_zone/proc/on_entered(datum/source, atom/movable/AM, oldloc)
 	SIGNAL_HANDLER
-	if(!enabled || !ismob(AM))
+	if(!io_enabled || !ismob(AM))
 		return
 	var/mob/M = AM
 	if(!M.client)

@@ -17,13 +17,13 @@ Disallow - Disables the entity
 		return TRUE
 	switch(lowertext(input_name))
 		if("toggle")
-			enabled = !enabled
+			io_enabled = !io_enabled
 			return TRUE
 		if("allow")
-			enabled = TRUE
+			io_enabled = TRUE
 			return TRUE
 		if("disallow")
-			enabled = FALSE
+			io_enabled = FALSE
 			return TRUE
 	return FALSE
 
@@ -63,7 +63,7 @@ Disallow - Disables the entity
 	density = FALSE
 
 /obj/effect/map_entity/clip/bullet/CanAllowThrough(atom/movable/mover, border_dir)
-	if(!enabled)
+	if(!io_enabled)
 		return ..()
 	if(istype(mover, /obj/projectile))
 		return FALSE
@@ -71,7 +71,7 @@ Disallow - Disables the entity
 		return ..()
 
 /obj/effect/map_entity/clip/bullet/bullet_act(obj/projectile/P, def_zone)
-	if(!enabled)
+	if(!io_enabled)
 		return
 	P.on_hit(src, 100)
 	return 0
@@ -82,7 +82,7 @@ Disallow - Disables the entity
 	density = FALSE
 
 /obj/effect/map_entity/clip/player/CanAllowThrough(atom/movable/mover, border_dir)
-	if(!enabled)
+	if(!io_enabled)
 		return ..()
 	if(istype(mover, /obj/projectile) || istype(mover, /obj/item))
 		return ..()
@@ -95,7 +95,7 @@ Disallow - Disables the entity
 	density = FALSE
 
 /obj/effect/map_entity/clip/npc/CanAllowThrough(atom/movable/mover, border_dir)
-	if(!enabled)
+	if(!io_enabled)
 		return ..()
 	if(istype(mover, /obj/projectile))
 		return ..()
@@ -114,7 +114,7 @@ Disallow - Disables the entity
 	var/blocked_faction = null
 
 /obj/effect/map_entity/clip/faction/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
-	if(air_group || !height || !enabled)
+	if(air_group || !height || !io_enabled)
 		return TRUE
 	if(istype(mover, /obj/projectile))
 		return TRUE
@@ -170,7 +170,7 @@ Toggle - Toggles blocked faction between RED and BLUE
 	var/cull_backside = FALSE
 
 /obj/effect/map_entity/clip/oneway/CanAllowThrough(atom/movable/mover, border_dir)
-	if(!enabled)
+	if(!io_enabled)
 		return TRUE
 	if(istype(mover, /obj/projectile))
 		return TRUE
@@ -184,7 +184,7 @@ Toggle - Toggles blocked faction between RED and BLUE
 	return ..()
 
 /obj/effect/map_entity/clip/oneway/CheckExit(atom/movable/mover, turf/target)
-	if(!enabled || !cull_backside)
+	if(!io_enabled || !cull_backside)
 		return TRUE
 
 	if(target)

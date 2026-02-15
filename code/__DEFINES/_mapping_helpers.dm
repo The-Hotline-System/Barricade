@@ -205,9 +205,9 @@ MAPPING_DAY_LISTENER(base_path/##name) \
 /// Usage: MAPPING_IO_SHUTTER(manual_override, obj/machinery/door/blast/regular, "override_door")
 #define MAPPING_IO_SHUTTER(name, base_path, targetname_val) \
 /##base_path/##name { \
-	io_targetname = targetname_val; \
+	targetname = targetname_val; \
 } \
-/##base_path/##name/IO_receive_input(input_name, activator, caller) { \
+/##base_path/##name/IO_receive_input(input_name, activator, caller, list/params) { \
 	switch(lowertext(input_name)) { \
 		if("open") open(); \
 		if("close") close(); \
