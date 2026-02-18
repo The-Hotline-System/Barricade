@@ -170,7 +170,7 @@ TYPEINFO_DEF(/obj/structure/chair)
 /obj/structure/chair/comfy/Initialize(mapload)
 	armrest = GetArmrest()
 	armrest.layer = ABOVE_MOB_LAYER
-	armrest.plane = GAME_PLANE
+	armrest.plane = NONVIS_PLANE
 	return ..()
 
 /obj/structure/chair/comfy/proc/GetArmrest()

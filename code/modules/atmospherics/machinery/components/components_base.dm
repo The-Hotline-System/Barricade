@@ -55,7 +55,7 @@
 	underlays.Cut()
 
 	color = null
-	plane = showpipe ? GAME_PLANE : FLOOR_PLANE
+	plane = showpipe ? NONVIS_PLANE : FLOOR_PLANE
 
 	if(!showpipe)
 		return ..()

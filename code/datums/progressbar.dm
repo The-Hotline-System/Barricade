@@ -33,7 +33,7 @@
 	goal = goal_number
 	bar_loc = target
 	bar = image('icons/effects/progessbar.dmi', bar_loc, "prog_bar_0")
-	bar.plane = GAME_PLANE
+	bar.plane = NONVIS_PLANE
 	bar.layer = FLY_LAYER
 	bar.appearance_flags = APPEARANCE_UI_IGNORE_ALPHA
 	user = User
@@ -166,7 +166,7 @@
 
 		underlay.pixel_y = 2
 		underlay.alpha = 200
-		underlay.plane = GAME_PLANE
+		underlay.plane = NONVIS_PLANE
 		underlay.layer = FLY_LAYER
 		underlay.appearance_flags = APPEARANCE_UI
 		bar.underlays += underlay
@@ -210,7 +210,7 @@
 /obj/effect/abstract/progbar
 	icon = 'icons/effects/progessbar.dmi'
 	icon_state = "prog_bar_0"
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 	layer = FLY_LAYER
 	appearance_flags = APPEARANCE_UI | KEEP_APART
 	pixel_y = 32

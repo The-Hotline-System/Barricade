@@ -84,7 +84,7 @@
 	icon_state = "backseat"
 	pixel_y = 17
 	layer = OBJ_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 
 
 /obj/structure/fluff/bus/passable/seat/driver

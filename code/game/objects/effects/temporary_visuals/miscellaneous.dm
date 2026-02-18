@@ -4,7 +4,7 @@
 	duration = 5
 	randomdir = FALSE
 	layer = BELOW_MOB_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 	var/splatter_type = "splatter"
 
 /obj/effect/temp_visual/dir_setting/bloodsplatter/Initialize(mapload, set_dir, set_color)
@@ -50,7 +50,7 @@
 	name = "speedbike trails"
 	icon_state = "ion_fade"
 	layer = BELOW_MOB_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 	duration = 10
 	randomdir = 0
 
@@ -565,7 +565,7 @@
 	icon = 'icons/mob/jungle/mook.dmi'
 	icon_state = "mook_leap_cloud"
 	layer = BELOW_MOB_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 	pixel_x = -16
 	base_pixel_x = -16
 	pixel_y = -16

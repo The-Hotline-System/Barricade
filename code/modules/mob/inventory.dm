@@ -337,7 +337,11 @@
 		qdel(I)
 		return FALSE
 	I.layer = initial(I.layer)
-	I.plane = initial(I.plane)
+	// Don't reset plane if the item has vision_affected component
+	if(!I.GetComponent(/datum/component/vision_affected))
+		I.plane = initial(I.plane)
+	else
+		I.plane = VIS_PLANE
 	I.unequipped(src)
 	I.forceMove(drop_location())
 	return FALSE
@@ -475,7 +479,11 @@
 			client.screen -= I
 
 		I.layer = initial(I.layer)
-		I.plane = initial(I.plane)
+		// Don't reset plane if the item has vision_affected component
+		if(!I.GetComponent(/datum/component/vision_affected))
+			I.plane = initial(I.plane)
+		else
+			I.plane = VIS_PLANE
 		I.appearance_flags &= ~NO_CLIENT_COLOR
 
 		if(!no_move && !(I.item_flags & DROPDEL) && !QDELETED(I)) //item may be moved/qdel'd immedietely, don't bother moving it

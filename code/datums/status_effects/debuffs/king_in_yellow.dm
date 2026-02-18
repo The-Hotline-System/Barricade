@@ -19,7 +19,7 @@
 
 /datum/status_effect/grouped/king_in_yellow/New(list/arguments)
 	liege_image = image('goon/icons/obj/kinginyellow.dmi', "kingyellow")
-	liege_image.plane = GAME_PLANE
+	liege_image.plane = NONVIS_PLANE
 	liege_image.layer = MOB_LAYER
 	liege_image.override = TRUE
 

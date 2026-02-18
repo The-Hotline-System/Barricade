@@ -139,5 +139,5 @@
 	icon = 'icons/mob/actions/actions_items.dmi'
 	icon_state = "sniper_zoom"
 	layer = BELOW_MOB_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 	light_outer_range = 2

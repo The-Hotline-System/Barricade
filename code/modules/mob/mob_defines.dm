@@ -9,7 +9,7 @@
 /mob
 	density = TRUE
 	layer = MOB_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 	animate_movement = SLIDE_STEPS
 	//pressure_resistance = 8
 	mouse_drag_pointer = MOUSE_ACTIVE_POINTER

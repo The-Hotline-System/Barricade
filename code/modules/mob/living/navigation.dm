@@ -70,7 +70,7 @@
 	path |= get_turf(navigate_target)
 	for(var/i in 1 to length(path))
 		var/image/path_image = image(icon = 'icons/effects/navigation.dmi', layer = HIGH_PIPE_LAYER, loc = path[i])
-		path_image.plane = GAME_PLANE
+		path_image.plane = NONVIS_PLANE
 		path_image.color = COLOR_CYAN
 		path_image.alpha = 0
 		var/dir_1 = 0

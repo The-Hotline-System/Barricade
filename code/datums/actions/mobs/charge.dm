@@ -234,7 +234,7 @@
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "landing"
 	layer = BELOW_MOB_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 	pixel_x = -32
 	pixel_y = -32
 	color = "#FF0000"

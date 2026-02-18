@@ -13,7 +13,7 @@
 	icon_state = "maint"
 	base_icon_state = "maint"
 	layer = CATWALK_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 	mouse_opacity = MOUSE_OPACITY_OPAQUE
 
 	smoothing_groups = null

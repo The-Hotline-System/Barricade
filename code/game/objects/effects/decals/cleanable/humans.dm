@@ -203,7 +203,7 @@
 
 /obj/effect/decal/cleanable/blood/splatter/over_window // special layer/plane set to appear on windows
 	layer = ABOVE_WINDOW_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 	turf_loc_check = FALSE
 	alpha = 180
 
@@ -245,7 +245,7 @@
 	icon_state = "gib1"
 
 	layer = LOW_OBJ_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 	random_icon_states = list("gib1", "gib2", "gib3", "gib4", "gib5", "gib6")
 	turf_loc_check = FALSE
 

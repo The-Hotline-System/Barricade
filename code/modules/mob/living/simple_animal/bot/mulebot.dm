@@ -448,7 +448,11 @@
 		load.forceMove(loc)
 		load.pixel_y = initial(load.pixel_y)
 		load.layer = initial(load.layer)
-		load.plane = initial(load.plane)
+		// Don't reset plane if the item has vision_affected component
+		if(!load.GetComponent(/datum/component/vision_affected))
+			load.plane = initial(load.plane)
+		else
+			load.plane = VIS_PLANE
 		load = null
 
 	if(dirn) //move the thing to the delivery point.

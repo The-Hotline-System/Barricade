@@ -403,7 +403,7 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/character_preview_view)
 	name = "character_preview"
 	del_on_map_removal = FALSE
 	layer = GAME_PLANE
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 
 	/// The body that is displayed
 	var/mob/living/carbon/human/dummy/body

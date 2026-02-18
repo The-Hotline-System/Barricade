@@ -303,7 +303,11 @@ GLOBAL_LIST_EMPTY(cached_storage_typecaches)
 /// Refreshes and item to be put back into the real world, out of storage.
 /datum/storage/proc/reset_item(obj/item/thing)
 	thing.layer = initial(thing.layer)
-	thing.plane = initial(thing.plane)
+	// Don't reset plane if the item has vision_affected component
+	if(thing.GetComponent(/datum/component/vision_affected))
+		thing.plane = VIS_PLANE
+	else
+		thing.plane = NONVIS_PLANE
 	thing.mouse_opacity = initial(thing.mouse_opacity)
 	thing.screen_loc = null
 	if(numerical_stacking && thing.maptext)

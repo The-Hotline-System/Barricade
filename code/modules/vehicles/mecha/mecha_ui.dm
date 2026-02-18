@@ -3,7 +3,7 @@
 	name = "mechview"
 	del_on_map_removal = FALSE
 	layer = OBJ_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 
 	/// The body that is displayed
 	var/obj/vehicle/sealed/mecha/owner

@@ -279,7 +279,7 @@
 /obj/effect/aether_rune/proc/invoke_success_visual_effect()
 	var/obj/effect/abstract/effect = new()
 	effect.appearance = appearance
-	effect.plane = GAME_PLANE
+	effect.plane = NONVIS_PLANE
 	effect.layer = FLY_LAYER
 	effect.appearance_flags |= RESET_COLOR
 	effect.mouse_opacity = MOUSE_OPACITY_TRANSPARENT

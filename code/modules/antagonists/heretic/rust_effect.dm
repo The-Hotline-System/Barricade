@@ -4,7 +4,7 @@
 	icon_state = "small_rune_1"
 	duration = 1 MINUTES
 	layer = LOW_SIGIL_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 
 /obj/effect/temp_visual/glowing_rune/Initialize(mapload)
 	. = ..()

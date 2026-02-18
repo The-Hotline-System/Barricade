@@ -2,7 +2,7 @@
 	icon = 'icons/mob/telegraphing/telegraph_holographic.dmi'
 	icon_state = "target_box"
 	layer = BELOW_MOB_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 	light_outer_range = 1
 	duration = 2 SECONDS
 

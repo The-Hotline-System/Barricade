@@ -231,7 +231,7 @@
 	mod.wearer.visible_message(span_warning("[mod.wearer] starts whirring!"), \
 		blind_message = span_hear("You hear a whirring sound."))
 	playsound(src, 'sound/items/modsuit/loader_charge.ogg', 75, TRUE)
-	lightning = mutable_appearance('icons/effects/effects.dmi', "electricity3", plane = GAME_PLANE)
+	lightning = mutable_appearance('icons/effects/effects.dmi', "electricity3", plane = NONVIS_PLANE)
 	mod.wearer.add_overlay(lightning)
 	balloon_alert(mod.wearer, "you start charging...")
 	var/power = launch_time

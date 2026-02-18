@@ -6,7 +6,7 @@ GLOBAL_LIST(gang_tags)
 	icon = 'icons/effects/crayondecal.dmi'
 	icon_state = "rune1"
 	gender = NEUTER
-	plane = GAME_PLANE //makes the graffiti visible over a wall.
+	plane = NONVIS_PLANE //makes the graffiti visible over a wall.
 	mergeable_decal = FALSE
 	var/do_icon_rotate = TRUE
 	var/rotation = 0

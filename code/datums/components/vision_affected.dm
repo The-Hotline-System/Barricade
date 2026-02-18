@@ -15,19 +15,8 @@
 	// Store original plane and move to VIS_PLANE
 	original_plane = A.plane
 	A.plane = VIS_PLANE
-
-	// Create a silhouette overlay using the atom's appearance
-	// For mobs, use whiteFull for uniform silhouette
-	// For items/objects, use their base appearance for recognizable shape
-	if(ismob(A))
-		mask_overlay = mutable_appearance('icons/turf/overlays.dmi', "whiteFull", layer = A.layer)
-	else
-		// Use the atom's base icon and icon_state for a lightweight silhouette
-		mask_overlay = mutable_appearance(A.icon, A.icon_state, layer = A.layer)
-		mask_overlay.dir = A.dir
-		// Copy transform data to preserve rotation, scaling, etc.
-		mask_overlay.transform = A.transform
-
+	// Use whiteFull for uniform silhouette masking.
+	mask_overlay = mutable_appearance('icons/turf/overlays.dmi', "whiteFull", layer = A.layer)
 	mask_overlay.plane = VISION_SILHOUETTES_PLANE
 	mask_overlay.alpha = 255
 	mask_overlay.blend_mode = BLEND_OVERLAY

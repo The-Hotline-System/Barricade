@@ -2,7 +2,7 @@
 	icon = 'modular_pariah/master_files/icons/mob/popup_flicks.dmi'
 	icon_state = "combat"
 	layer = FLY_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 	appearance_flags = APPEARANCE_UI_IGNORE_ALPHA | KEEP_APART
 	mouse_opacity = 0
 
