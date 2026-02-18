@@ -2,8 +2,6 @@
  *! Here be dragons.
  */
 
-#define ZMIMIC_MAX_PLANE -70
-
 #define ZMIMIC_MAX_DEPTH 10	//! The maximum depth of a single contiguous z-stack. Exceeding this will emit a warning and result in broken layering in the lower levels of that stack.
 #define SHADOWER_DARKENING_FACTOR 0.6	//! The multiplication factor for openturf shadower darkness. Lighting will be multiplied by this.
 #define SHADOWER_DARKENING_COLOR "#999999"	//! The above, but as an RGB string for lighting-less turfs.

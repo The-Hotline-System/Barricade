@@ -4,6 +4,9 @@
 		// needs to be recreated
 		clear_fullscreen(category, FALSE)
 		screens[category] = screen = new type()
+		if(istype(screen, /atom/movable/screen/fullscreen/directional))
+			var/atom/movable/screen/fullscreen/directional/dir_screen = screen
+			dir_screen.set_owner(src)
 	else if ((!severity || severity == screen.severity) && (!client || screen.screen_loc != "CENTER-7,CENTER-7" || screen.view == client.view))
 		// doesn't need to be updated
 		return screen
@@ -232,4 +235,61 @@
 	show_when_dead = TRUE
 	screen_loc = "WEST,SOUTH to EAST,NORTH"
 
-/atom/movable/screen/fullscreen/bloodlust
+
+/atom/movable/screen/fullscreen/directional
+	var/mob/owner
+
+/atom/movable/screen/fullscreen/directional/proc/set_owner(mob/new_owner)
+	if(owner)
+		UnregisterSignal(owner, COMSIG_ATOM_DIR_CHANGE)
+
+	owner = new_owner
+	if(owner)
+		RegisterSignal(owner, COMSIG_ATOM_DIR_CHANGE, PROC_REF(on_owner_dir_change))
+		dir = owner.dir
+
+/atom/movable/screen/fullscreen/directional/proc/on_owner_dir_change(atom/source, old_dir, new_dir)
+	SIGNAL_HANDLER
+	dir = new_dir
+
+/atom/movable/screen/fullscreen/directional/Destroy()
+	if(owner)
+		UnregisterSignal(owner, COMSIG_ATOM_DIR_CHANGE)
+		owner = null
+	return ..()
+
+/atom/movable/screen/fullscreen/directional/fov
+	icon = 'icons/vision_cone.dmi'
+	icon_state = "combat"
+	var/image/blocker_overlay
+
+/atom/movable/screen/fullscreen/directional/fov/set_owner(mob/new_owner)
+	. = ..()
+	if(!blocker_overlay)
+		blocker_overlay = image(icon, src, "[icon_state]_v")
+		blocker_overlay.plane = VISION_BLOCKER_PLANE
+		blocker_overlay.override = TRUE
+		overlays += blocker_overlay
+
+/atom/movable/screen/fullscreen/directional/fov/on_owner_dir_change(atom/source, old_dir, new_dir)
+	. = ..()
+	if(blocker_overlay)
+		blocker_overlay.dir = new_dir
+
+/atom/movable/screen/fullscreen/directional/fov/Destroy()
+	blocker_overlay = null
+	return ..()
+
+/mob/verb/test_fov_overlay()
+	set name = "Test FOV Overlay"
+	set category = "Debug"
+
+	overlay_fullscreen("fov_test", /atom/movable/screen/fullscreen/directional/fov)
+	to_chat(src, "<span class='notice'>FOV overlay applied. Use 'Clear FOV Overlay' to remove.</span>")
+
+/mob/verb/clear_fov_overlay()
+	set name = "Clear FOV Overlay"
+	set category = "Debug"
+
+	clear_fullscreen("fov_test")
+	to_chat(src, "<span class='notice'>FOV overlay cleared.</span>")

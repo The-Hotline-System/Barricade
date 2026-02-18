@@ -98,6 +98,9 @@
 	become_hearing_sensitive()
 	log_mob_tag("\[[tag]\] CREATED: [key_name(src)]")
 
+	// Add vision affected component for FOV masking
+	AddComponent(/datum/component/vision_affected)
+
 /**
  * Generate the tag for this mob
  *

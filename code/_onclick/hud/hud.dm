@@ -112,7 +112,7 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 */
 	hand_slots = list()
 
-	for(var/mytype in subtypesof(/atom/movable/screen/plane_master) - list(/atom/movable/screen/plane_master/rendering_plate, /atom/movable/screen/plane_master/wall_fov))
+	for(var/mytype in subtypesof(/atom/movable/screen/plane_master) - list(/atom/movable/screen/plane_master/rendering_plate))
 		var/atom/movable/screen/plane_master/instance = new mytype(null, src)
 		plane_masters["[instance.plane]"] = instance
 		instance.backdrop(mymob)

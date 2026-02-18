@@ -15,22 +15,25 @@
 Z-Mimic uses planes -70 through -80, defined elsewhere.
 Specifically: ZMIMIC_MAX_PLANE to (ZMIMIC_MAX_PLANE - ZMIMIC_MAX_DEPTH)
 */
+#define ZMIMIC_MAX_PLANE -70
+#define OPENSPACE_SHADOWER_PLANE -69  // Shadower renders above blur planes
+#define OPENSPACE_BLUR_PLANE -71
+#define OPENSPACE_BLUR_RENDER_TARGET "*OPENSPACE_BLUR_RENDER_TARGET"
 
-#define HEAT_PLANE -12
+#define HEAT_PLANE -13
 #define HEAT_RENDER_TARGET "*HEAT_RENDER_TARGET"
 #define HEAT_COMPOSITE_RENDER_TARGET "*HEAT_RENDER_TARGET_C"
 
-#define GRAVITY_PULSE_PLANE -11
+#define GRAVITY_PULSE_PLANE -12
 #define GRAVITY_PULSE_RENDER_TARGET "*GRAVPULSE_RENDER_TARGET"
 
-#define WALL_PLANE -9
-#define FLOOR_PLANE -8
+#define WALL_PLANE -11
+#define FLOOR_PLANE -10
+#define NONVIS_PLANE -9
 #define REFLECTION_PLANE -7
-
 #define GAME_PLANE -6
 
-#define FOOTSTEP_ALERT_PLANE -5.5 // evil non-integer plane haw haw haw
-
+#define FOOTSTEP_ALERT_PLANE -5
 #define REFLECTION_PLANE_ABOVE -4
 
 ///Slightly above the game plane but does not catch mouse clicks. Useful for certain visuals that should be clicked through, like seethrough trees
@@ -210,6 +213,23 @@ Specifically: ZMIMIC_MAX_PLANE to (ZMIMIC_MAX_PLANE - ZMIMIC_MAX_DEPTH)
 #define EMISSIVE_RENDER_TARGET "*EMISSIVE_PLANE"
 /// The layer you should use if you _really_ don't want an emissive overlay to be blocked.
 #define EMISSIVE_LAYER_UNBLOCKABLE 9999
+
+//---------- VISION MASKING -------------
+#define VISION_AFFECTED_RENDER_TARGET "*VISION_AFFECTED_PLANE"
+/// Plane for vision affected mobs/items
+#define VIS_PLANE -8
+/// Plane for white silhouettes of mobs/items
+#define VISION_SILHOUETTES_PLANE 152
+#define VISION_SILHOUETTES_RENDER_TARGET "*VISION_SILHOUETTES_PLANE"
+/// Plane for the FOV blocker overlay
+#define VISION_BLOCKER_PLANE 153
+#define VISION_BLOCKER_RENDER_TARGET "*VISION_BLOCKER_PLANE"
+/// Plane for exclusions - areas that should NOT be masked
+#define VISION_EXCLUSION_PLANE 154
+#define VISION_EXCLUSION_RENDER_TARGET "*VISION_EXCLUSION_PLANE"
+/// Plane for the final composite mask (silhouettes AND blocker, minus exclusions)
+#define VISION_MASK_PLANE 155
+#define VISION_MASK_RENDER_TARGET "*VISION_MASK_PLANE"
 
 ///---------------- MISC -----------------------
 

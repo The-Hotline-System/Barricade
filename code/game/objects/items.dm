@@ -327,6 +327,9 @@ DEFINE_INTERACTABLE(/obj/item)
 
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_NEW_ITEM, src)
 
+	// Add vision affected component for FOV masking
+	AddComponent(/datum/component/vision_affected)
+
 	if(LAZYLEN(embedding))
 		updateEmbedding()
 

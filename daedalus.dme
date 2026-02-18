@@ -968,6 +968,7 @@
 #include "code\datums\components\trapdoor.dm"
 #include "code\datums\components\udder.dm"
 #include "code\datums\components\unbreakable.dm"
+#include "code\datums\components\vision_affected.dm"
 #include "code\datums\components\uplink.dm"
 #include "code\datums\components\usb_port.dm"
 #include "code\datums\components\vacuum.dm"

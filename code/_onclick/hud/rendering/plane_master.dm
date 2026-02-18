@@ -42,6 +42,13 @@
 	plane = GAME_PLANE
 	blend_mode = BLEND_OVERLAY
 
+///Relays non-visible plane content back to game plane
+/atom/movable/screen/plane_master/nonvis
+	name = "non-visible plane master"
+	plane = NONVIS_PLANE
+	blend_mode = BLEND_OVERLAY
+	render_relay_plane = RENDER_PLANE_GAME
+
 /atom/movable/screen/plane_master/seethrough
 	name = "Seethrough"
 	plane = SEETHROUGH_PLANE
@@ -227,178 +234,6 @@
 	plane = ABOVE_HUD_PLANE
 	render_relay_plane = RENDER_PLANE_NON_GAME
 
-#define ATOMS_FOV_SHADOWS_RENDER_TARGET "*ATOMS_FOV_SHADOWS_PLANE"
-#define WALLS_FOV_PLANE_0_RENDER_TARGET "*WALLS_FOV_PLANE_0"
-#define WALLS_FOV_PLANE_1_RENDER_TARGET "*WALLS_FOV_PLANE_1"
-#define WALLS_FOV_PLANE_2_RENDER_TARGET "*WALLS_FOV_PLANE_2"
-#define WALLS_FOV_PLANE_3_RENDER_TARGET "*WALLS_FOV_PLANE_3"
-#define WALLS_FOV_PLANE_4_RENDER_TARGET "*WALLS_FOV_PLANE_4"
-#define WALLS_FOV_PLANE_5_RENDER_TARGET "*WALLS_FOV_PLANE_5"
-#define WALLS_FOV_PLANE_6_RENDER_TARGET "*WALLS_FOV_PLANE_6"
-#define WALLS_FOV_PLANE_7_RENDER_TARGET "*WALLS_FOV_PLANE_7"
-#define WALLS_FOV_PLANE_8_RENDER_TARGET "*WALLS_FOV_PLANE_8"
-#define WALLS_FOV_PLANE_9_RENDER_TARGET "*WALLS_FOV_PLANE_9"
-
-/atom/movable/screen/plane_master/walls
-	plane = WALL_PLANE
-	blend_mode = BLEND_OVERLAY
-
-/atom/movable/screen/plane_master/wall_fov
-	render_relay_plane = null
-	color = list(1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,2)
-
-/atom/movable/screen/plane_master/wall_fov/shadows_plane
-	name = "wall fov shadows plane"
-	plane = ATOMS_FOV_SHADOWS_PLANE
-	render_target = ATOMS_FOV_SHADOWS_RENDER_TARGET
-
-/atom/movable/screen/plane_master/wall_fov/plane0
-	name = "wall fov plane0"
-	plane = WALLS_FOV_PLANE_0
-	render_target = WALLS_FOV_PLANE_0_RENDER_TARGET
-
-/atom/movable/screen/plane_master/wall_fov/plane0/New()
-	. = ..()
-	filters += filter(type = "layer", render_source = ATOMS_FOV_SHADOWS_RENDER_TARGET, flags = FILTER_UNDERLAY)
-	filters += filter(type = "displace", icon = icon('icons/walls_fov.dmi', "1"), size = 1)
-	filters += filter(type = "alpha", render_source = ATOMS_FOV_SHADOWS_RENDER_TARGET, flags = MASK_INVERSE)
-
-/atom/movable/screen/plane_master/wall_fov/plane1
-	name = "wall fov plane1"
-	plane = WALLS_FOV_PLANE_1
-	render_target = WALLS_FOV_PLANE_1_RENDER_TARGET
-
-/atom/movable/screen/plane_master/wall_fov/plane1/New()
-	. = ..()
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_0_RENDER_TARGET, flags = FILTER_UNDERLAY)
-	filters += filter(type = "displace", icon = icon('icons/walls_fov.dmi', "1"), size = 1)
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_0_RENDER_TARGET)
-
-
-/atom/movable/screen/plane_master/wall_fov/plane2
-	name = "wall fov plane2"
-	plane = WALLS_FOV_PLANE_2
-	render_target = WALLS_FOV_PLANE_2_RENDER_TARGET
-
-/atom/movable/screen/plane_master/wall_fov/plane2/New()
-	. = ..()
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_1_RENDER_TARGET, flags = FILTER_UNDERLAY)
-	filters += filter(type = "displace", icon = icon('icons/walls_fov.dmi', "2"), size = 2)
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_1_RENDER_TARGET)
-
-
-/atom/movable/screen/plane_master/wall_fov/plane3
-	name = "wall fov plane3"
-	plane = WALLS_FOV_PLANE_3
-	render_target = WALLS_FOV_PLANE_3_RENDER_TARGET
-
-/atom/movable/screen/plane_master/wall_fov/plane3/New()
-	. = ..()
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_2_RENDER_TARGET, flags = FILTER_UNDERLAY)
-	filters += filter(type = "displace", icon = icon('icons/walls_fov.dmi', "3"), size = 4)
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_2_RENDER_TARGET)
-
-
-/atom/movable/screen/plane_master/wall_fov/plane4
-	name = "wall fov plane4"
-	plane = WALLS_FOV_PLANE_4
-	render_target = WALLS_FOV_PLANE_4_RENDER_TARGET
-
-/atom/movable/screen/plane_master/wall_fov/plane4/New()
-	. = ..()
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_3_RENDER_TARGET, flags = FILTER_UNDERLAY)
-	filters += filter(type = "displace", icon = icon('icons/walls_fov.dmi', "4"), size = 8)
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_3_RENDER_TARGET)
-
-
-/atom/movable/screen/plane_master/wall_fov/plane5
-	name = "wall fov plane5"
-	plane = WALLS_FOV_PLANE_5
-	render_target = WALLS_FOV_PLANE_5_RENDER_TARGET
-
-/atom/movable/screen/plane_master/wall_fov/plane5/New()
-	. = ..()
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_4_RENDER_TARGET, flags = FILTER_UNDERLAY)
-	filters += filter(type = "displace", icon = icon('icons/walls_fov.dmi', "5"), size = 16)
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_4_RENDER_TARGET)
-
-
-/atom/movable/screen/plane_master/wall_fov/plane6
-	name = "wall fov plane6"
-	plane = WALLS_FOV_PLANE_6
-	render_target = WALLS_FOV_PLANE_6_RENDER_TARGET
-
-/atom/movable/screen/plane_master/wall_fov/plane6/New()
-	. = ..()
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_5_RENDER_TARGET, flags = FILTER_UNDERLAY)
-	filters += filter(type = "displace", icon = icon('icons/walls_fov.dmi', "6"), size = 32)
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_5_RENDER_TARGET)
-
-
-/atom/movable/screen/plane_master/wall_fov/plane7
-	name = "wall fov plane7"
-	plane = WALLS_FOV_PLANE_7
-	render_target = WALLS_FOV_PLANE_7_RENDER_TARGET
-
-/atom/movable/screen/plane_master/wall_fov/plane7/New()
-	. = ..()
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_6_RENDER_TARGET, flags = FILTER_UNDERLAY)
-	filters += filter(type = "displace", icon = icon('icons/walls_fov.dmi', "7"), size = 64)
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_6_RENDER_TARGET)
-
-
-/atom/movable/screen/plane_master/wall_fov/plane8
-	name = "wall fov plane8"
-	plane = WALLS_FOV_PLANE_8
-	render_target = WALLS_FOV_PLANE_8_RENDER_TARGET
-
-/atom/movable/screen/plane_master/wall_fov/plane8/New()
-	. = ..()
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_7_RENDER_TARGET, flags = FILTER_UNDERLAY)
-	filters += filter(type = "displace", icon = icon('icons/walls_fov.dmi', "8"), size = 128)
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_7_RENDER_TARGET)
-
-
-/atom/movable/screen/plane_master/wall_fov/plane9
-	name = "wall fov plane9"
-	plane = WALLS_FOV_PLANE_9
-	render_relay_plane = RENDER_PLANE_GAME
-	color = null
-	// render_target = WALLS_FOV_PLANE_9_RENDER_TARGET
-
-/atom/movable/screen/plane_master/wall_fov/plane9/New()
-	. = ..()
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_8_RENDER_TARGET, flags = FILTER_UNDERLAY)
-	filters += filter(type = "displace", icon = icon('icons/walls_fov.dmi', "9"), size = 256)
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_8_RENDER_TARGET)
-	// filters += filter(type = "blur", size = 5)
-	filters += filter(type = "layer", render_source = WALLS_FOV_PLANE_8_RENDER_TARGET)
-	filters += filter(type = "blur", size = 1)
-
-/atom/movable/atom_shadow
-	name = "shadow"
-	//icon = 'icons/shadow.dmi'
-	icon = 'icons/solid_wall_mask.dmi'
-	icon_state = "shadow"
-	plane = ATOMS_FOV_SHADOWS_PLANE
-	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-
-/atom/movable/atom_shadow/door
-	icon = 'icons/obj/doors/airlocks/station/airlock_mask.dmi'
-
-/turf/closed/wall/Initialize(mapload)
-	. = ..()
-	new /atom/movable/atom_shadow(src)
-
-/turf/closed/wall
-	plane = WALL_PLANE
-
-/turf/closed/wall/smooth_icon()
-	. = ..()
-	var/atom/movable/atom_shadow/shadow = locate(/atom/movable/atom_shadow) in src
-	shadow?.icon_state = "wall-[smoothing_junction]"
-
-
 /atom/movable/screen/plane_master/reflection
 	name = "reflection plane master"
 	plane = REFLECTION_PLANE
@@ -434,6 +269,7 @@
 	plane = MANUAL_REFLECTIVE_PLANE
 	render_target = MANUAL_REFLECTIVE_PLANE_RENDER_TARGET
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	render_relay_plane = RENDER_PLANE_GAME  // Relay to game plane for click detection
 
 /atom/movable/screen/plane_master/manual_reflection/defilter
 	name = "defilter manual reflection plane master"
@@ -445,6 +281,8 @@
 	. = ..()
 	// Mask manual reflections to only show on shiny tiles
 	add_filter("mask_to_shiny", 1, alpha_mask_filter(render_source = REFLECTIVE_ALL_PLANE_RENDER_TARGET))
+	// Then mask them by the blocker - don't show reflections where blocker is white
+	add_filter("mask_by_blocker", 2, alpha_mask_filter(render_source = VISION_BLOCKER_RENDER_TARGET, flags = MASK_INVERSE))
 
 /atom/movable/screen/plane_master/manual_reflection_mask
 	name = "manual reflection mask plane master"
@@ -498,3 +336,132 @@
 	name = "reflective displacement plane master"
 	plane = REFLECTIVE_DISPLACEMENT_PLANE
 	render_target = REFLECTIVE_DISPLACEMENT_PLANE_RENDER_TARGET
+
+
+// -- OPENSPACE SHADOWER PLANE MASTER --
+
+/// Handles the lighting multiplier/shadower that darkens openspace areas
+/// This renders above the blurred mimic content
+/atom/movable/screen/plane_master/openspace_shadower
+	name = "openspace shadower plane master"
+	plane = OPENSPACE_SHADOWER_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	blend_mode = BLEND_OVERLAY
+	render_relay_plane = RENDER_PLANE_GAME
+
+// -- OPENSPACE BLUR PLANE MASTERS --
+
+/// Applies blur to openspace mimicked content (turfs, mobs, objs)
+/// Mimics render to this plane, blur is applied, then relayed to game
+/// Base plane for depth 0
+/atom/movable/screen/plane_master/openspace_blur
+	name = "openspace blur plane master"
+	plane = OPENSPACE_BLUR_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	blend_mode = BLEND_OVERLAY
+	render_relay_plane = RENDER_PLANE_GAME
+
+/atom/movable/screen/plane_master/openspace_blur/Initialize(mapload)
+	. = ..()
+
+/atom/movable/screen/plane_master/openspace_blur/backdrop(mob/mymob)
+	. = ..()
+	relay_render_to_plane(mymob, render_relay_plane)
+	add_filter("mimic_blur", 1, gauss_blur_filter(0.6)) // BARRICADE EDIT - Z LEVEL BLURRING VALUE, TWEAK THIS.
+
+// Create plane masters for each depth level (up to ZMIMIC_MAX_DEPTH)
+/atom/movable/screen/plane_master/openspace_blur/depth1
+	name = "openspace blur depth 1"
+	plane = OPENSPACE_BLUR_PLANE - 1
+
+/atom/movable/screen/plane_master/openspace_blur/depth2
+	name = "openspace blur depth 2"
+	plane = OPENSPACE_BLUR_PLANE - 2
+
+/atom/movable/screen/plane_master/openspace_blur/depth3
+	name = "openspace blur depth 3"
+	plane = OPENSPACE_BLUR_PLANE - 3
+
+/atom/movable/screen/plane_master/openspace_blur/depth4
+	name = "openspace blur depth 4"
+	plane = OPENSPACE_BLUR_PLANE - 4
+
+/atom/movable/screen/plane_master/openspace_blur/depth5
+	name = "openspace blur depth 5"
+	plane = OPENSPACE_BLUR_PLANE - 5
+
+/atom/movable/screen/plane_master/openspace_blur/depth6
+	name = "openspace blur depth 6"
+	plane = OPENSPACE_BLUR_PLANE - 6
+
+/atom/movable/screen/plane_master/openspace_blur/depth7
+	name = "openspace blur depth 7"
+	plane = OPENSPACE_BLUR_PLANE - 7
+
+/atom/movable/screen/plane_master/openspace_blur/depth8
+	name = "openspace blur depth 8"
+	plane = OPENSPACE_BLUR_PLANE - 8
+
+/atom/movable/screen/plane_master/openspace_blur/depth9
+	name = "openspace blur depth 9"
+	plane = OPENSPACE_BLUR_PLANE - 9
+
+/atom/movable/screen/plane_master/openspace_blur/depth10
+	name = "openspace blur depth 10"
+	plane = OPENSPACE_BLUR_PLANE - 10
+
+// -- VISION MASKING PLANE MASTERS --
+
+/// Plane for vision-affected atoms that will be masked by FOV blockers
+/atom/movable/screen/plane_master/vision_affected
+	name = "vision affected plane master"
+	plane = VIS_PLANE
+	render_target = VISION_AFFECTED_RENDER_TARGET
+	blend_mode = BLEND_OVERLAY
+	render_relay_plane = RENDER_PLANE_GAME
+
+/atom/movable/screen/plane_master/vision_affected/Initialize(mapload)
+	. = ..()
+	// Apply vision masking to hide mobs/items covered by FOV blocker
+	add_filter("fov_vision_masking", 1, alpha_mask_filter(render_source = VISION_MASK_RENDER_TARGET, flags = MASK_INVERSE))
+
+/// Plane for white silhouettes of mobs/items
+/atom/movable/screen/plane_master/vision_silhouettes
+	name = "vision silhouettes plane master"
+	plane = VISION_SILHOUETTES_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	render_target = VISION_SILHOUETTES_RENDER_TARGET
+	render_relay_plane = null
+
+/// Plane for the FOV blocker overlay
+/atom/movable/screen/plane_master/vision_blocker
+	name = "vision blocker plane master"
+	plane = VISION_BLOCKER_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	render_target = VISION_BLOCKER_RENDER_TARGET
+	render_relay_plane = null
+
+/// Plane for exclusions - white areas here will NOT be masked by FOV
+/atom/movable/screen/plane_master/vision_exclusion
+	name = "vision exclusion plane master"
+	plane = VISION_EXCLUSION_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	render_target = VISION_EXCLUSION_RENDER_TARGET
+	render_relay_plane = null
+
+/// Plane for the final composite mask - silhouettes masked by blocker, minus exclusions
+/atom/movable/screen/plane_master/vision_mask
+	name = "vision mask plane master"
+	plane = VISION_MASK_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	render_target = VISION_MASK_RENDER_TARGET
+	render_relay_plane = null
+
+/atom/movable/screen/plane_master/vision_mask/Initialize(mapload)
+	. = ..()
+	// Layer the silhouettes first
+	add_filter("add_silhouettes", 1, layering_filter(render_source = VISION_SILHOUETTES_RENDER_TARGET))
+	// Then mask them by the blocker - only show silhouettes where blocker is white
+	add_filter("mask_by_blocker", 2, alpha_mask_filter(render_source = VISION_BLOCKER_RENDER_TARGET))
+	// Remove areas marked as exclusions (inverse mask - hide where exclusions are white)
+	add_filter("remove_exclusions", 3, alpha_mask_filter(render_source = VISION_EXCLUSION_RENDER_TARGET, flags = MASK_INVERSE))

@@ -10,7 +10,7 @@ TYPEINFO_DEF(/atom)
 
 /atom
 	layer = TURF_LAYER
-	plane = GAME_PLANE
+	plane = NONVIS_PLANE
 	appearance_flags = TILE_BOUND|LONG_GLIDE
 
 	/// Has this atom's constructor ran?

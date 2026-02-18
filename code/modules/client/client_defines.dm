@@ -148,6 +148,11 @@
 	///world.timeofday they connected
 	var/connection_timeofday
 
+	/// FOV exclusion screen object for the client's own mob
+	var/atom/movable/screen/fov_exclusion/fov_exclusion_obj
+	/// FOV exclusion screen object for the client's mob reflection (one tile south)
+	var/atom/movable/screen/fov_exclusion/fov_exclusion_reflection
+
 	///Used for limiting the rate of topic sends by the client to avoid abuse
 	var/list/topiclimiter
 	///Used for limiting the rate of clicks sends by the client to avoid abuse

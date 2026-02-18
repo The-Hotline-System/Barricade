@@ -29,6 +29,21 @@
 	var/obj/effect/reflection_visual/reflective_mask
 	var/obj/effect/reflection_visual/reflective_icon
 
+/// Recursively removes overlays on vision-related planes from an appearance
+/proc/remove_vision_planes_from_appearance(mutable_appearance/appearance)
+	for(var/mutable_appearance/overlay as anything in appearance.overlays)
+		// Remove overlays on vision planes
+		if(overlay.plane == VISION_SILHOUETTES_PLANE || overlay.plane == VISION_BLOCKER_PLANE)
+			appearance.overlays -= overlay
+			continue
+
+		// Recursively process nested overlays
+		if(length(overlay.overlays))
+			appearance.overlays -= overlay
+			appearance.overlays += .(new /mutable_appearance(overlay))
+
+	return appearance
+
 /obj/effect/reflection_visual
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	anchored = TRUE
@@ -60,7 +75,9 @@
 /mob/living/proc/create_reflection()
 	//Add custom reflection image - this should copy full appearance
 	reflective_icon = new /obj/effect/reflection_visual/reflection(src)
-	reflective_icon.appearance = appearance
+	var/mutable_appearance/clean_appearance = new /mutable_appearance(src)
+	clean_appearance = remove_vision_planes_from_appearance(clean_appearance)
+	reflective_icon.appearance = clean_appearance
 	reflective_icon.dir = dir
 	//transform stuff
 	var/matrix/n_transform = reflective_icon.transform
@@ -93,8 +110,10 @@
 		create_reflection()
 		return
 
-	// Update reflection icon with full appearance
-	reflective_icon.appearance = appearance
+	// Update reflection icon with full appearance, excluding vision planes
+	var/mutable_appearance/clean_appearance = new /mutable_appearance(src)
+	clean_appearance = remove_vision_planes_from_appearance(clean_appearance)
+	reflective_icon.appearance = clean_appearance
 	reflective_icon.vis_flags = VIS_INHERIT_DIR
 	reflective_icon.plane = MANUAL_REFLECTIVE_PLANE
 	reflective_icon.pixel_y = -32

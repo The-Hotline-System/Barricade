@@ -76,7 +76,7 @@
 	icon = LIGHTING_ICON
 	icon_state = "lighting_transparent"
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	plane = ZMIMIC_MAX_PLANE
+	plane = OPENSPACE_SHADOWER_PLANE  // Render above blur planes
 	layer = MIMICKED_LIGHTING_LAYER
 	blend_mode = BLEND_MULTIPLY
 	color = SHADOWER_DARKENING_COLOR
@@ -97,7 +97,7 @@
 	ASSERT(LO != null)
 	appearance = LO.current_underlay
 	layer = MIMICKED_LIGHTING_LAYER
-	plane = ZMIMIC_MAX_PLANE
+	plane = OPENSPACE_SHADOWER_PLANE  // Keep on shadower plane
 	blend_mode = BLEND_MULTIPLY
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	var/turf/Tloc = loc
@@ -132,7 +132,7 @@
 
 /// Object used to hold a mimiced atom's appearance.
 /atom/movable/openspace/mimic
-	plane = ZMIMIC_MAX_PLANE
+	plane = OPENSPACE_BLUR_PLANE  // Render mimics to the blur plane instead
 	var/atom/movable/associated_atom
 	var/depth
 	var/queued = 0
@@ -246,7 +246,7 @@
 		depth = min(SSzcopy.zlev_maximums[associated_atom.z] - associated_atom.z, ZMIMIC_MAX_DEPTH)
 		override_depth = depth
 
-	plane = ZMIMIC_MAX_PLANE - depth
+	plane = OPENSPACE_BLUR_PLANE - depth  // Use blur plane instead of ZMIMIC_MAX_PLANE
 
 	bound_overlay?.z_shift()
 
@@ -254,7 +254,7 @@
 
 // This thing holds the mimic appearance for non-OVERWRITE turfs.
 /atom/movable/openspace/turf_proxy
-	plane = ZMIMIC_MAX_PLANE
+	plane = OPENSPACE_BLUR_PLANE  // Render turf proxies to blur plane
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	zmm_flags = ZMM_IGNORE  // Only one of these should ever be visible at a time, the mimic logic will handle that.
 
@@ -276,7 +276,7 @@
 
 // A type for copying non-overwrite turfs' self-appearance.
 /atom/movable/openspace/turf_mimic
-	plane = ZMIMIC_MAX_PLANE	// These *should* only ever be at the top?
+	plane = OPENSPACE_BLUR_PLANE  // Render turf mimics to blur plane
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	var/turf/delegate
 
