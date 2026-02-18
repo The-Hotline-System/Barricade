@@ -428,16 +428,18 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 		// Animate to the target color
 		animate(M.client, color = target_color, time = transition_time)
 	else
-		// No transition, just add and update
+		// No transition, add to list first
 		if(!M.client_colours)
 			M.client_colours = list()
 		BINARY_INSERT(CC, M.client_colours, /datum/client_colour, CC, priority, COMPARE_KEY)
 		M.client_colours_by_source[src] = CC
-		M.update_client_colour()
 
-		// Remove global colors immediately if no transition
+		// Remove global colors immediately if replaceglobal
 		if(replaceglobal)
 			remove_global_colors(M)
+
+		// Update client color immediately (no animation)
+		M.update_client_colour()
 
 	fire_output("OnApply", M, src)
 
@@ -509,14 +511,20 @@ SetMode - Changes the mode at runtime (param: "global", "input", "brush", "manua
 			var/timer_id = addtimer(CALLBACK(src, PROC_REF(restore_global_colors), M, null, TRUE), transition_time)
 			M.pending_global_cc_restore_timer = timer_id
 	else
-		qdel(CC)
+		// No transition - remove from list first
+		M.client_colours -= CC
 		if(M.client_colours_by_source)
 			M.client_colours_by_source -= src
-		M.update_client_colour()
 
-		// Restore global colors immediately if no transition
+		// Restore global colors immediately if replaceglobal (before deleting CC)
 		if(replaceglobal)
 			restore_global_colors(M, null, FALSE)
+
+		// Delete the CC datum
+		qdel(CC)
+
+		// Update client color immediately (no animation)
+		M.update_client_colour()
 
 	fire_output("OnRemove", M, src)
 
