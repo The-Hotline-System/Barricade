@@ -2358,7 +2358,13 @@ TYPEINFO_DEF(/atom)
 
 ///Reset plane and layer values to their defaults.
 /atom/proc/reset_plane_and_layer()
-	plane = initial(plane)
+	// Check if this atom has a vision_affected component
+	var/datum/component/vision_affected/vision_comp = GetComponent(/datum/component/vision_affected)
+	if(vision_comp)
+		// If vision affected, restore to VIS_PLANE instead of initial plane
+		plane = VIS_PLANE
+	else
+		plane = initial(plane)
 	layer = initial(layer)
 
 ///returns how much the object blocks an explosion. Used by subtypes.

@@ -5,6 +5,11 @@
 	if(look_updown)
 		stop_looking()
 	update_turf_movespeed(loc)
+
+	// Update grab positions when the assailant moves
+	if(length(active_grabs))
+		for(var/obj/item/hand_item/grab/G as anything in active_grabs)
+			G.adjust_position(skip_adjacency_check = TRUE)
 	if(HAS_TRAIT(src, TRAIT_NEGATES_GRAVITY))
 		if(!isgroundlessturf(loc))
 			ADD_TRAIT(src, TRAIT_IGNORING_GRAVITY, IGNORING_GRAVITY_NEGATION)

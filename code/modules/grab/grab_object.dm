@@ -444,8 +444,12 @@
 /obj/item/hand_item/grab/proc/resolve_openhand_attack()
 	return current_grab.resolve_openhand_attack(src)
 
-/obj/item/hand_item/grab/proc/adjust_position()
-	if(QDELETED(assailant) || QDELETED(affecting) || !assailant.Adjacent(affecting))
+/obj/item/hand_item/grab/proc/adjust_position(skip_adjacency_check = FALSE)
+	if(QDELETED(assailant) || QDELETED(affecting))
+		qdel(src)
+		return FALSE
+
+	if(!skip_adjacency_check && !assailant.Adjacent(affecting))
 		qdel(src)
 		return FALSE
 
@@ -457,7 +461,18 @@
 		affecting.setDir(assailant.dir)
 
 	affecting.update_offsets()
-	affecting.reset_plane_and_layer()
+
+	// Determine relative position and adjust plane/layer accordingly
+	var/relative_dir = get_dir(affecting, assailant)
+	if(relative_dir & NORTH)
+		// Assailant is to the north, draw affecting over
+		draw_affecting_over()
+	else if(relative_dir & SOUTH)
+		// Assailant is to the south, draw affecting under
+		draw_affecting_under()
+	else
+		// For east/west or no clear direction, use default reset
+		affecting.reset_plane_and_layer()
 
 /obj/item/hand_item/grab/proc/move_victim_towards(atom/destination)
 	if(current_grab.same_tile)
