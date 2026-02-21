@@ -48,6 +48,8 @@
 #define COMSIG_CLIENT_SET_EYE "client_set_eye"
 /// from base of /datum/view_data/proc/afterViewChange() : (view)
 #define COMSIG_VIEWDATA_UPDATE "viewdata_update"
+/// from base of /mob/proc/set_intent(): (old_intent, new_intent)
+#define COMSIG_MOB_INTENT_CHANGED "mob_intent_changed"
 
 
 ///from mind/transfer_to. Sent to the receiving mob.

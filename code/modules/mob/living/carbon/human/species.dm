@@ -1134,6 +1134,11 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 	if(!istype(M)) //sanity check for drones.
 		return
+
+	// If attacker has uses_intents enabled, skip default help/harm/disarm behaviors
+	if(M.uses_intents)
+		return
+
 	if(M.mind)
 		attacker_style = M.mind.martial_art
 	if((M != H) && M.combat_mode && H.check_block(M, 0, M.name, attack_type = UNARMED_ATTACK))

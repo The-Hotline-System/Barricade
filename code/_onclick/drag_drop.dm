@@ -91,7 +91,9 @@
 /client/MouseDown(datum/object, location, control, params)
 	mouse_down = TRUE
 	mob.update_mouse_pointer()
-
+	mob.face_atom(object)
+	mob.tempfixeye = TRUE
+	mob.set_dir_on_move = 0
 	if(QDELETED(object)) //Yep, you can click on qdeleted things before they have time to nullspace. Fun.
 		return
 
@@ -110,6 +112,8 @@
 
 /client/MouseUp(object, location, control, params)
 	mouse_down = FALSE
+	mob.tempfixeye = FALSE
+	mob.set_dir_on_move = 1
 	mob.update_mouse_pointer()
 
 	if(SEND_SIGNAL(src, COMSIG_CLIENT_MOUSEUP, object, location, control, params) & COMPONENT_CLIENT_MOUSEUP_INTERCEPT)
@@ -163,6 +167,7 @@
 
 /client/MouseDrag(src_object,atom/over_object,src_location,over_location,src_control,over_control,params)
 	var/list/modifiers = params2list(params)
+	mob.face_atom(over_object)
 	if (LAZYACCESS(modifiers, MIDDLE_CLICK))
 		if (src_object && src_location != over_location)
 			middragtime = world.time

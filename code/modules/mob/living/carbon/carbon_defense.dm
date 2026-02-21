@@ -443,7 +443,9 @@
 		return
 
 	if(helper == src)
-		check_self_for_injuries()
+		// If uses_intents is enabled, skip self-injury check
+		if(!uses_intents)
+			check_self_for_injuries()
 		return
 
 	if(body_position == LYING_DOWN)

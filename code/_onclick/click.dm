@@ -454,6 +454,11 @@
 		return FALSE
 
 	var/mob/living/user_living = user
+
+	// If user has uses_intents enabled, skip default grab behavior
+	if(user_living.uses_intents)
+		return FALSE
+
 	if(user_living.apply_martial_art(src, null, is_grab=TRUE) == MARTIAL_ATTACK_SUCCESS)
 		user_living.changeNext_move(CLICK_CD_MELEE)
 		return TRUE
@@ -470,6 +475,11 @@
 		return FALSE
 
 	var/mob/living/carbon/human/human_user = user
+
+	// If user has uses_intents enabled, skip default grab behavior
+	if(human_user.uses_intents)
+		return FALSE
+
 	// If they're wielding a grab item, do the normal click chain.
 	var/obj/item/hand_item/grab/G = user.get_active_held_item()
 	if(isgrab(G))

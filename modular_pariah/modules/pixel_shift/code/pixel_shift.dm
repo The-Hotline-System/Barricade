@@ -35,6 +35,12 @@
 		is_shifted = FALSE
 		pixel_x = body_position_pixel_x_offset + base_pixel_x
 		pixel_y = body_position_pixel_y_offset + base_pixel_y
+
+		// Reset client view offset
+		if(client)
+			client.pixel_x = 0
+			client.pixel_y = 0
+
 		UPDATE_OO_IF_PRESENT
 
 /mob/proc/pixel_shift(direction)
@@ -43,6 +49,9 @@
 /mob/living/pixel_shift(direction)
 	if(!canface())
 		return FALSE
+
+	var/old_pixel_x = pixel_x
+	var/old_pixel_y = pixel_y
 
 	switch(direction)
 		if(NORTH)
@@ -61,5 +70,12 @@
 			if(pixel_x >= -16 + base_pixel_x)
 				pixel_x--
 				is_shifted = TRUE
+
+	// Update client view offset to match mob pixel shift
+	if(client && is_shifted)
+		var/delta_x = pixel_x - old_pixel_x
+		var/delta_y = pixel_y - old_pixel_y
+		client.pixel_x += delta_x
+		client.pixel_y += delta_y
 
 	UPDATE_OO_IF_PRESENT

@@ -54,12 +54,35 @@
 	if(sig_return & COMPONENT_SKIP_ATTACK_STEP)
 		return ATTACK_CHAIN_CONTINUE
 
+	// If uses_intents is enabled and target is a living mob, try to use the intent system
+	if(uses_intents && a_intent && isliving(attack_target))
+		var/is_right_click = LAZYACCESS(modifiers, RIGHT_CLICK)
+		var/intent_handled = FALSE
+
+		if(proximity_flag)
+			// Close range interaction
+			if(is_right_click)
+				intent_handled = try_intent_interaction(attack_target, modifiers, proximity_flag, is_right_click)
+			else
+				intent_handled = try_intent_interaction(attack_target, modifiers, proximity_flag, is_right_click)
+		else
+			// Ranged interaction
+			intent_handled = try_intent_interaction(attack_target, modifiers, proximity_flag, is_right_click)
+
+		// If intent handled the interaction, we're done
+		if(intent_handled)
+			return ATTACK_CHAIN_SUCCESS
+
 	if(!right_click_attack_chain(attack_target, modifiers))
 		resolve_unarmed_attack(attack_target, modifiers)
 
+	return ATTACK_CHAIN_SUCCESS
+
 /mob/living/carbon/human/UnarmedAttack(atom/attack_target, proximity_flag, list/modifiers)
 	if(src == attack_target && !combat_mode && !HAS_TRAIT(src, TRAIT_HANDS_BLOCKED))
-		check_self_for_injuries()
+		// If uses_intents is enabled, skip self-injury check
+		if(!uses_intents)
+			check_self_for_injuries()
 		return ATTACK_CHAIN_SUCCESS
 
 	return ..()
@@ -276,3 +299,111 @@
 */
 /mob/dead/new_player/ClickOn()
 	return
+
+/**
+ * Try to use the current intent to interact with a target
+ *
+ * Arguments:
+ * * target - The atom being targeted
+ * * modifiers - Click modifiers list
+ * * proximity - Whether this is a close range or ranged interaction
+ * * is_right_click - Whether this is a right click
+ *
+ * Returns: TRUE if the intent handled the interaction, FALSE otherwise
+ */
+/mob/living/proc/try_intent_interaction(atom/target, list/modifiers, proximity, is_right_click)
+	if(!a_intent)
+		return FALSE
+
+	// Route to the appropriate intent method based on the intent type
+	switch(a_intent.type)
+		if(/datum/intent/help)
+			return try_help_intent(target, modifiers, proximity, is_right_click)
+		if(/datum/intent/disarm)
+			return try_disarm_intent(target, modifiers, proximity, is_right_click)
+		if(/datum/intent/grab)
+			return try_grab_intent(target, modifiers, proximity, is_right_click)
+		if(/datum/intent/harm)
+			return try_harm_intent(target, modifiers, proximity, is_right_click)
+
+	return FALSE
+
+/**
+ * Handle help intent interaction
+ */
+/mob/living/proc/try_help_intent(atom/target, list/modifiers, proximity, is_right_click)
+	if(!proximity || is_right_click)
+		return FALSE
+
+	if(!iscarbon(src) || !iscarbon(target))
+		return FALSE
+
+	var/mob/living/carbon/carbon_target = target
+	carbon_target.help_shake_act(src)
+	return TRUE
+
+/**
+ * Handle disarm intent interaction
+ */
+/mob/living/proc/try_disarm_intent(atom/target, list/modifiers, proximity, is_right_click)
+	if(!proximity || is_right_click)
+		return FALSE
+
+	if(!iscarbon(src) || !iscarbon(target))
+		return FALSE
+
+	var/mob/living/carbon/carbon_user = src
+	var/mob/living/carbon/carbon_target = target
+	carbon_user.disarm(carbon_target)
+	return TRUE
+
+/**
+ * Handle grab intent interaction
+ */
+/mob/living/proc/try_grab_intent(atom/target, list/modifiers, proximity, is_right_click)
+	if(!proximity || is_right_click)
+		return FALSE
+
+	if(!isliving(target))
+		return FALSE
+
+	var/mob/living/living_target = target
+	if(try_make_grab(living_target))
+		return TRUE
+
+	return FALSE
+
+/**
+ * Handle harm intent interaction
+ */
+/mob/living/proc/try_harm_intent(atom/target, list/modifiers, proximity, is_right_click)
+	if(!proximity || is_right_click)
+		return FALSE
+
+	if(!isliving(target))
+		return FALSE
+
+	var/mob/living/living_target = target
+
+	// Perform unarmed attack based on mob type
+	if(ishuman(src))
+		var/mob/living/carbon/human/human_user = src
+		// Check for martial arts
+		if(human_user.dna?.species)
+			var/datum/martial_art/martial = human_user.mind?.martial_art
+			if(martial?.harm_act(human_user, living_target) == MARTIAL_ATTACK_SUCCESS)
+				return TRUE
+
+		// Default punch behavior - call species attack
+		if(human_user.dna?.species)
+			human_user.dna.species.spec_attack_hand(human_user, living_target, null, modifiers)
+			return TRUE
+	else if(iscarbon(src))
+		// Paw attack for non-humans
+		return living_target.attack_paw(src, modifiers)
+	else
+		// Generic animal attack
+		living_target.attack_animal(src, modifiers)
+		return TRUE
+
+	return FALSE

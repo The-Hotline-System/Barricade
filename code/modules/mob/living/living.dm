@@ -190,10 +190,10 @@
 		if(HAS_TRAIT(L, TRAIT_PUSHIMMUNE))
 			return TRUE
 
-	//If they're a human, and they're not in help intent, block pushing
+	//If they're a human, check their move_resist against our move_force.
 	if(ishuman(M))
 		var/mob/living/carbon/human/human = M
-		if(human.combat_mode)
+		if(human.move_resist >= src.move_force)
 			return TRUE
 
 	//if they are a cyborg, and they're alive and in combat mode, block pushing
@@ -209,6 +209,24 @@
 				return TRUE
 
 /mob/living/proc/can_mobswap_with(mob/other)
+	if (HAS_TRAIT(other, TRAIT_NOMOBSWAP) || HAS_TRAIT(src, TRAIT_NOMOBSWAP))
+		return FALSE
+
+	var/too_strong = other.move_resist > move_force
+
+	// They cannot move, see if we can push through them
+	if (too_strong)
+		return FALSE
+
+	// We are pulling them and can move through
+	if (is_grabbing(other) && !too_strong)
+		return TRUE
+
+	// Prevent mobswapping as a rule of thumb.
+	return FALSE
+
+/*
+/mob/living/proc/can_mobswap_with_old(mob/other) // the old helper proc
 	if (HAS_TRAIT(other, TRAIT_NOMOBSWAP) || HAS_TRAIT(src, TRAIT_NOMOBSWAP))
 		return FALSE
 
@@ -247,6 +265,7 @@
 
 	// Else, sure, let us pass
 	return TRUE
+*/
 
 /mob/living/get_photo_description(obj/item/camera/camera)
 	var/list/mob_details = list()
@@ -2187,13 +2206,24 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 	if(client.perspective != MOB_PERSPECTIVE)
 		stop_looking()
 		return
-	if(client.pixel_x || client.pixel_y)
-		stop_looking()
-		return
 	if(!can_look_up())
 		return
 	if(!istype(T))
 		return
+
+	// Check if already distance looking - if so, reset to normal view
+	if(client)
+		var/shift_x = 0
+		var/shift_y = 0
+		if(is_shifted)
+			shift_x = pixel_x - body_position_pixel_x_offset - base_pixel_x
+			shift_y = pixel_y - body_position_pixel_y_offset - base_pixel_y
+
+		// If client view is different from just the pixel shift, we're already looking into distance
+		if(client.pixel_x != shift_x || client.pixel_y != shift_y)
+			stop_looking()
+			return
+
 	changeNext_move(CLICK_CD_MELEE)
 	var/_x = T.x-loc.x
 	var/_y = T.y-loc.y
@@ -2204,7 +2234,16 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 	// hide_cone()
 	var/ttime = 10
 	visible_message("<span class='info'>[src] looks into the distance.</span>")
-	animate(client, pixel_x = world.icon_size*_x, pixel_y = world.icon_size*_y, ttime)
+
+	// Calculate target position including pixel shift offset
+	var/target_x = world.icon_size*_x
+	var/target_y = world.icon_size*_y
+	if(is_shifted && client)
+		// Add current pixel shift to the look distance
+		target_x += (pixel_x - body_position_pixel_x_offset - base_pixel_x)
+		target_y += (pixel_y - body_position_pixel_y_offset - base_pixel_y)
+
+	animate(client, pixel_x = target_x, pixel_y = target_y, ttime)
 //	RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(stop_looking))
 	// update_cone_show()
 
@@ -2212,9 +2251,6 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 	return
 
 /mob/living/look_down(turf/T)
-	if(client.pixel_x || client.pixel_y)
-		stop_looking()
-		return
 	if(client.perspective != MOB_PERSPECTIVE)
 		stop_looking()
 		return
@@ -2237,10 +2273,18 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 
 /mob/living/proc/stop_looking()
 	look_updown = FALSE
-	animate(client, pixel_x = 0, pixel_y = 0, 2, easing = SINE_EASING)
+
+	// Calculate pixel shift offset to return to
+	var/shift_x = 0
+	var/shift_y = 0
+	if(is_shifted)
+		shift_x = pixel_x - body_position_pixel_x_offset - base_pixel_x
+		shift_y = pixel_y - body_position_pixel_y_offset - base_pixel_y
+
+	animate(client, pixel_x = shift_x, pixel_y = shift_y, 2, easing = SINE_EASING)
 	if(client)
-		client.pixel_x = 0
-		client.pixel_y = 0
+		client.pixel_x = shift_x
+		client.pixel_y = shift_y
 	reset_perspective()
 	// update_cone_show()
 //	UnregisterSignal(src, COMSIG_MOVABLE_PRE_MOVE)

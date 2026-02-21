@@ -159,6 +159,9 @@
 		return
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
+		// If user has uses_intents enabled, skip default behaviors
+		if(H.uses_intents)
+			return
 		dna.species.spec_attack_hand(H, src, null, modifiers)
 
 /mob/living/carbon/human/attack_paw(mob/living/carbon/human/user, list/modifiers)
@@ -166,6 +169,10 @@
 	var/obj/item/bodypart/affecting = get_bodypart(ran_zone(dam_zone))
 	if(!affecting)
 		affecting = get_bodypart(BODY_ZONE_CHEST)
+
+	// If user has uses_intents enabled, skip default help/harm/disarm behaviors
+	if(user.uses_intents)
+		return FALSE
 
 	var/martial_result = user.apply_martial_art(src, modifiers)
 	if (martial_result != MARTIAL_ATTACK_INVALID)

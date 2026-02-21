@@ -572,3 +572,12 @@
 	if(new_turf && (istype(new_turf, /turf/cordon) || is_secret_level(new_turf.z)) && !client?.holder)
 		return
 	return ..()
+
+/mob/proc/toggle_eye_intent(mob/user) //clicking the fixeye button either makes you fixeye or clears your target
+	if(fixedeye)
+		fixedeye = 0
+		if(!tempfixeye)
+			user.set_dir_on_move = 1
+	else
+		fixedeye = 1
+		user.set_dir_on_move = 0

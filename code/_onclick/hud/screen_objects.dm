@@ -416,10 +416,25 @@
 	if(usr.stat == CONSCIOUS)
 		usr.dropItemToGround(usr.get_active_held_item())
 
+/atom/movable/screen/fixeye
+	name = "fixeye"
+	icon = 'icons/hud/screen_midnight.dmi'
+	icon_state = "fixeye"
+
+/atom/movable/screen/parrydodge
+	name = "parrydodge"
+	icon = 'icons/hud/screen_midnight.dmi'
+	icon_state = "parry"
+
+/atom/movable/screen/surrender
+	name = "surrender"
+	icon = 'icons/hud/screen_midnight.dmi'
+	icon_state = "surrender"
+
 /atom/movable/screen/combattoggle
 	name = "toggle combat mode"
 	icon = 'icons/hud/screen_midnight.dmi'
-	icon_state = "help"
+	icon_state = "combat0"
 	screen_loc = ui_combat_toggle
 
 /atom/movable/screen/combattoggle/Initialize(mapload)
@@ -440,11 +455,10 @@
 	var/mob/living/user = hud?.mymob
 	if(!istype(user) || !user.client)
 		return ..()
-
-	if(user.client.keys_held["Ctrl"])
-		icon_state = "grab"
-	else
-		icon_state = user.combat_mode ? "harm" : "help" //Treats the combat_mode
+	// if(user.client.keys_held["Ctrl"])
+	//	icon_state = "grab"
+	// else
+	icon_state = user.combat_mode ? "combat1" : "combat0" //Treats the combat_mode
 	return ..()
 
 //Version of the combat toggle with the flashy overlay
@@ -544,7 +558,7 @@
 /atom/movable/screen/rest
 	name = "rest"
 	icon = 'icons/hud/screen_midnight.dmi'
-	icon_state = "act_rest"
+	icon_state = "act_rest0"
 	base_icon_state = "act_rest"
 	plane = HUD_PLANE
 
@@ -560,7 +574,7 @@
 	var/mob/living/user = hud?.mymob
 	if(!istype(user))
 		return ..()
-	icon_state = "[base_icon_state][user.resting ? 0 : null]"
+	icon_state = "[base_icon_state][user.resting ? 0 : 1]"
 	return ..()
 
 /atom/movable/screen/storage

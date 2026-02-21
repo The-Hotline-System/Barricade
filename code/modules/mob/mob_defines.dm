@@ -121,6 +121,30 @@
 	/// How many ticks this mob has been over reating
 	var/overeatduration = 0 // How long this guy is overeating //Carbon
 
+	/// Fixedeye
+	var/fixedeye = FALSE
+	var/tempfixeye = FALSE //targetting
+	/// The current intent of the mob
+	var/uses_intents = TRUE // Makes the mob stop using the intents system if false
+	var/datum/intent/a_intent = INTENT_HELP//Living
+	var/datum/intent/o_intent = INTENT_HELP
+	var/datum/rmb_intent/rmb_intent //Living
+	var/datum/intent/used_intent
+	var/datum/intent/mmb_intent
+	var/datum/intent/used_rmb_intent
+	/// List of possible intents a mob can have
+	var/list/possible_mmb_intents = list()
+	var/list/possible_spell_intents = list()
+	var/list/possible_a_intents = list()//Living
+	var/list/possible_offhand_intents = list()//Living
+	var/list/possible_rmb_intents = list()
+	var/list/base_intents = list() //bare hand intents
+	var/l_index = 1
+	var/r_index = 1
+	var/r_ua_index = 1
+	var/l_ua_index = 1
+	var/oactive = FALSE //offhand active
+
 	/// The movement intent of the mob (run/wal)
 	var/m_intent = MOVE_INTENT_RUN//Living
 
