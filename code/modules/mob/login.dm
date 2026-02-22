@@ -69,9 +69,6 @@
 
 	SEND_SIGNAL(src, COMSIG_MOB_LOGIN)
 
-	// Add exclusion overlay so client's own mob is never masked by FOV
-	add_fov_exclusion()
-
 	reset_perspective(loc)
 
 	if(loc)
@@ -81,6 +78,10 @@
 	reload_huds()
 
 	reload_fullscreen() // Reload any fullscreen overlays this mob has.
+
+	// Re-add FOV cone if it exists
+	if(viscone)
+		client.screen += viscone
 
 	add_click_catcher()
 
@@ -147,35 +148,4 @@
 	if(job)
 		return SSjob.handle_auto_deadmin_roles(client, job)
 
-/// Adds FOV exclusion so the client's own mob is never masked
-/mob/proc/add_fov_exclusion()
-	if(!client)
-		return
 
-	// Create a screen object that only this client sees
-	var/atom/movable/screen/fov_exclusion/exclusion = new()
-	exclusion.target_mob = src
-
-	// Add to client's screen - only visible to this client
-	client.screen += exclusion
-
-	// Store reference for cleanup
-	client.fov_exclusion_obj = exclusion
-
-/// Removes FOV exclusion
-/mob/proc/remove_fov_exclusion()
-	if(!client || !client.fov_exclusion_obj)
-		return
-	client.screen -= client.fov_exclusion_obj
-	qdel(client.fov_exclusion_obj)
-	client.fov_exclusion_obj = null
-
-/// Screen object for FOV exclusion - only visible to the owning client
-/atom/movable/screen/fov_exclusion
-	icon = 'icons/turf/overlays.dmi'
-	icon_state = "whiteFull"
-	plane = VISION_EXCLUSION_PLANE
-	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	alpha = 255
-	screen_loc = "CENTER,CENTER"
-	var/mob/target_mob

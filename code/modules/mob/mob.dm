@@ -101,6 +101,13 @@
 	// Add vision affected component for FOV masking
 	AddComponent(/datum/component/vision_affected)
 
+	// Initialize FOV if enabled
+	if(use_fov)
+		viscone = new /atom/movable/screen/fov_cone_holder()
+		viscone.set_follow_target(src)
+		if(client)
+			client.screen += viscone
+
 /**
  * Generate the tag for this mob
  *

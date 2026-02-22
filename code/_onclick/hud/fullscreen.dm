@@ -258,38 +258,181 @@
 		owner = null
 	return ..()
 
-/atom/movable/screen/fullscreen/directional/fov
+
+// Screen-based FOV cone holder that tracks mob position via pixel offsets
+/atom/movable/screen/fov_cone_holder
+	icon = null
+	screen_loc = "CENTER-7,CENTER-7"
+	plane = FULLSCREEN_PLANE
+	layer = FULLSCREEN_LAYER
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+
+	/// The mob we're following
+	var/mob/follow_target
+	/// The FOV cone visual container
+	var/atom/movable/screen/fov_cone_container/container
+
+/atom/movable/screen/fov_cone_holder/Initialize(mapload)
+	. = ..()
+	// Create the container that holds the actual visuals
+	container = new(src)
+	vis_contents += container
+
+// Container for the actual FOV visuals - this is what gets transformed
+/atom/movable/screen/fov_cone_container
 	icon = 'icons/vision_cone.dmi'
-	icon_state = "combat"
-	var/image/blocker_overlay
+	icon_state = ""
+	plane = FULLSCREEN_PLANE
+	layer = FULLSCREEN_LAYER
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	// Prevent vis_contents from inheriting this holder's plane
+	vis_flags = VIS_INHERIT_ID | VIS_INHERIT_LAYER
 
-/atom/movable/screen/fullscreen/directional/fov/set_owner(mob/new_owner)
+	/// The FOV cone visual
+	var/atom/movable/screen/fov_cone/cone
+	/// The vision blocker visual
+	var/atom/movable/screen/fov_blocker/blocker
+	/// The FOV exclusion visual (prevents mob from being masked)
+	var/atom/movable/screen/fov_exclusion/exclusion
+
+/atom/movable/screen/fov_cone_container/Initialize(mapload)
 	. = ..()
-	if(!blocker_overlay)
-		blocker_overlay = image(icon, src, "[icon_state]_v")
-		blocker_overlay.plane = VISION_BLOCKER_PLANE
-		blocker_overlay.override = TRUE
-		overlays += blocker_overlay
+	// Create the cone and blocker as children
+	cone = new(src)
+	blocker = new(src)
+	exclusion = new(src)
+	vis_contents += cone
+	vis_contents += blocker
+	vis_contents += exclusion
 
-/atom/movable/screen/fullscreen/directional/fov/on_owner_dir_change(atom/source, old_dir, new_dir)
-	. = ..()
-	if(blocker_overlay)
-		blocker_overlay.dir = new_dir
-
-/atom/movable/screen/fullscreen/directional/fov/Destroy()
-	blocker_overlay = null
+/atom/movable/screen/fov_cone_container/Destroy()
+	if(cone)
+		qdel(cone)
+		cone = null
+	if(blocker)
+		qdel(blocker)
+		blocker = null
+	if(exclusion)
+		qdel(exclusion)
+		exclusion = null
 	return ..()
 
-/mob/verb/test_fov_overlay()
-	set name = "Test FOV Overlay"
-	set category = "Debug"
+/atom/movable/screen/fov_cone_container/proc/update_dir(new_dir)
+	if(cone)
+		cone.dir = new_dir
+	if(blocker)
+		blocker.dir = new_dir
 
-	overlay_fullscreen("fov_test", /atom/movable/screen/fullscreen/directional/fov)
-	to_chat(src, "<span class='notice'>FOV overlay applied. Use 'Clear FOV Overlay' to remove.</span>")
+/atom/movable/screen/fov_cone_container/proc/hide(animation_time = 5)
+	if(cone)
+		animate(cone, alpha = 0, time = animation_time)
+	if(blocker)
+		animate(blocker, alpha = 0, time = animation_time)
 
-/mob/verb/clear_fov_overlay()
-	set name = "Clear FOV Overlay"
-	set category = "Debug"
+/atom/movable/screen/fov_cone_container/proc/show(animation_time = 1)
+	if(cone)
+		animate(cone, alpha = 255, time = animation_time)
+	if(blocker)
+		animate(blocker, alpha = 255, time = animation_time)
 
-	clear_fullscreen("fov_test")
-	to_chat(src, "<span class='notice'>FOV overlay cleared.</span>")
+/atom/movable/screen/fov_cone_container/proc/update(new_icon_state)
+	if(cone)
+		cone.icon_state = new_icon_state
+	if(blocker)
+		blocker.icon_state = "[new_icon_state]_v"
+
+/atom/movable/screen/fov_cone_holder/proc/set_follow_target(mob/target)
+	if(follow_target)
+		UnregisterSignal(follow_target, list(COMSIG_MOVABLE_MOVED, COMSIG_ATOM_DIR_CHANGE))
+
+	follow_target = target
+
+	if(follow_target)
+		RegisterSignal(follow_target, COMSIG_MOVABLE_MOVED, PROC_REF(on_target_moved))
+		RegisterSignal(follow_target, COMSIG_ATOM_DIR_CHANGE, PROC_REF(on_target_dir_change))
+		update_position()
+		update_dir(follow_target.dir)
+
+/atom/movable/screen/fov_cone_holder/proc/on_target_moved(atom/movable/source, atom/oldloc, direction, forced)
+	SIGNAL_HANDLER
+	update_position()
+
+/atom/movable/screen/fov_cone_holder/proc/on_target_dir_change(atom/source, old_dir, new_dir)
+	SIGNAL_HANDLER
+	update_dir(new_dir)
+
+/atom/movable/screen/fov_cone_holder/proc/update_position()
+	if(!follow_target?.client || !container)
+		return
+
+	// Don't update position if distance looking is active (living mobs only)
+	if(isliving(follow_target))
+		var/mob/living/L = follow_target
+		if(L.look_updown)
+			return
+
+	// Calculate offset: mob pixel position minus client view offset
+	// This keeps the cone centered on the mob regardless of view shifts
+	container.pixel_x = follow_target.pixel_x - follow_target.client.pixel_x
+	container.pixel_y = follow_target.pixel_y - follow_target.client.pixel_y
+
+/atom/movable/screen/fov_cone_holder/proc/animate_position(client_target_x, client_target_y, time, easing)
+	if(!follow_target?.client || !container)
+		return
+
+	// Calculate the container offset using the same logic as update_position
+	// Container offset = mob pixel position - client view offset
+	var/target_x = follow_target.pixel_x - client_target_x
+	var/target_y = follow_target.pixel_y - client_target_y
+
+	animate(container, pixel_x = target_x, pixel_y = target_y, time = time, easing = easing)
+
+/atom/movable/screen/fov_cone_holder/proc/update_dir(new_dir)
+	if(container)
+		container.update_dir(new_dir)
+
+/atom/movable/screen/fov_cone_holder/proc/hide(animation_time = 5)
+	if(container)
+		container.hide(animation_time)
+
+/atom/movable/screen/fov_cone_holder/proc/show(animation_time = 1)
+	if(container)
+		container.show(animation_time)
+
+/atom/movable/screen/fov_cone_holder/proc/update(new_icon_state)
+	if(container)
+		container.update(new_icon_state)
+
+/atom/movable/screen/fov_cone_holder/Destroy()
+	if(follow_target)
+		UnregisterSignal(follow_target, list(COMSIG_MOVABLE_MOVED, COMSIG_ATOM_DIR_CHANGE))
+		follow_target = null
+	if(container)
+		qdel(container)
+		container = null
+	return ..()
+
+// The actual FOV cone visual (screen object)
+/atom/movable/screen/fov_cone
+	icon = 'icons/vision_cone.dmi'
+	icon_state = "combat"
+	plane = FULLSCREEN_PLANE
+	layer = FULLSCREEN_LAYER
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	vis_flags = VIS_INHERIT_ID | VIS_INHERIT_LAYER
+
+// The vision blocker overlay (screen object)
+/atom/movable/screen/fov_blocker
+	icon = 'icons/vision_cone.dmi'
+	icon_state = "combat_v"
+	plane = VISION_BLOCKER_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	vis_flags = VIS_INHERIT_ID | VIS_INHERIT_LAYER
+
+// Screen object for FOV exclusion - prevents mob from being masked by FOV
+/atom/movable/screen/fov_exclusion
+	icon = 'icons/exclude.dmi'
+	icon_state = "exclude"
+	plane = VISION_EXCLUSION_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	vis_flags = VIS_INHERIT_ID | VIS_INHERIT_LAYER

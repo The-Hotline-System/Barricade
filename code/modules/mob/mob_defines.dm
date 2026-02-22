@@ -121,6 +121,10 @@
 	/// How many ticks this mob has been over reating
 	var/overeatduration = 0 // How long this guy is overeating //Carbon
 
+	/// Whether this mob should use FOV (field of view) mechanics
+	var/use_fov = TRUE
+	/// Reference to the FOV cone fullscreen object for this mob
+	var/atom/movable/screen/fov_cone_holder/viscone
 	/// Fixedeye
 	var/fixedeye = FALSE
 	var/tempfixeye = FALSE //targetting

@@ -5,9 +5,6 @@
 	unset_machine()
 	remove_from_player_list()
 
-	// Remove FOV exclusion image when client leaves this mob
-	remove_fov_exclusion()
-
 	..()
 
 	if(loc)

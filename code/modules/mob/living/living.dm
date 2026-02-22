@@ -2243,7 +2243,10 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 		target_x += (pixel_x - body_position_pixel_x_offset - base_pixel_x)
 		target_y += (pixel_y - body_position_pixel_y_offset - base_pixel_y)
 
+	// Animate both client view and FOV cone together
 	animate(client, pixel_x = target_x, pixel_y = target_y, ttime)
+	if(viscone)
+		viscone.animate_position(target_x, target_y, ttime, null)
 //	RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(stop_looking))
 	// update_cone_show()
 
@@ -2281,12 +2284,15 @@ GLOBAL_LIST_EMPTY(fire_appearances)
 		shift_x = pixel_x - body_position_pixel_x_offset - base_pixel_x
 		shift_y = pixel_y - body_position_pixel_y_offset - base_pixel_y
 
+	// Animate both client view and FOV cone back to normal position
 	animate(client, pixel_x = shift_x, pixel_y = shift_y, 2, easing = SINE_EASING)
 	if(client)
 		client.pixel_x = shift_x
 		client.pixel_y = shift_y
+	if(viscone)
+		viscone.animate_position(shift_x, shift_y, 2, SINE_EASING)
+
 	reset_perspective()
-	// update_cone_show()
 //	UnregisterSignal(src, COMSIG_MOVABLE_PRE_MOVE)
 
 /* OLD LOOK UP/DOWN CODE
