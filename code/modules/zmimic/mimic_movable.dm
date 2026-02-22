@@ -80,6 +80,7 @@
 	layer = MIMICKED_LIGHTING_LAYER
 	blend_mode = BLEND_MULTIPLY
 	color = SHADOWER_DARKENING_COLOR
+	zmm_flags = ZMM_IGNORE  // Don't create mimics of the shadower itself
 
 /atom/movable/openspace/multiplier/New(loc)
 	. = ..()

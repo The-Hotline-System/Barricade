@@ -355,7 +355,9 @@ SUBSYSTEM_DEF(zcopy)
 					var/atom/movable/openspace/mimic/OOO = object
 					original_type = OOO.mimiced_type
 					override_depth = OOO.override_depth
-					original_z = OOO.original_z
+					// Use the mimic's current z-level, not the original atom's z-level
+					// This ensures depth is calculated correctly for recursive mimics
+					original_z = object.z
 					have_performed_fixup = OOO.have_performed_fixup
 
 				// If this is a turf proxy (the mimic for a non-OVERWRITE turf), it needs to respect space parallax if relevant.
@@ -448,13 +450,75 @@ SUBSYSTEM_DEF(zcopy)
 		if (OO.particles != OO.associated_atom.particles)
 			OO.particles = OO.associated_atom.particles
 
-		OO.appearance = OO.associated_atom
+		// Check if the associated atom has vision_affected component
+		// For recursive mimics, we need to check the root object, not the immediate mimic
+		var/atom/movable/root_atom = OO.associated_atom
+		if(istype(root_atom, /atom/movable/openspace/mimic))
+			root_atom = root_atom:get_root()
+		var/has_vision_component = root_atom.GetComponent(/datum/component/vision_affected)
+
+		if(has_vision_component)
+			// Create a mutable appearance to filter out the regular silhouette overlay
+			var/mutable_appearance/filtered_appearance = new(OO.associated_atom)
+
+			// Filter out overlays on VISION_SILHOUETTES_PLANE (152) and any vision-related planes
+			var/list/filtered_overlays = list()
+			for(var/overlay in filtered_appearance.overlays)
+				var/overlay_plane = overlay:plane
+				// Skip silhouette planes and vision mask planes
+				if(overlay_plane != VISION_SILHOUETTES_PLANE && overlay_plane != VISION_MASK_ZMIMIC_PLANE && overlay_plane != VISION_MASK_PLANE)
+					filtered_overlays += overlay
+
+			// Apply the filtered overlays while preserving underlays (which contain lighting)
+			filtered_appearance.overlays = filtered_overlays
+			// Underlays are already copied from the original appearance, no need to manually set them
+			OO.appearance = filtered_appearance
+		else
+			// No vision component, just copy appearance normally
+			OO.appearance = OO.associated_atom
+
 		OO.zmm_flags = OO.associated_atom.zmm_flags
-		OO.plane = ZMIMIC_MAX_PLANE - OO.depth
+
+		// Vision-affected items need special plane handling for FOV masking
+		if(has_vision_component)
+			// Place on a vision-affected plane that will be masked
+			// We'll create these planes dynamically similar to blur planes
+			OO.plane = VISION_AFFECTED_ZMIMIC_PLANE - OO.depth
+		else
+			// Regular items go on blur planes
+			OO.plane = ZMIMIC_MAX_PLANE - OO.depth
 
 		OO.opacity = FALSE
+		OO.density = FALSE  // Ensure mimics never block movement
 		OO.glide_size = initial(OO.glide_size)
+
+		// Copy light properties from the associated atom if it emits light
+		// Only apply to mimics on different z-levels (depth > 0) to avoid doubling light on same level
+		if(OO.depth > 0 && OO.associated_atom.light_outer_range > 0)
+			// Reduce light intensity based on depth for realism
+			var/light_multiplier = max(0.3, 1.0 - (OO.depth * 0.15))
+			OO.set_light(
+				l_outer_range = OO.associated_atom.light_outer_range * light_multiplier,
+				l_power = OO.associated_atom.light_power * light_multiplier,
+				l_color = OO.associated_atom.light_color
+			)
+		else
+			// Ensure light is off for same-level mimics or non-emitting objects
+			OO.set_light_on(FALSE)
+
 		OO.queued = 0
+
+		// Add z-mimic specific silhouette if needed
+		if(has_vision_component)
+			var/mutable_appearance/mimic_mask = mutable_appearance('icons/turf/overlays.dmi', "whiteFull", layer = OO.layer)
+			// Place silhouette on a plane relative to the mimic's depth
+			// This ensures it renders at the correct z-level
+			mimic_mask.plane = VISION_SILHOUETTES_ZMIMIC_PLANE - OO.depth
+			mimic_mask.alpha = 255
+			mimic_mask.blend_mode = BLEND_OVERLAY
+			// Ensure the overlay uses its own plane and doesn't inherit from parent
+			mimic_mask.appearance_flags = RESET_COLOR | RESET_TRANSFORM
+			OO.add_overlay(mimic_mask)
 
 		// If an atom has explicit plane sets on its overlays/underlays, we need to replace the appearance so they can be mangled to work with our planing.
 		if (OO.zmm_flags & ZMM_MANGLE_PLANES)

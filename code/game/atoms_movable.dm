@@ -920,6 +920,16 @@
 
 	bound_overlay?.z_shift()
 
+	// Update the old turf's mimic so it knows we left
+	// This ensures that if we moved UP a z-level, the turf we left will update its mimic
+	if(old_turf && TURF_IS_MIMICKING(old_turf.above))
+		old_turf.above.update_mimic()
+
+	// Update the new turf's mimic so it knows we arrived
+	// This ensures that if we moved DOWN a z-level, the turf we arrived at will update its mimic
+	if(new_turf && TURF_IS_MIMICKING(new_turf.above))
+		new_turf.above.update_mimic()
+
 	if(!notify_contents)
 		return
 

@@ -19,6 +19,7 @@ Specifically: ZMIMIC_MAX_PLANE to (ZMIMIC_MAX_PLANE - ZMIMIC_MAX_DEPTH)
 #define OPENSPACE_SHADOWER_PLANE -69  // Shadower renders above blur planes
 #define OPENSPACE_BLUR_PLANE -71
 #define OPENSPACE_BLUR_RENDER_TARGET "*OPENSPACE_BLUR_RENDER_TARGET"
+#define OPENSPACE_ZMIMIC_MASK_PLANE -68  // Plane that applies FOV mask to all z-mimic content
 
 #define HEAT_PLANE -13
 #define HEAT_RENDER_TARGET "*HEAT_RENDER_TARGET"
@@ -218,18 +219,31 @@ Specifically: ZMIMIC_MAX_PLANE to (ZMIMIC_MAX_PLANE - ZMIMIC_MAX_DEPTH)
 #define VISION_AFFECTED_RENDER_TARGET "*VISION_AFFECTED_PLANE"
 /// Plane for vision affected mobs/items
 #define VIS_PLANE -8
+/// Plane for vision-affected z-mimic items (base plane for depth 0)
+/// Additional planes created dynamically for each depth (depth 0-9 use planes 50-41)
+/// These must be BELOW LIGHTING_PLANE (100) to receive lighting multiplication
+#define VISION_AFFECTED_ZMIMIC_PLANE 50
 /// Plane for white silhouettes of mobs/items
 #define VISION_SILHOUETTES_PLANE 152
 #define VISION_SILHOUETTES_RENDER_TARGET "*VISION_SILHOUETTES_PLANE"
+/// Plane for white silhouettes of z-mimic mobs/items
+#define VISION_SILHOUETTES_ZMIMIC_PLANE 151
+#define VISION_SILHOUETTES_ZMIMIC_RENDER_TARGET "*VISION_SILHOUETTES_ZMIMIC_PLANE"
 /// Plane for the FOV blocker overlay
 #define VISION_BLOCKER_PLANE 153
 #define VISION_BLOCKER_RENDER_TARGET "*VISION_BLOCKER_PLANE"
 /// Plane for exclusions - areas that should NOT be masked
 #define VISION_EXCLUSION_PLANE 154
 #define VISION_EXCLUSION_RENDER_TARGET "*VISION_EXCLUSION_PLANE"
+/// Plane for z-mimic exclusions - renders exclusion for z-mimic masking
+#define VISION_EXCLUSION_ZMIMIC_PLANE 140
+#define VISION_EXCLUSION_ZMIMIC_RENDER_TARGET "*VISION_EXCLUSION_ZMIMIC_PLANE"
 /// Plane for the final composite mask (silhouettes AND blocker, minus exclusions)
 #define VISION_MASK_PLANE 155
 #define VISION_MASK_RENDER_TARGET "*VISION_MASK_PLANE"
+/// Plane for the z-mimic composite mask (z-mimic silhouettes AND blocker, minus exclusions)
+#define VISION_MASK_ZMIMIC_PLANE 141
+#define VISION_MASK_ZMIMIC_RENDER_TARGET "*VISION_MASK_ZMIMIC_PLANE"
 
 ///---------------- MISC -----------------------
 

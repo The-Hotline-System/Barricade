@@ -359,7 +359,7 @@
 	plane = OPENSPACE_BLUR_PLANE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	blend_mode = BLEND_OVERLAY
-	render_relay_plane = RENDER_PLANE_GAME
+	render_relay_plane = OPENSPACE_ZMIMIC_MASK_PLANE  // Relay to mask plane instead of game plane
 
 /atom/movable/screen/plane_master/openspace_blur/Initialize(mapload)
 	. = ..()
@@ -368,47 +368,108 @@
 	. = ..()
 	relay_render_to_plane(mymob, render_relay_plane)
 	add_filter("mimic_blur", 1, gauss_blur_filter(0.6)) // BARRICADE EDIT - Z LEVEL BLURRING VALUE, TWEAK THIS.
+	// No depth darkening for base plane (depth 0)
 
 // Create plane masters for each depth level (up to ZMIMIC_MAX_DEPTH)
 /atom/movable/screen/plane_master/openspace_blur/depth1
 	name = "openspace blur depth 1"
 	plane = OPENSPACE_BLUR_PLANE - 1
 
+/atom/movable/screen/plane_master/openspace_blur/depth1/backdrop(mob/mymob)
+	. = ..()
+	// Apply depth-based darkening matching shadower approach (BLEND_MULTIPLY style)
+	// Depth 1: Slightly darker than base (0.85 = #D9D9D9)
+	color = "#D9D9D9"
+
 /atom/movable/screen/plane_master/openspace_blur/depth2
 	name = "openspace blur depth 2"
 	plane = OPENSPACE_BLUR_PLANE - 2
+
+/atom/movable/screen/plane_master/openspace_blur/depth2/backdrop(mob/mymob)
+	. = ..()
+	// Depth 2: Similar to shadower base darkening (0.65 = #A6A6A6)
+	color = "#A6A6A6"
 
 /atom/movable/screen/plane_master/openspace_blur/depth3
 	name = "openspace blur depth 3"
 	plane = OPENSPACE_BLUR_PLANE - 3
 
+/atom/movable/screen/plane_master/openspace_blur/depth3/backdrop(mob/mymob)
+	. = ..()
+	// Depth 3: Significantly darker (0.45 = #737373)
+	color = "#737373"
+
 /atom/movable/screen/plane_master/openspace_blur/depth4
 	name = "openspace blur depth 4"
 	plane = OPENSPACE_BLUR_PLANE - 4
+
+/atom/movable/screen/plane_master/openspace_blur/depth4/backdrop(mob/mymob)
+	. = ..()
+	// Depth 4: Very dark (0.25 = #404040)
+	color = "#404040"
 
 /atom/movable/screen/plane_master/openspace_blur/depth5
 	name = "openspace blur depth 5"
 	plane = OPENSPACE_BLUR_PLANE - 5
 
+/atom/movable/screen/plane_master/openspace_blur/depth5/backdrop(mob/mymob)
+	. = ..()
+	// Depth 5+: Nearly black (0.05 = #0D0D0D)
+	color = "#0D0D0D"
+
 /atom/movable/screen/plane_master/openspace_blur/depth6
 	name = "openspace blur depth 6"
 	plane = OPENSPACE_BLUR_PLANE - 6
+
+/atom/movable/screen/plane_master/openspace_blur/depth6/backdrop(mob/mymob)
+	. = ..()
+	color = "#0D0D0D"
 
 /atom/movable/screen/plane_master/openspace_blur/depth7
 	name = "openspace blur depth 7"
 	plane = OPENSPACE_BLUR_PLANE - 7
 
+/atom/movable/screen/plane_master/openspace_blur/depth7/backdrop(mob/mymob)
+	. = ..()
+	color = "#0D0D0D"
+
 /atom/movable/screen/plane_master/openspace_blur/depth8
 	name = "openspace blur depth 8"
 	plane = OPENSPACE_BLUR_PLANE - 8
+
+/atom/movable/screen/plane_master/openspace_blur/depth8/backdrop(mob/mymob)
+	. = ..()
+	color = "#0D0D0D"
 
 /atom/movable/screen/plane_master/openspace_blur/depth9
 	name = "openspace blur depth 9"
 	plane = OPENSPACE_BLUR_PLANE - 9
 
+/atom/movable/screen/plane_master/openspace_blur/depth9/backdrop(mob/mymob)
+	. = ..()
+	color = "#0D0D0D"
+
 /atom/movable/screen/plane_master/openspace_blur/depth10
 	name = "openspace blur depth 10"
 	plane = OPENSPACE_BLUR_PLANE - 10
+
+/atom/movable/screen/plane_master/openspace_blur/depth10/backdrop(mob/mymob)
+	. = ..()
+	color = "#0D0D0D"
+
+/// Composite plane that receives all z-mimic blur planes and relays to game
+/// This plane does NOT apply FOV masking - that's handled per-item via vision_affected component
+/atom/movable/screen/plane_master/openspace_zmimic_mask
+	name = "openspace z-mimic composite plane master"
+	plane = OPENSPACE_ZMIMIC_MASK_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	blend_mode = BLEND_OVERLAY
+	render_relay_plane = RENDER_PLANE_GAME
+
+/atom/movable/screen/plane_master/openspace_zmimic_mask/backdrop(mob/mymob)
+	. = ..()
+	relay_render_to_plane(mymob, render_relay_plane)
+	// No FOV masking here - vision-affected items handle their own masking via silhouettes
 
 // -- VISION MASKING PLANE MASTERS --
 
@@ -425,6 +486,24 @@
 	// Apply vision masking to hide mobs/items covered by FOV blocker
 	add_filter("fov_vision_masking", 1, alpha_mask_filter(render_source = VISION_MASK_RENDER_TARGET, flags = MASK_INVERSE))
 
+/// Plane for vision-affected z-mimic atoms that will be masked by FOV blockers
+/// These are created dynamically for each z-mimic depth level
+/atom/movable/screen/plane_master/vision_affected_zmimic
+	name = "vision affected z-mimic plane master"
+	blend_mode = BLEND_OVERLAY
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	render_relay_plane = OPENSPACE_ZMIMIC_MASK_PLANE  // Relay to composite plane
+	/// Depth level for this plane master
+	var/depth_level = 0
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/backdrop(mob/mymob)
+	. = ..()
+	relay_render_to_plane(mymob, render_relay_plane)
+	// Apply blur for z-mimic depth
+	add_filter("mimic_blur", 1, gauss_blur_filter(0.6))
+	// Apply z-mimic vision masking to hide z-mimic objects covered by FOV blocker
+	add_filter("fov_vision_masking_zmimic", 2, alpha_mask_filter(render_source = VISION_MASK_ZMIMIC_RENDER_TARGET, flags = MASK_INVERSE))
+
 /// Plane for white silhouettes of mobs/items
 /atom/movable/screen/plane_master/vision_silhouettes
 	name = "vision silhouettes plane master"
@@ -432,6 +511,17 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	render_target = VISION_SILHOUETTES_RENDER_TARGET
 	render_relay_plane = null
+
+/// Plane for white silhouettes of z-mimic mobs/items (base plane, depth 0)
+/// Additional planes are created dynamically for each depth level
+/atom/movable/screen/plane_master/vision_silhouettes_zmimic
+	name = "vision silhouettes z-mimic plane master"
+	plane = VISION_SILHOUETTES_ZMIMIC_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	render_target = VISION_SILHOUETTES_ZMIMIC_RENDER_TARGET
+	render_relay_plane = null
+	/// Depth level for this plane master (0 = base)
+	var/depth_level = 0
 
 /// Plane for the FOV blocker overlay
 /atom/movable/screen/plane_master/vision_blocker
@@ -449,6 +539,19 @@
 	render_target = VISION_EXCLUSION_RENDER_TARGET
 	render_relay_plane = null
 
+/// Plane for z-mimic exclusions - relays the regular exclusion for z-mimic masking
+/atom/movable/screen/plane_master/vision_exclusion_zmimic
+	name = "vision exclusion z-mimic plane master"
+	plane = VISION_EXCLUSION_ZMIMIC_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	render_target = VISION_EXCLUSION_ZMIMIC_RENDER_TARGET
+	render_relay_plane = null
+
+/atom/movable/screen/plane_master/vision_exclusion_zmimic/Initialize(mapload)
+	. = ..()
+	// Layer the regular exclusion so it applies to z-mimic masking too
+	add_filter("relay_exclusion", 1, layering_filter(render_source = VISION_EXCLUSION_RENDER_TARGET))
+
 /// Plane for the final composite mask - silhouettes masked by blocker, minus exclusions
 /atom/movable/screen/plane_master/vision_mask
 	name = "vision mask plane master"
@@ -459,9 +562,34 @@
 
 /atom/movable/screen/plane_master/vision_mask/Initialize(mapload)
 	. = ..()
-	// Layer the silhouettes first
+	// Layer the regular silhouettes
 	add_filter("add_silhouettes", 1, layering_filter(render_source = VISION_SILHOUETTES_RENDER_TARGET))
-	// Then mask them by the blocker - only show silhouettes where blocker is white
+	// Mask them by the blocker - only show silhouettes where blocker is white
 	add_filter("mask_by_blocker", 2, alpha_mask_filter(render_source = VISION_BLOCKER_RENDER_TARGET))
 	// Remove areas marked as exclusions (inverse mask - hide where exclusions are white)
 	add_filter("remove_exclusions", 3, alpha_mask_filter(render_source = VISION_EXCLUSION_RENDER_TARGET, flags = MASK_INVERSE))
+
+/// Plane for the z-mimic composite mask - z-mimic silhouettes masked by blocker, minus exclusions
+/atom/movable/screen/plane_master/vision_mask_zmimic
+	name = "vision mask z-mimic plane master"
+	plane = VISION_MASK_ZMIMIC_PLANE
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	render_target = VISION_MASK_ZMIMIC_RENDER_TARGET
+	render_relay_plane = null
+
+/atom/movable/screen/plane_master/vision_mask_zmimic/Initialize(mapload)
+	. = ..()
+	var/filter_index = 1
+
+	// Add all z-mimic silhouette planes (one for each depth level)
+	// ZMIMIC_MAX_DEPTH is defined in zcopy.dm as 10
+	for(var/depth = 0; depth < 10; depth++)  // 10 = ZMIMIC_MAX_DEPTH
+		var/render_target = "*VISION_SILHOUETTES_ZMIMIC_[depth]"
+		add_filter("add_silhouettes_zmimic_[depth]", filter_index++, layering_filter(render_source = render_target))
+
+	// Mask them by the blocker - only show silhouettes where blocker is white
+	add_filter("mask_by_blocker", filter_index++, alpha_mask_filter(render_source = VISION_BLOCKER_RENDER_TARGET))
+
+	// Remove areas marked as exclusions (inverse mask - hide where exclusions are white)
+	// Use the z-mimic exclusion render target which relays the regular exclusion
+	add_filter("remove_exclusions", filter_index++, alpha_mask_filter(render_source = VISION_EXCLUSION_ZMIMIC_RENDER_TARGET, flags = MASK_INVERSE))

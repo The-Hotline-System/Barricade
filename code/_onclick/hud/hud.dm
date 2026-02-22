@@ -117,6 +117,27 @@ GLOBAL_LIST_INIT(available_ui_styles, list(
 		plane_masters["[instance.plane]"] = instance
 		instance.backdrop(mymob)
 
+	// Create z-mimic silhouette plane masters for each depth level
+	// ZMIMIC_MAX_DEPTH is 10, defined in zcopy.dm
+	for(var/depth = 0; depth < 10; depth++)  // 10 = ZMIMIC_MAX_DEPTH
+		var/atom/movable/screen/plane_master/vision_silhouettes_zmimic/zmimic_pm = new(null, src)
+		zmimic_pm.depth_level = depth
+		zmimic_pm.plane = VISION_SILHOUETTES_ZMIMIC_PLANE - depth
+		zmimic_pm.render_target = "*VISION_SILHOUETTES_ZMIMIC_[depth]"
+		zmimic_pm.name = "vision silhouettes z-mimic plane master (depth [depth])"
+		plane_masters["[zmimic_pm.plane]"] = zmimic_pm
+		zmimic_pm.backdrop(mymob)
+
+		// Also create vision-affected z-mimic plane masters for each depth
+		var/atom/movable/screen/plane_master/vision_affected_zmimic/vis_pm = new(null, src)
+		vis_pm.depth_level = depth
+		vis_pm.plane = VISION_AFFECTED_ZMIMIC_PLANE - depth
+		vis_pm.render_target = "*VISION_AFFECTED_ZMIMIC_[depth]"
+		vis_pm.render_relay_plane = OPENSPACE_ZMIMIC_MASK_PLANE  // Relay to composite plane
+		vis_pm.name = "vision affected z-mimic plane master (depth [depth])"
+		plane_masters["[vis_pm.plane]"] = vis_pm
+		vis_pm.backdrop(mymob)
+
 	var/datum/preferences/preferences = owner?.client?.prefs
 	screentip_color = preferences?.read_preference(/datum/preference/color/screentip_color)
 	screentips_enabled = preferences?.read_preference(/datum/preference/choiced/enable_screentips)

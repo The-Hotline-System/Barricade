@@ -5,7 +5,7 @@
 	max_pathing_attempts = 20
 
 	/// If FALSE, diagonals will be split into 2 cardinal moves.
-	var/use_diagonals = TRUE
+	var/use_diagonals = FALSE
 
 /datum/ai_movement/astar/start_moving_towards(datum/ai_controller/controller, atom/current_movement_target, min_distance)
 	. = ..()
