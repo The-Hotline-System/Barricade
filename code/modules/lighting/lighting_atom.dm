@@ -30,6 +30,10 @@
 
 	update_light()
 
+	// Update z-mimic if this is a movable with light changes
+	if(ismovable(src))
+		update_above()
+
 #undef NONSENSICAL_VALUE
 
 /// Will update the light (duh).
