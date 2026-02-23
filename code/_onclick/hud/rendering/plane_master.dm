@@ -367,7 +367,7 @@
 /atom/movable/screen/plane_master/openspace_blur/backdrop(mob/mymob)
 	. = ..()
 	relay_render_to_plane(mymob, render_relay_plane)
-	add_filter("mimic_blur", 1, gauss_blur_filter(0.6)) // BARRICADE EDIT - Z LEVEL BLURRING VALUE, TWEAK THIS.
+	// Blur is now applied at the composite level, not here
 	// No depth darkening for base plane (depth 0)
 
 // Create plane masters for each depth level (up to ZMIMIC_MAX_DEPTH)
@@ -469,6 +469,9 @@
 /atom/movable/screen/plane_master/openspace_zmimic_mask/backdrop(mob/mymob)
 	. = ..()
 	relay_render_to_plane(mymob, render_relay_plane)
+	// Apply blur filter here, after all z-mimic content is composited
+	// This prevents blur artifacts from escaping proper handling
+	add_filter("zmimic_composite_blur", 1, gauss_blur_filter(0.6))
 	// No FOV masking here - vision-affected items handle their own masking via silhouettes
 
 // -- VISION MASKING PLANE MASTERS --
@@ -503,6 +506,91 @@
 	add_filter("mimic_blur", 1, gauss_blur_filter(0.6))
 	// Apply z-mimic vision masking to hide z-mimic objects covered by FOV blocker
 	add_filter("fov_vision_masking_zmimic", 2, alpha_mask_filter(render_source = VISION_MASK_ZMIMIC_RENDER_TARGET, flags = MASK_INVERSE))
+
+// Create plane masters for vision-affected z-mimic content at each depth (planes 50-41)
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth0
+	name = "vision affected z-mimic depth 0"
+	plane = VISION_AFFECTED_ZMIMIC_PLANE  // 50
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth1
+	name = "vision affected z-mimic depth 1"
+	plane = VISION_AFFECTED_ZMIMIC_PLANE - 1  // 49
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth1/backdrop(mob/mymob)
+	. = ..()
+	color = "#D9D9D9"
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth2
+	name = "vision affected z-mimic depth 2"
+	plane = VISION_AFFECTED_ZMIMIC_PLANE - 2  // 48
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth2/backdrop(mob/mymob)
+	. = ..()
+	color = "#A6A6A6"
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth3
+	name = "vision affected z-mimic depth 3"
+	plane = VISION_AFFECTED_ZMIMIC_PLANE - 3  // 47
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth3/backdrop(mob/mymob)
+	. = ..()
+	color = "#737373"
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth4
+	name = "vision affected z-mimic depth 4"
+	plane = VISION_AFFECTED_ZMIMIC_PLANE - 4  // 46
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth4/backdrop(mob/mymob)
+	. = ..()
+	color = "#404040"
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth5
+	name = "vision affected z-mimic depth 5"
+	plane = VISION_AFFECTED_ZMIMIC_PLANE - 5  // 45
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth5/backdrop(mob/mymob)
+	. = ..()
+	color = "#0D0D0D"
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth6
+	name = "vision affected z-mimic depth 6"
+	plane = VISION_AFFECTED_ZMIMIC_PLANE - 6  // 44
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth6/backdrop(mob/mymob)
+	. = ..()
+	color = "#0D0D0D"
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth7
+	name = "vision affected z-mimic depth 7"
+	plane = VISION_AFFECTED_ZMIMIC_PLANE - 7  // 43
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth7/backdrop(mob/mymob)
+	. = ..()
+	color = "#0D0D0D"
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth8
+	name = "vision affected z-mimic depth 8"
+	plane = VISION_AFFECTED_ZMIMIC_PLANE - 8  // 42
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth8/backdrop(mob/mymob)
+	. = ..()
+	color = "#0D0D0D"
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth9
+	name = "vision affected z-mimic depth 9"
+	plane = VISION_AFFECTED_ZMIMIC_PLANE - 9  // 41
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth9/backdrop(mob/mymob)
+	. = ..()
+	color = "#0D0D0D"
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth10
+	name = "vision affected z-mimic depth 10"
+	plane = VISION_AFFECTED_ZMIMIC_PLANE - 10  // 40
+
+/atom/movable/screen/plane_master/vision_affected_zmimic/depth10/backdrop(mob/mymob)
+	. = ..()
+	color = "#0D0D0D"
 
 /// Plane for white silhouettes of mobs/items
 /atom/movable/screen/plane_master/vision_silhouettes

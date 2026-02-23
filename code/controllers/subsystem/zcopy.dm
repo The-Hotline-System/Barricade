@@ -482,10 +482,10 @@ SUBSYSTEM_DEF(zcopy)
 		// Vision-affected items need special plane handling for FOV masking
 		if(has_vision_component)
 			// Place on a vision-affected plane that will be masked
-			// We'll create these planes dynamically similar to blur planes
+			// These planes are 50-41 (VISION_AFFECTED_ZMIMIC_PLANE - depth)
 			OO.plane = VISION_AFFECTED_ZMIMIC_PLANE - OO.depth
 		else
-			// Regular items go on blur planes
+			// Regular items go on blur planes (-71 through -81)
 			OO.plane = ZMIMIC_MAX_PLANE - OO.depth
 
 		OO.opacity = FALSE

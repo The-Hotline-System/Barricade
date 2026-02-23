@@ -247,7 +247,17 @@
 		depth = min(SSzcopy.zlev_maximums[associated_atom.z] - associated_atom.z, ZMIMIC_MAX_DEPTH)
 		override_depth = depth
 
-	plane = OPENSPACE_BLUR_PLANE - depth  // Use blur plane instead of ZMIMIC_MAX_PLANE
+	// Check if this mimic is for a vision-affected atom
+	var/atom/movable/root_atom = associated_atom
+	if(istype(root_atom, /atom/movable/openspace/mimic))
+		root_atom = root_atom:get_root()
+	var/has_vision_component = root_atom.GetComponent(/datum/component/vision_affected)
+
+	// Vision-affected mimics use planes 50-41, regular mimics use planes -71 through -81
+	if(has_vision_component)
+		plane = VISION_AFFECTED_ZMIMIC_PLANE - depth
+	else
+		plane = ZMIMIC_MAX_PLANE - depth
 
 	bound_overlay?.z_shift()
 
